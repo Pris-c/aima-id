@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "913645658350",
+    "project_id": "aima-id-fb",
+    "storage_bucket": "aima-id-fb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:913645658350:android:ddff119466fc485012d3ff",
+        "android_client_info": {
+          "package_name": "com.example.aima_id_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvuw610UXeHSaOQYgAJ4Mrl5_RZNtsg9k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
