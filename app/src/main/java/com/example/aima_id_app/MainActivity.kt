@@ -31,8 +31,8 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        val email = "aa@aa.com"
-        val senha = "senha"
+        val email = "aaaa@aa.com"
+        val senha = "senha12345"
 
         auth.createUserWithEmailAndPassword(email, senha)
             .addOnSuccessListener {
