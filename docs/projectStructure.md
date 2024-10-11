@@ -1,6 +1,21 @@
 
 # Project Structure Overview
 
+This is the folder structure of the project following the MVVM architecture.
+
+    app/
+    ├── data/
+    │   ├── model/
+    │   │   ├── submodel/        # For components or nested models that are part of larger models
+    │   │   └── db_model/        # For models that directly represent entities in the database
+    │   ├── repository/          # For classes handling database interactions (repositories)
+    │   └── service/             # For classes that interact with external APIs or services
+    ├── ui/
+    │   ├── view/                # For Activity, Fragment, and other UI components
+    │   └── viewmodel/           # For ViewModel classes that interact between UI and repositories/services
+
+
+
 ## 1. Data Layer
 - **Model:** This package contains data structures representing the entities in your database.
 - **Repository:** This package manages all database operations, serving as a bridge between the data sources (like Firestore) and the rest of your application.
