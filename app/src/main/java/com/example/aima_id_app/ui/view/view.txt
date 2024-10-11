@@ -1,0 +1,40 @@
+## VIEW
+Package to keep the elements that provide the user interface and interaction.
+Each screen is made up of a View/Activity (associated with an XML layout), which can contain fragments.
+The XML files are located in "src/main/res/layout/".
+The views that use fragments must have their own subpackage
+
+
+Ex:
+
+class AimaUnitActivity : AppCompatActivity() {
+
+    private val viewModel: AimaUnitViewModel by viewModels()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_unidade)
+
+        viewModel.aimaUnit.observe(this, Observer { aimaUnit ->
+            // Do something with the created AimaUnit, e.g., show a confirmation message
+            aimaUnit?.let {
+                // For example, show a Toast message
+                Toast.makeText(this, "AimaUnit Created: ${it.name}", Toast.LENGTH_SHORT).show()
+            }
+        })
+
+        // Set the button click listener to create AimaUnit
+        btn_create.setOnClickListener {
+            // Collect data from input fields
+            val name = et_name.text.toString()
+            val street = et_street.text.toString()
+            val number = et_number.text.toString()
+            val neighborhood = et_neighborhood.text.toString()
+            val city = et_city.text.toString()
+            val phone = et_phone.text.toString()
+
+            // Call ViewModel to create AimaUnit
+            viewModel.createAimaUnit(name, street, number, neighborhood, city, phone)
+        }
+    }
+}

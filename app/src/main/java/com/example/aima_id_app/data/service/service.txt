@@ -1,0 +1,20 @@
+## Service
+Package to keep interactions with external APIs or other services.
+
+Ex:
+
+class UserValidationService {
+
+    private val client = OkHttpClient()
+
+    // Method to validate user data using an external API
+    fun validateUserData(userId: String): Boolean {
+        val request = Request.Builder()
+            .url("https://api.example.com/validate/$userId")
+            .build()
+
+        val response: Response = client.newCall(request).execute()
+        return response.isSuccessful // Returns true if the response is successful
+    }
+}
+
