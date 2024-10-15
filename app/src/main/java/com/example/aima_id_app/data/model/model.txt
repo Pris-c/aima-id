@@ -15,7 +15,7 @@ data class AimaUnit(
 
 ---------------
 Ex2:
-#ADRESS
+#ADDRESS
 
 package com.example.aima_id_app.data.model
 
