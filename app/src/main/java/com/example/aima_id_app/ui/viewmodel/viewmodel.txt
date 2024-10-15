@@ -1,0 +1,19 @@
+## VIEW-MODEL
+
+The ViewModel is the layer responsible for receiving data from views, processing user actions
+(which can involve repository or service calls), and returning information to the view.
+
+ Ex:
+
+ class AimaUnitViewModel : ViewModel() {
+
+     private val _aimaUnit = MutableLiveData<AimaUnit>()
+     val aimaUnit: LiveData<AimaUnit> get() = _aimaUnit
+
+     // Function to create AimaUnit
+     fun createAimaUnit(name: String, street: String, number: String, neighborhood: String, city: String, phone: String) {
+         val address = Address(street, number, neighborhood, city)
+         val newAimaUnit = AimaUnit(name, address, phone)
+         _aimaUnit.value = newAimaUnit // Set the created AimaUnit
+     }
+ }

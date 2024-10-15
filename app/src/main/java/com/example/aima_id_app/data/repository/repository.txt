@@ -1,0 +1,28 @@
+## REPOSITORY
+Package to maintain database operations.
+Each table/collection in our database must have its own repository.
+
+
+Ex:
+
+class AimaUnitRepository {
+
+    private val db = FirebaseFirestore.getInstance()
+
+    // Method to save a new AimaUnit
+    fun saveAimaUnit(aimaUnit: AimaUnit, callback: (Boolean) -> Unit) {
+        db.collection("aima_units")
+            .add(aimaUnit)
+            .addOnSuccessListener {
+                callback(true)
+            }
+            .addOnFailureListener {
+                callback(false)
+            }
+    }
+
+    // Method to find a AimaUnit by its id
+    // Method to get all AimaUnit registered
+    (...)
+
+}

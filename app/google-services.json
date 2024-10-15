@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "925154553849",
+    "project_id": "aima-id",
+    "storage_bucket": "aima-id.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:925154553849:android:8a39421a25ac086ea5d728",
+        "android_client_info": {
+          "package_name": "com.example.aima_id_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxdA2NnNhwtRb7Ef7PkvYp263jkd7pcrc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

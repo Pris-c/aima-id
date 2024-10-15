@@ -1,0 +1,27 @@
+## MODEL
+Package to maintain the data structures.
+It can be an entity present in our database (db_model) or one of its substructures (submodel).
+
+Ex1:
+# AIMA UNIT
+
+package com.example.aima_id_app.data.model
+
+data class AimaUnit(
+    val nome: String,
+    val address: Address,
+    val phone: String
+)
+
+---------------
+Ex2:
+#ADDRESS
+
+package com.example.aima_id_app.data.model
+
+data class Address(
+    val street: String,
+    val number: String,
+    val neighborhood: String,
+    val city: String
+)
