@@ -13,7 +13,7 @@ class Address (
     val street: String,
     val number: Int,
     val city: String,
-    val postalCode: Int,
+    val postalCode: String,
 )
 
 

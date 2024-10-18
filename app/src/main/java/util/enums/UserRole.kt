@@ -1,9 +1,9 @@
-package util
+package util.enums
 
 
 /**
  * Enum class representing the different roles a user can have.
  */
-enum class userRole {
+enum class UserRole {
     ADMIN, SERVICE_USER, STAFF
 }

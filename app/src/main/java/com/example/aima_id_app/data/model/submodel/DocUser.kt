@@ -1,6 +1,6 @@
 package com.example.aima_id_app.data.model.submodel
 
-import util.docType
+import util.enums.DocType
 
 /**
  * Represents a document associated with a user.
@@ -9,12 +9,4 @@ import util.docType
  * @property docId The unique identifier of the document.
  *
  */
-class DocUser (val docType: docType, val docId: String) {
-
-    /**
-     * Displays the details of the user's document.
-     */
-    fun displayDetails(){
-        println("Document Type: $docType, Document ID: $docId")
-    }
-}
+class DocUser (val docType: DocType, val docId: String)

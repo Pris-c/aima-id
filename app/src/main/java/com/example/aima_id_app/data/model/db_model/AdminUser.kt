@@ -1,7 +1,7 @@
 package com.example.aima_id_app.data.model.db_model
 
-import util.userRole
-import java.util.Date
+import util.enums.UserRole
+import java.time.LocalDate
 
 /**
  * Represents an Admin User, inheriting properties and methods from the User class.
@@ -12,15 +12,7 @@ import java.util.Date
  * @property name The name of the admin user.
  * @property dateOfBirth The date of birth of the admin user.
  */
-class AdminUser (role: userRole, email: String, nif: String, name: String, dateOfBirth: Date) :
-    User (userRole.ADMIN, email, nif , name, dateOfBirth)
-{
-    /**
-     * Displays the details of the admin user, including name, email, nif and date of birth.
-     */
-    override fun displayInfo() {
-        super.displayInfo()
-    }
+class AdminUser(email: String, nif: String, name: String, dateOfBirth: LocalDate) :
+    User (UserRole.ADMIN, email, nif , name, dateOfBirth)
 
-    }
 

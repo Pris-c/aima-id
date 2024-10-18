@@ -1,7 +1,7 @@
 package com.example.aima_id_app.data.model.db_model
 
-import util.userRole
-import java.util.Date
+import util.enums.UserRole
+import java.time.LocalDate
 
 /**
  * Represents a User with basic personal information.
@@ -13,16 +13,9 @@ import java.util.Date
  * @property dateOfBirth The date of birth of the user.
  */
 open class User (
-     val role: userRole,
+     val role: UserRole,
      val email: String,
      val nif: String,
      val name: String,
-     val dateOfBirth: Date,
-){
-     /**
-      * Displays the details of the user, including name, role, email, nif and date of birth.
-      */
-     open fun displayInfo(){
-          println("Name: $name \nnRole: $role \nEmail: $email \nNIF: $nif \nDOB: $dateOfBirth")
-     }
-}
+     val dateOfBirth: LocalDate,
+)
