@@ -1,0 +1,12 @@
+package com.example.aima_id_app.data.model.submodel
+
+import util.enums.DocType
+
+/**
+ * Represents a document associated with a user.
+ *
+ * @property docType The type of the document (e.g., Passport, ID Card).
+ * @property docId The unique identifier of the document.
+ *
+ */
+class DocUser (val docType: DocType, val docId: String)
