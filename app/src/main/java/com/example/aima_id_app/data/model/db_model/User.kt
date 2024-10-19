@@ -1,6 +1,6 @@
 package com.example.aima_id_app.data.model.db_model
 
-import util.enums.UserRole
+import com.example.aima_id_app.util.enums.UserRole
 import java.time.LocalDate
 
 /**
@@ -13,9 +13,9 @@ import java.time.LocalDate
  * @property dateOfBirth The date of birth of the user.
  */
 open class User (
-     val role: UserRole,
-     val email: String,
-     val nif: String,
-     val name: String,
-     val dateOfBirth: LocalDate,
+    val role: UserRole,
+    val email: String,
+    val nif: String,
+    val name: String,
+    val dateOfBirth: LocalDate,
 )

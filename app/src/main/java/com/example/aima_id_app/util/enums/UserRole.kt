@@ -1,4 +1,4 @@
-package util.enums
+package com.example.aima_id_app.util.enums
 
 
 /**

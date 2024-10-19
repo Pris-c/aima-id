@@ -1,6 +1,6 @@
 package com.example.aima_id_app.data.model.db_model
 
-import util.enums.UserRole
+import com.example.aima_id_app.util.enums.UserRole
 import java.time.LocalDate
 
 /**
