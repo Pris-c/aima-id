@@ -13,6 +13,12 @@
         android:theme="@style/Theme.Aimaidapp"
         tools:targetApi="31">
         <activity
+            android:name=".ui.view.RegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.view.LoginActivity"
+            android:exported="false" />
+        <activity
             android:name=".test.Firebase_test"
             android:exported="false" />
         <activity
