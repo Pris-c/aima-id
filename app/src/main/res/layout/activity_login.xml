@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg_aima_id"
     android:fitsSystemWindows="true"
-    tools:context="ui.view.LoginActivity" >
+    tools:context=".ui.view.LoginActivity" >
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/login"
@@ -135,5 +135,6 @@
                 android:textColorHint="#80000000" />
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
