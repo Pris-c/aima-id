@@ -1,4 +1,5 @@
 package com.example.aima_id_app.ui.view
+
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button

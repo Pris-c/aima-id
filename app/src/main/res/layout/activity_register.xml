@@ -63,6 +63,7 @@
             app:hintEnabled="false">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/name_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/edit_text_background_rounded"
@@ -99,6 +100,7 @@
             app:hintEnabled="false">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/nif_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/edit_text_background_rounded"
@@ -135,6 +137,7 @@
             app:hintEnabled="false">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/email_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/edit_text_background_rounded"
@@ -173,6 +176,7 @@
             app:startIconTint="@color/aima_white">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tel_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/edit_text_background_rounded"
@@ -218,9 +222,8 @@
                 android:inputType="none"
                 android:padding="12dp"
                 android:textColor="@color/aima_blue"
-                android:textColorHint="#80000000" /> <!-- Evita que o teclado apareça -->
+                android:textColorHint="#80000000" />
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
