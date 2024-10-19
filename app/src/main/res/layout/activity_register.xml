@@ -35,7 +35,7 @@
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.684"
+        app:layout_constraintVertical_bias="0.557"
         app:srcCompat="@drawable/logo_aima_id" />
 
     <LinearLayout
@@ -118,7 +118,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/imputTel"
+        app:layout_constraintBottom_toTopOf="@+id/imputPhone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
@@ -150,7 +150,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/imputTel"
+        android:id="@+id/imputPhone"
         android:layout_width="339.54dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -176,7 +176,7 @@
             app:startIconTint="@color/aima_white">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tel_input"
+                android:id="@+id/phone_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/edit_text_background_rounded"
@@ -217,12 +217,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/edit_text_background_rounded"
-                android:focusable="false"
                 android:hint="DD/MM/AAAA"
                 android:inputType="none"
+                android:focusable="false"
                 android:padding="12dp"
-                android:textColor="@color/aima_blue"
                 android:textColorHint="#80000000" />
+
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 
