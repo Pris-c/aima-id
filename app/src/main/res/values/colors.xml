@@ -2,4 +2,13 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="aima_white">#FFFFFFFF</color>
+    <color name="aima_purple">#d964c5</color>
+    <color name="aima_blue">#1366AB</color>
+    <color name="aima_pink">#A60C7D</color>
+    <color name="aima_light_bg">#F2F5FF</color>
+    <color name="aima_bg_dark_button">#E5EAFC</color>
+    <color name="aima_text_dark">#2E3A59</color>
+    <color name="aima_text_light">#AEAEB3</color>
 </resources>
