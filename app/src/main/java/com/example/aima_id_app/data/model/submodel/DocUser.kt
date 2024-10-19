@@ -1,6 +1,6 @@
 package com.example.aima_id_app.data.model.submodel
 
-import util.enums.DocType
+import com.example.aima_id_app.util.enums.DocType
 
 /**
  * Represents a document associated with a user.
