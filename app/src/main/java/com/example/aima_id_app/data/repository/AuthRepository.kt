@@ -1,34 +1,38 @@
 package com.example.aima_id_app.data.repository
 
-import com.example.aima_id_app.data.service.UserRegistrationService.UserRegistrationCallBack
+import android.R
+import android.util.Log
+import android.widget.Toast
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+
 
 class AuthRepository {
 
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
 
-
-    public fun register(email: String, password: String, callback: UserRegistrationCallBack) {
+    fun register(email: String, password: String, onComplete: (String?) -> Unit) {
         auth.createUserWithEmailAndPassword(email, password)
-            .addOnSuccessListener { authResult ->
-                val userId = authResult.user?.uid ?: " "
-                callback.onSuccess(userId.toString())
-            }
-            .addOnFailureListener {
-                callback.onFailure(null.toString())
-            }
-    }
-
-    fun register2(email: String, password: String, onComplete: (String?) -> Unit) {
-        auth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener { result ->
-                if (result.isSuccessful) {
-                    val userId = result.result?.user?.uid
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val userId = task.result?.user?.uid
+                    sendEmailVerification(userId.toString())
                     onComplete(userId)
                 } else {
                     onComplete(null)
                 }
             }
     }
+
+    private fun sendEmailVerification(userId: String) {
+        val auth = FirebaseAuth.getInstance()
+        val user: FirebaseUser? = auth.currentUser
+        if (user != null && user.uid == userId) {
+            user.sendEmailVerification()
+        }
+    }
+
 
 }
