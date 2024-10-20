@@ -1,10 +1,6 @@
 package com.example.aima_id_app.data.repository
 
-import android.R
-import android.util.Log
 import android.widget.Toast
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 
@@ -25,6 +21,19 @@ class AuthRepository {
                 }
             }
     }
+
+
+    fun login(email: String, password: String, onComplete: (Boolean) -> Unit){
+        auth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    onComplete(true)
+                } else {
+                    onComplete(false)
+                }
+            }
+    }
+
 
     private fun sendEmailVerification(userId: String) {
         val auth = FirebaseAuth.getInstance()
