@@ -2,7 +2,7 @@ package com.example.aima_id_app.data.model.db_model
 
 import com.example.aima_id_app.data.model.submodel.Address
 import com.example.aima_id_app.data.model.submodel.DocUser
-import util.enums.UserRole
+import com.example.aima_id_app.util.enums.UserRole
 import java.time.LocalDate
 
 /**
