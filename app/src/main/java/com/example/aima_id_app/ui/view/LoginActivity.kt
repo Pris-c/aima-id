@@ -124,7 +124,7 @@ class LoginActivity : AppCompatActivity() {
             emailInput.error = null
             true
         } else {
-            emailInput.error = "E-mail inválido. Deve conter '@'."
+            emailInput.error = "E-mail inválido."
             false
         }
     }

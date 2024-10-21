@@ -65,7 +65,7 @@ class RegisterActivity : AppCompatActivity() {
         nifInput.setOnFocusChangeListener { _, hasFocus -> if (!hasFocus) validateNIF(nifInput.text.toString().trim()) }
         emailInput.setOnFocusChangeListener { _, hasFocus -> if (!hasFocus) validateEmail(emailInput.text.toString().trim()) }
         phoneInput.setOnFocusChangeListener { _, hasFocus -> if (!hasFocus) validatePhone(phoneInput.text.toString().trim()) }
-        birthDateInput.setOnFocusChangeListener { _, hasFocus -> if (!hasFocus) validateBirthDate(birthDateInput.text.toString().trim()) }
+        /*birthDateInput.setOnFocusChangeListener { _, hasFocus -> if (!hasFocus) validateBirthDate(birthDateInput.text.toString().trim()) }*/
 
 
         registerButton.setOnClickListener {
@@ -119,8 +119,8 @@ class RegisterActivity : AppCompatActivity() {
         return validateName(nameInput.text.toString().trim()) &&
                 validateNIF(nifInput.text.toString().trim()) &&
                 validateEmail(emailInput.text.toString().trim()) &&
-                validatePhone(phoneInput.text.toString().trim()) &&
-                validateBirthDate(birthDateInput.text.toString().trim())
+                validatePhone(phoneInput.text.toString().trim())
+                /*validateBirthDate(birthDateInput.text.toString().trim())*/
     }
 
     /**
@@ -172,7 +172,7 @@ class RegisterActivity : AppCompatActivity() {
             emailInput.error = null
             true
         } else {
-            emailInput.error = "E-mail inválido. Deve conter '@'."
+            emailInput.error = "E-mail inválido."
             false
         }
     }
@@ -191,7 +191,7 @@ class RegisterActivity : AppCompatActivity() {
             phoneInput.error = null
             true
         } else {
-            phoneInput.error = "Telefone inválido. Deve conter 9 dígitos numéricos e começar com +351."
+            phoneInput.error = "Telefone inválido. Deve conter DDI português + 9 digitos"
             false
         }
     }
@@ -204,7 +204,7 @@ class RegisterActivity : AppCompatActivity() {
      * @param date The date to be validated.
      * @return True if the date is valid, false otherwise.
      */
-    private fun validateBirthDate(date: String): Boolean {
+    /*private fun validateBirthDate(date: String): Boolean {
         return if (date.matches(Regex("\\d{1,2}/\\d{1,2}/\\d{4}"))) {
             birthDateInput.error = null
             true
@@ -212,7 +212,7 @@ class RegisterActivity : AppCompatActivity() {
             birthDateInput.error = "Data de nascimento inválida. Formato deve ser DD/MM/AAAA."
             false
         }
-    }
+    }*/
 
     /**
      * Displays a success message when user registration is completed successfully.
