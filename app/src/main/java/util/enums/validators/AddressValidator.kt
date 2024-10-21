@@ -6,16 +6,10 @@ package util.enums.validators
 /**
  * Class that represents an address validator.
  *
- * @param street The name of the street as a String.
- * @param number The house or building number as an Int.
- * @param city The name of the city as a String.
- * @param postalCode The postal code as a String.
+ *
  */
 class AddressValidator (
-    val street: String,
-    val number: Int,
-    val city: String,
-    val postalCode: String,
+
 ) {
     /**
      * Function that validates if the street name is valid.
@@ -25,7 +19,7 @@ class AddressValidator (
      * @return Returns true if the street name length is between 2 and 150 characters.
      */
     fun isValidStreet(street: String): Boolean {
-        return street.length in 2..150
+        return street.length in 4..150
     }
 
     /**
@@ -58,7 +52,7 @@ class AddressValidator (
      * @return Returns true if the postal code length is 9 and all characters are digits.
      */
     fun isValidPostalCode(postalCode: String) : Boolean {
-        return postalCode.length == 9 && postalCode.all { it.isDigit() }
+        return postalCode.length == 8 && postalCode.all { it.isDigit() }
     }
 
 
