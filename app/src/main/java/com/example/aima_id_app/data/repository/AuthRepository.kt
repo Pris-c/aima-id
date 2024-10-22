@@ -38,16 +38,17 @@ class AuthRepository {
      *
      * @param email The email address of the user trying to log in.
      * @param password The password of the user trying to log in.
-     * @param onComplete A callback that returns a Boolean indicating whether
-     *                   the login was successful (true) or failed (false).
+     * @param onComplete A callback that returns the user ID as a String if the login was successful,
+     *                   or null if the login failed.
      */
-    fun login(email: String, password: String, onComplete: (Boolean) -> Unit){
+    fun login(email: String, password: String, onComplete: (String?) -> Unit){
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    onComplete(true)
+                    val userId = auth.currentUser?.uid
+                    onComplete(userId)
                 } else {
-                    onComplete(false)
+                    onComplete(null)
                 }
             }
     }

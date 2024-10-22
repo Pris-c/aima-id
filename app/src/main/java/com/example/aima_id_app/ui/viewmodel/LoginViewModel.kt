@@ -19,8 +19,8 @@ class LoginViewModel : ViewModel() {
 //---------------------------------------------------------------------------------
 
     fun login(email: String, password: String) {
-        authRepository.login(email, password) { success ->
-            if (success){
+        authRepository.login(email, password) { userId ->
+            if (userId != null){
                _navigateToActivity.value = UserActivity::class.java
             } else {
                 _loginError.value = "Login falhou. Tente novamente."
