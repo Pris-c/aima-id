@@ -10,14 +10,25 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.toObject
 import kotlinx.coroutines.tasks.await
 
+/**
+ * Repository class for managing user-related operations in the Firestore database.
+ *
+ * Provides methods for creating, finding, updating, and deleting users.
+ */
 class UserRepository {
 
     private val db = FirebaseFirestore.getInstance().collection("users")
 
+    /**
+     * Creates a new user in the database with the given ID.
+     *
+     * @param id The ID of the user to be created.
+     * @param user The user object to be stored.
+     * @param onComplete A callback function that returns true if the operation is successful, false otherwise.
+     */
     fun createUser(id: String, user: User,  onComplete: (Boolean?) -> Unit) {
         db.document(id).set(user)
             .addOnSuccessListener {
-
                 onComplete(true)
             }
             .addOnFailureListener {
@@ -25,6 +36,12 @@ class UserRepository {
             }
     }
 
+    /**
+     * Finds a user by their ID in the database.
+     *
+     * @param id The ID of the user to be retrieved.
+     * @param onComplete A callback function that returns the user if found, or null if the operation fails.
+     */
     fun findUserById(id: String,  onComplete: (User?) -> Unit) {
         db.document(id).get()
             .addOnSuccessListener { document ->
@@ -43,6 +60,12 @@ class UserRepository {
             }
     }
 
+    /**
+     * Finds a user by their NIF in the database.
+     *
+     * @param nif The NIF of the user to be retrieved.
+     * @param onComplete A callback function that returns the user if found, or null if the operation fails.
+     */
     fun findUserByNif(nif: String, onComplete: (User?) -> Unit) {
         db.document(nif).get()
             .addOnSuccessListener { document ->
@@ -61,6 +84,12 @@ class UserRepository {
             }
     }
 
+    /**
+     * Deletes a user from the database by their ID.
+     *
+     * @param id The ID of the user to be deleted.
+     * @param onComplete A callback function that returns true if the operation is successful, false otherwise.
+     */
     fun deleteUser(id: String,  onComplete: (Boolean?) -> Unit) {
         db.document(id).delete()
             .addOnSuccessListener {
@@ -73,7 +102,13 @@ class UserRepository {
 
     }
 
-
+    /**
+     * Updates an existing user in the database with the given ID.
+     *
+     * @param id The ID of the user to be updated.
+     * @param user The updated user object.
+     * @param onComplete A callback function that returns true if the operation is successful, false otherwise.
+     */
     fun updateUser(id: String,user: User, onComplete: (Boolean?) -> Unit) {
         db.document(id).set(user)
             .addOnSuccessListener {
