@@ -14,9 +14,10 @@ import com.example.aima_id_app.data.model.submodel.GeographicalLocation
  * @param staffIds A list of staff IDs associated with the unit. The list is mutable,
  * allowing for dynamic changes in the staff composition.
  */
-class AimaUnit (
-    name: String,
-    address: Address,
-    geograficalLocation: GeographicalLocation,
-    staffIds: MutableList<String>
+
+data class AimaUnit (
+    val name: String = "",
+    val address: Address = Address(),
+    val geograficalLocation: GeographicalLocation = GeographicalLocation(),
+    val staffIds: MutableList<String> = mutableListOf()
 )
