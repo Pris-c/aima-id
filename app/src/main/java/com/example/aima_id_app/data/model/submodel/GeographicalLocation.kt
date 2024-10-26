@@ -8,4 +8,7 @@ package com.example.aima_id_app.data.model.submodel
  * @param latitude The latitude of the location, in decimal degrees, ranging from -90.0 to 90.0.
  * @param longitude The longitude of the location, in decimal degrees, ranging from -180.0 to 180.0.
  */
-class GeographicalLocation (val latitude: Double, val longitude: Double)
+data class GeographicalLocation (
+    val latitude: Double = 0.0,
+    val longitude: Double = 0.0
+)
