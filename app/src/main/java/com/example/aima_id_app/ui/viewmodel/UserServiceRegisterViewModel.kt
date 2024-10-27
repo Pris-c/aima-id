@@ -64,7 +64,7 @@ class UserServiceRegisterViewModel : ViewModel() {
             !userValidator.isValidDateOfBirth(dateOfBirth) ||
             !userValidator.isValidPortuguesePhone(phone)
         ) {
-            _registrationError.value = "Invalid user data."
+            _registrationError.value = "Usuário Inválido"
             callback(false)
             return
         }
@@ -74,7 +74,7 @@ class UserServiceRegisterViewModel : ViewModel() {
             !addressValidator.isValidStreet(street) ||
             !addressValidator.isValidPostalCode(postalCode)
         ) {
-            _registrationError.value = "Invalid address data."
+            _registrationError.value = "Morada Inválida"
             callback(false)
             return
         }
@@ -82,7 +82,7 @@ class UserServiceRegisterViewModel : ViewModel() {
 
         authRepository.register(email, password) { userId ->
             if (userId == null) {
-                _registrationError.value = "Failed to register user in authentication service."
+                _registrationError.value = "Falha ao registrar usuário"
                 callback(false)
                 return@register
             }
@@ -109,7 +109,7 @@ class UserServiceRegisterViewModel : ViewModel() {
                     _navigateToActivity.value = UserActivity::class.java
                     callback(true)
                 } else {
-                    _registrationError.value = "Failed to save user data."
+                    _registrationError.value = "Falha ao salvar informações do usuário"
                     callback(false)
                 }
 
