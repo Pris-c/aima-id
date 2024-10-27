@@ -68,7 +68,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imputNif"
+        app:layout_constraintTop_toBottomOf="@+id/inputPassword"
         app:layout_constraintVertical_bias="0.044">
 
         <TextView
@@ -99,7 +99,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/imputNif"
+        android:id="@+id/inputPassword"
         android:layout_width="339.54dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -113,7 +113,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
-            android:text="NIF"
+            android:text="Password"
             android:textColor="@color/aima_white"
             android:textSize="20sp" />
 
@@ -124,13 +124,13 @@
             app:hintEnabled="false">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/nif_input"
+                android:id="@+id/password_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/edit_text_background_rounded"
-                android:hint="000.000.000"
+                android:hint="password"
                 android:textColor="@color/aima_blue"
-                android:inputType="text"
+                android:inputType="textPassword"
                 android:padding="12dp"
                 android:textColorHint="#80000000" />
         </com.google.android.material.textfield.TextInputLayout>
