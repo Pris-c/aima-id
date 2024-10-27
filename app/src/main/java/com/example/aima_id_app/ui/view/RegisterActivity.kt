@@ -24,6 +24,12 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var emailInput: EditText
     private lateinit var phoneInput: EditText
     private lateinit var birthDateInput: EditText
+    private lateinit var cityInput: EditText
+    private lateinit var streetInput: EditText
+    private lateinit var numberInput: EditText
+    private lateinit var postalCodeInput: EditText
+    private lateinit var passwordInput: EditText
+    private lateinit var passwordConfirmInput: EditText
     private lateinit var registerButton: Button
 
     /**
@@ -46,7 +52,13 @@ class RegisterActivity : AppCompatActivity() {
         nifInput = findViewById(R.id.nif_input)
         emailInput = findViewById(R.id.email_input)
         phoneInput = findViewById(R.id.phone_input)
-        birthDateInput = findViewById(R.id.birthDateEditText)
+        birthDateInput = findViewById(R.id.birthDate_input)
+        cityInput = findViewById(R.id.city_input)
+        streetInput = findViewById(R.id.street_input)
+        numberInput = findViewById(R.id.number_input)
+        postalCodeInput = findViewById(R.id.postalCode_input)
+        passwordInput = findViewById(R.id.password_input)
+        passwordConfirmInput = findViewById(R.id.passwordConfirm_input)
         registerButton = findViewById(R.id.register)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -65,7 +77,13 @@ class RegisterActivity : AppCompatActivity() {
         nifInput.setOnFocusChangeListener { _, hasFocus -> if (!hasFocus) validateNIF(nifInput.text.toString().trim()) }
         emailInput.setOnFocusChangeListener { _, hasFocus -> if (!hasFocus) validateEmail(emailInput.text.toString().trim()) }
         phoneInput.setOnFocusChangeListener { _, hasFocus -> if (!hasFocus) validatePhone(phoneInput.text.toString().trim()) }
-        /*birthDateInput.setOnFocusChangeListener { _, hasFocus -> if (!hasFocus) validateBirthDate(birthDateInput.text.toString().trim()) }*/
+        birthDateInput.setOnFocusChangeListener { _, hasFocus -> if (!hasFocus) validateBirthDate(birthDateInput.text.toString().trim()) }
+        cityInput.setOnFocusChangeListener { _, hasFocus -> if (!hasFocus) validateCity(cityInput.text.toString().trim()) }
+        streetInput.setOnFocusChangeListener { _, hasFocus -> if (!hasFocus) validateStreet(streetInput.text.toString().trim()) }
+        numberInput.setOnFocusChangeListener { _, hasFocus -> if (!hasFocus) validateNumber(numberInput.text.toString().trim()) }
+        postalCodeInput.setOnFocusChangeListener { _, hasFocus -> if (!hasFocus) validatePostalCode(postalCodeInput.text.toString().trim()) }
+        passwordInput.setOnFocusChangeListener { _, hasFocus -> if (!hasFocus) validatePassword(passwordInput.text.toString().trim()) }
+        passwordConfirmInput.setOnFocusChangeListener { _, hasFocus -> if (!hasFocus) validatePasswordConfirm(passwordConfirmInput.text.toString().trim()) }
 
 
         registerButton.setOnClickListener {
@@ -119,8 +137,14 @@ class RegisterActivity : AppCompatActivity() {
         return validateName(nameInput.text.toString().trim()) &&
                 validateNIF(nifInput.text.toString().trim()) &&
                 validateEmail(emailInput.text.toString().trim()) &&
-                validatePhone(phoneInput.text.toString().trim())
-                /*validateBirthDate(birthDateInput.text.toString().trim())*/
+                validatePhone(phoneInput.text.toString().trim()) &&
+                validateBirthDate(birthDateInput.text.toString().trim()) &&
+                validateCity(cityInput.text.toString().trim()) &&
+                validateStreet(streetInput.text.toString().trim()) &&
+                validateNumber(numberInput.text.toString().trim()) &&
+                validatePostalCode(postalCodeInput.text.toString().trim()) &&
+                validatePassword(passwordInput.text.toString().trim()) &&
+                validatePasswordConfirm(passwordConfirmInput.text.toString().trim())
     }
 
     /**
@@ -204,7 +228,7 @@ class RegisterActivity : AppCompatActivity() {
      * @param date The date to be validated.
      * @return True if the date is valid, false otherwise.
      */
-    /*private fun validateBirthDate(date: String): Boolean {
+    private fun validateBirthDate(date: String): Boolean {
         return if (date.matches(Regex("\\d{1,2}/\\d{1,2}/\\d{4}"))) {
             birthDateInput.error = null
             true
@@ -212,7 +236,128 @@ class RegisterActivity : AppCompatActivity() {
             birthDateInput.error = "Data de nascimento inválida. Formato deve ser DD/MM/AAAA."
             false
         }
-    }*/
+    }
+
+    /**
+     * Validates the city provided by the user.
+     *
+     * The city must be between 3 and 150 characters.
+     *
+     * @param city The city to be validated.
+     * @return True if the city is valid, false otherwise.
+     */
+    private fun validateCity(city: String): Boolean {
+        return if (city.length in 3..150) {
+            cityInput.error = null
+            true
+        } else {
+            cityInput.error = "Nome do concelho inválido. Deve conter no mínimo 3 caracteres."
+            false
+        }
+    }
+
+    /**
+     * Validates the street provided by the user.
+     *
+     * The street must be between 3 and 150 characters.
+     *
+     * @param street The street to be validated.
+     * @return True if the street is valid, false otherwise.
+     */
+    private fun validateStreet(street: String): Boolean {
+        return if (street.length in 2..150) {
+            streetInput.error = null
+            true
+        } else {
+            streetInput.error = "Nome do concelho inválido. Deve conter no mínimo 2 caracteres."
+            false
+        }
+    }
+
+    /**
+     * Validates the number adress provided by the user.
+     *
+     * The number must be between 1 and 15 characters.
+     *
+     * @param number The number to be validated.
+     * @return True if the number is valid, false otherwise.
+     */
+    private fun validateNumber(number: String): Boolean {
+        return if (number.isNotEmpty() && number.all { it.isDigit() }) {
+            numberInput.error = null
+            true
+        } else {
+            numberInput.error = "Deve conter no mínimo 1 numero"
+            false
+        }
+    }
+
+    /**
+     * Validates the postal code provided by the user.
+     *
+     * The postal code must have min 7 digits.
+     *
+     * @param postalCode The postalCode to be validated.
+     * @return True if the postalCode is valid, false otherwise.
+     */
+    private fun validatePostalCode(postalCode: String): Boolean {
+        return if (postalCode.length >= 7 && postalCode.all { it.isDigit() }) {
+            postalCodeInput.error = null
+            true
+        } else {
+            postalCodeInput.error = "Codigo postal inválido. Deve conter no mínimo 7 dígitos."
+            false
+        }
+    }
+
+    /**
+     * Validates the password provided by the user.
+     *
+     * The password must contain at least 6 characters to be considered valid.
+     *
+     * @param password The password to be validated.
+     * @return True if the password is valid, false otherwise.
+     */
+    private fun validatePassword(password: String): Boolean {
+        return if (password.length >= 6 ) {
+            passwordInput.error = null
+            true
+        } else {
+            passwordInput.error = "A senha deve conter no mínimo 6 dígitos."
+            false
+        }
+    }
+
+    /**
+     * Validates the password confirmation provided by the user.
+     *
+     * To be valid, password confirmation must:
+     * - Not empty
+     * - Be exactly the same as the original password provided in the password field
+     *
+     * @param passwordConfirm The confirmation password to be validated.
+     * @return True if the password confirmation is valid and the same as the original password, false otherwise.
+     *
+     * @see validatePassword
+     */
+    private fun validatePasswordConfirm(passwordConfirm: String): Boolean {
+        val originalPassword = passwordInput.text.toString().trim()
+
+        return when {
+            passwordConfirm.isEmpty() -> {
+                passwordConfirmInput.error = "A confirmação de senha é obrigatória"
+                false
+            }
+            passwordConfirm != originalPassword -> {
+                passwordConfirmInput.error = "As senhas não coincidem"
+                false
+            }
+            else -> {
+                passwordConfirmInput.error = null
+                true
+            }
+        }
+    }
 
     /**
      * Displays a success message when user registration is completed successfully.
