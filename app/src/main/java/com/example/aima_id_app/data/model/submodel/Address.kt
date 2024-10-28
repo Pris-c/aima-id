@@ -11,7 +11,7 @@ package com.example.aima_id_app.data.model.submodel
  */
 data class Address(
     val street: String = "",
-    val number: String = "",
+    val number: Int = 0,
     val city: String = "",
     val postalCode: String = "",
 )

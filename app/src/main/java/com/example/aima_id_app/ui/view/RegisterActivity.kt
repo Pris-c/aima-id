@@ -110,7 +110,8 @@ class RegisterActivity : AppCompatActivity() {
                 val dateOfBirth = LocalDate.parse(birthDateInput.text.toString().trim(), DateTimeFormatter.ofPattern("dd/MM/yyyy"))
                 val city = cityInput.text.toString().trim()
                 val street = streetInput.text.toString().trim()
-                val number = numberInput.text.toString().trim()
+                val numberString = numberInput.text.toString().trim()
+                val number = numberString.toIntOrNull() ?: 0
                 val postalCode = postalCodeInput.text.toString().trim()
                 val password = passwordInput.text.toString().trim()
 
