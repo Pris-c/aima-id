@@ -15,7 +15,7 @@ import com.google.android.material.snackbar.Snackbar
 class LoginActivity : AppCompatActivity() {
 
     private val loginViewModel: LoginViewModel by viewModels()
-    private lateinit var nifInput: EditText
+    private lateinit var passwordInput: EditText
     private lateinit var emailInput: EditText
 
     /**
@@ -34,36 +34,39 @@ class LoginActivity : AppCompatActivity() {
 
         val registerButton: Button = findViewById(R.id.register)
         val loginButton: Button = findViewById(R.id.login)
-        nifInput = findViewById(R.id.nif_input)
+        passwordInput = findViewById(R.id.password_input)
         emailInput = findViewById(R.id.email_input)
 
         // Watch for changes in LiveData to redirect the user to the correct Activity
-        loginViewModel.navigateToActivity.observe(this, Observer {
-            it?.let {
+        loginViewModel.navigateToActivity.observe(this) { activityClass ->
+            activityClass?.let {
                 startActivity(Intent(this, it))
                 finish()
             }
-        })
+        }
 
         // Observe login failures
         loginViewModel.errorMessage.observe(this, Observer { error ->
-            error?.let { showError(it) }
+            error?.let {
+                Snackbar.make(findViewById(android.R.id.content), it, Snackbar.LENGTH_SHORT).show()
+            }
         })
+
 
         // Configure login event
         loginButton.setOnClickListener {
-            val nif = nifInput.text.toString().trim()
+            val password = passwordInput.text.toString().trim()
             val email = emailInput.text.toString().trim()
 
-            if (validateNIF(nif) && validateEmail(email)) {
-                loginViewModel.login(nif, email)
+            if (validatePassword(password) && validateEmail(email)) {
+                loginViewModel.login(email, password)
             }
         }
 
-        // Validate NIF when the input field loses focus
-        nifInput.setOnFocusChangeListener { _, hasFocus ->
+        // Validate password when the input field loses focus
+        passwordInput.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) { // Check if the field has lost focus
-                validateNIF(nifInput.text.toString().trim())
+                validatePassword(passwordInput.text.toString().trim())
             }
         }
 
@@ -92,20 +95,21 @@ class LoginActivity : AppCompatActivity() {
     }
 
     /**
-     * Validates the NIF (Tax Identification Number) provided.
+     * Validates the password provided based on its number of characters.
      *
-     * Checks whether the NIF contains exactly 9 numeric digits. If the NIF is valid, removes any error messages associated with the NIF input field.
-     * Otherwise, display an error message in the field.
+     * This function checks whether the password provided has at least 6 characters.
+     * If the condition is satisfied, it returns true and clears any error messages
+     * previously associated with the password input field.
      *
-     * @param nif The NIF to be validated.
-     * @return `true` if the NIF is valid (contains exactly 9 digits), `false` otherwise.
+     * @param password The password that will be validated. It must be a string with at least 6 characters.
+     * @return Boolean Returns `true` if the password is valid (has at least 6 characters) and `false` otherwise.
      */
-    private fun validateNIF(nif: String): Boolean {
-        return if (nif.length == 9 && nif.all { it.isDigit() }) {
-            nifInput.error = null
+    private fun validatePassword(password: String): Boolean {
+        return if (password.length >= 6) {
+            passwordInput.error = null
             true
         } else {
-            nifInput.error = "NIF inválido. Deve conter 9 dígitos numéricos."
+            passwordInput.error = "Password inválido. Deve conter no minimo 6 caracteres."
             false
         }
     }
