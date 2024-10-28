@@ -4,15 +4,26 @@ import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.aima_id_app.R
+import com.example.aima_id_app.data.model.db_model.ServiceUser
+import com.example.aima_id_app.data.model.submodel.Address
+import com.example.aima_id_app.data.repository.AuthRepository
+import com.example.aima_id_app.data.repository.UserRepository
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.Firebase
+import com.google.firebase.FirebaseApp
+import com.google.firebase.FirebaseApp.*
+import com.google.firebase.initialize
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -31,6 +42,9 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var passwordInput: EditText
     private lateinit var passwordConfirmInput: EditText
     private lateinit var registerButton: Button
+    private lateinit var authRepository: AuthRepository
+    private lateinit var userRepository: UserRepository
+    private lateinit var address: Address
 
     /**
      * Method called when the activity is created.
@@ -45,6 +59,7 @@ class RegisterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
         setContentView(R.layout.activity_register)
 
         // Set up views
@@ -88,22 +103,46 @@ class RegisterActivity : AppCompatActivity() {
 
         registerButton.setOnClickListener {
             if (validateInputs()) {
-                /*val name = nameInput.text.toString().trim()
+                val name = nameInput.text.toString().trim()
                 val nif = nifInput.text.toString().trim()
                 val email = emailInput.text.toString().trim()
                 val phone = phoneInput.text.toString().trim()
-                val birthDate = LocalDate.parse(birthDateInput.text.toString().trim(), DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+                val dateOfBirth = LocalDate.parse(birthDateInput.text.toString().trim(), DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+                val city = cityInput.text.toString().trim()
+                val street = streetInput.text.toString().trim()
+                val number = numberInput.text.toString().trim()
+                val postalCode = postalCodeInput.text.toString().trim()
+                val password = passwordInput.text.toString().trim()
 
-                val newUser = User(role = UserRole.CLIENT, email = email, nif = nif, phone = phone, name = name, dateOfBirth = birthDate)
+                val address = Address(city = city, street = street, number = number, postalCode = postalCode)
 
-                registerViewModel.registerUser(newUser)*/
+                val serviceUser = ServiceUser(email = email, nif = nif, name = name, dateOfBirth = dateOfBirth, phone = phone, address = address)
 
-                showSuccessMessage()
+                authRepository = AuthRepository()
+                authRepository.register(email, password) { userId ->
+                    if (userId != null) {
 
-                startActivity(Intent(this, LoginActivity::class.java))
-                finish()
+                        userRepository = UserRepository()
+                        userRepository.createUser(userId, serviceUser) { success ->
+                            if (success == true) {
+                                Snackbar.make(findViewById(android.R.id.content), "Usuário registado com sucesso!", Snackbar.LENGTH_SHORT).show()
+
+                                Handler(Looper.getMainLooper()).postDelayed({
+                                    startActivity(Intent(this, LoginActivity::class.java))
+                                    finish()
+                                }, 3000)
+                            } else {
+                                Snackbar.make(findViewById(android.R.id.content), "Erro ao registar o usuário!", Snackbar.LENGTH_SHORT).show()
+                            }
+                        }
+                    } else {
+                        Snackbar.make(findViewById(android.R.id.content), "Erro ao registar o usuário!", Snackbar.LENGTH_SHORT).show()
+                    }
+                }
             }
         }
+
+
     }
 
     /**
@@ -359,12 +398,4 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
-    /**
-     * Displays a success message when user registration is completed successfully.
-     *
-     * The message is displayed at the bottom of the screen using a Snackbar.
-     */
-    private fun showSuccessMessage() {
-        Snackbar.make(findViewById(android.R.id.content), "Usuário registrado com sucesso!", Snackbar.LENGTH_SHORT).show()
-    }
 }

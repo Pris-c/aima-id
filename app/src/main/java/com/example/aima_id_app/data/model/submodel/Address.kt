@@ -9,9 +9,9 @@ package com.example.aima_id_app.data.model.submodel
  * @property city represents the city of the user's residence.
  * @property postalCode represents the postal code of the given address.
  */
-data class Address (
+data class Address(
     val street: String = "",
-    val number: Int = 0,
+    val number: String = "",
     val city: String = "",
     val postalCode: String = "",
 )

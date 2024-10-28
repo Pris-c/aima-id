@@ -29,8 +29,8 @@ class AddressValidator (
      * @param number The house/building number as an integer.
      * @return Returns true if the number is between 1 and 9999.
      */
-    fun isValidNumber(number: Int): Boolean {
-        return number in 1..9999
+    fun isValidNumber(number: String): Boolean {
+        return number.length in 1..9999
     }
 
     /**

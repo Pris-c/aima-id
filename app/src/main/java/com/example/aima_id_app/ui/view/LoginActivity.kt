@@ -38,17 +38,20 @@ class LoginActivity : AppCompatActivity() {
         emailInput = findViewById(R.id.email_input)
 
         // Watch for changes in LiveData to redirect the user to the correct Activity
-        loginViewModel.navigateToActivity.observe(this, Observer {
-            it?.let {
+        loginViewModel.navigateToActivity.observe(this) { activityClass ->
+            activityClass?.let {
                 startActivity(Intent(this, it))
                 finish()
             }
-        })
+        }
 
         // Observe login failures
         loginViewModel.errorMessage.observe(this, Observer { error ->
-            error?.let { showError(it) }
+            error?.let {
+                Snackbar.make(findViewById(android.R.id.content), it, Snackbar.LENGTH_SHORT).show()
+            }
         })
+
 
         // Configure login event
         loginButton.setOnClickListener {
@@ -56,7 +59,7 @@ class LoginActivity : AppCompatActivity() {
             val email = emailInput.text.toString().trim()
 
             if (validatePassword(password) && validateEmail(email)) {
-                loginViewModel.login(password, email)
+                loginViewModel.login(email, password)
             }
         }
 
