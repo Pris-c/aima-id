@@ -3,9 +3,6 @@ package com.example.aima_id_app.util.validators
 import android.os.Build
 import androidx.annotation.RequiresApi
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
-import java.time.format.DateTimeParseException
-import java.time.format.ResolverStyle
 import java.time.temporal.ChronoUnit
 
 
