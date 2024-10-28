@@ -37,20 +37,20 @@ class UserServiceRegisterViewModel : ViewModel() {
     val navigateToActivity: LiveData<Class<*>> get() = _navigateToActivity
 
     /**
-     * Função de registro que recebe dados do novo usuário e tenta registrá-lo no sistema.
-     * Valida os dados, cria um objeto ServiceUser e armazena no banco de dados.
+     * Registration function that receives new user data and attempts to register them in the system.
+     * It validates the data, creates a ServiceUser object, and stores it in the database.
      *
-     * @param name Nome do usuário a ser registrado.
-     * @param email Endereço de e-mail do usuário.
-     * @param nif Número de Identificação Fiscal do usuário.
-     * @param dateOfBirth Data de nascimento do usuário.
-     * @param street Rua do endereço do usuário.
-     * @param number Número do endereço do usuário.
-     * @param city Cidade do endereço do usuário.
-     * @param postalCode Código postal do endereço do usuário.
-     * @param phone Telefone de contato do usuário.
-     * @param password Senha para autenticação do usuário.
-     * @return Boolean indicando se o registro foi bem-sucedido ou não.
+     * @param name Name of the user to be registered.
+     * @param email User's email address.
+     * @param nif User's Tax Identification Number.
+     * @param dateOfBirth User's date of birth.
+     * @param street User's address street.
+     * @param number User's address number.
+     * @param city User's address city.
+     * @param postalCode User's postal code.
+     * @param phone User's contact phone number.
+     * @param password Password for user authentication.
+     * @return Boolean indicating whether the registration was successful.
      */
     fun register(
         name: String, email: String, nif: String, dateOfBirth: LocalDate,
