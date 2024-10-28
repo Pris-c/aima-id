@@ -7,6 +7,7 @@ import com.example.aima_id_app.data.model.db_model.ServiceUser
 import com.example.aima_id_app.data.model.submodel.Address
 import com.example.aima_id_app.data.repository.AuthRepository
 import com.example.aima_id_app.data.repository.UserRepository
+import com.example.aima_id_app.ui.view.UserActivity
 import com.example.aima_id_app.util.validators.AddressValidator
 import com.example.aima_id_app.util.validators.UserValidator
 import java.time.LocalDate

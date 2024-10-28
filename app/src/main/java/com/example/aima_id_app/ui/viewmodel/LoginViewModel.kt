@@ -1,10 +1,10 @@
 package com.example.aima_id_app.ui.viewmodel
 
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.aima_id_app.data.repository.AuthRepository
+import com.example.aima_id_app.ui.view.UserActivity
 
 /**
  * ViewModel for handling the login functionality in the application.

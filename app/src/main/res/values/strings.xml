@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">AIMA ID</string>
+    <string name="RegisterUnit">Registar Nova Unidade</string>
+    <string name="RegisterStaff">Registar Novo Funcionário</string>"
+    <string name="Notification">Titulo da notificação</string>
+    <string name="NotificationName">Nome do utilizador</string>
+
 </resources>

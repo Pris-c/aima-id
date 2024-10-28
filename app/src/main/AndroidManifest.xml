@@ -13,7 +13,13 @@
         android:theme="@style/Theme.Aimaidapp"
         tools:targetApi="31">
         <activity
-            android:name=".ui.viewmodel.UserActivity"
+            android:name=".ui.view.StaffActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.view.AdminActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.view.UserActivity"
             android:exported="false" />
         <activity
             android:name=".ui.view.RegisterActivity"
