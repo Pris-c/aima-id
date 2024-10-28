@@ -130,7 +130,7 @@ class AimaUnitRepository {
      * @param onComplete A callback function that takes a Boolean indicating
      *                   whether the update was successful or not.
      */
-    fun updateAimaUnit(id: String, unit: AimaUnit, onComplete: (Boolean?) -> Unit) {
+    fun updateAimaUnit(id: String, unit: AimaUnit, onComplete: (Boolean) -> Unit) {
         db.document(id).set(unit)
             .addOnSuccessListener {
                 onComplete(true)
