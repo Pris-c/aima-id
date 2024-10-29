@@ -71,7 +71,7 @@
                         android:layout_gravity="bottom|center"
                         android:layout_marginBottom="50dp"
                         android:lineSpacingExtra="8sp"
-                        android:text="@string/RegisterUnit"
+                        android:text="@string/RequestResidency"
                         android:textAlignment="center"
                         android:textColor="@color/aima_white"
                         android:textSize="34sp"
@@ -103,9 +103,23 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|center"
+                        android:layout_marginBottom="50dp"
+                        android:lineSpacingExtra="8sp"
+                        android:text="@string/RequestVisaExtension"
+                        android:textAlignment="center"
+                        android:textColor="@color/aima_white"
+                        android:textSize="34sp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/symbolID"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:text="Card 2"
-                        android:textColor="#FFFFFF" />
+                        android:layout_marginBottom="50dp"
+                        app:srcCompat="@drawable/ic_home_solid" />
+
                 </FrameLayout>
             </androidx.cardview.widget.CardView>
 
@@ -124,9 +138,23 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|center"
+                        android:layout_marginBottom="50dp"
+                        android:lineSpacingExtra="8sp"
+                        android:text="@string/RequestEqualityStatus"
+                        android:textAlignment="center"
+                        android:textColor="@color/aima_white"
+                        android:textSize="34sp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/symbolPassport"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:text="Card 3"
-                        android:textColor="#FFFFFF" />
+                        android:layout_marginBottom="50dp"
+                        app:srcCompat="@drawable/ic_home_solid" />
+
                 </FrameLayout>
             </androidx.cardview.widget.CardView>
 
@@ -145,9 +173,58 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|center"
+                        android:layout_marginBottom="50dp"
+                        android:lineSpacingExtra="8sp"
+                        android:text="@string/RequestFamiliarReunification"
+                        android:textAlignment="center"
+                        android:textColor="@color/aima_white"
+                        android:textSize="34sp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/symbolFamilly"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:text="Card 4"
-                        android:textColor="#FFFFFF" />
+                        android:layout_marginBottom="50dp"
+                        app:srcCompat="@drawable/ic_home_solid" />
+
+                </FrameLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="300dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="40dp"
+                app:cardCornerRadius="30dp"
+                app:cardElevation="4dp">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bg_aima_id">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|center"
+                        android:layout_marginBottom="50dp"
+                        android:lineSpacingExtra="8sp"
+                        android:text="@string/RequestRenewalResidency"
+                        android:textAlignment="center"
+                        android:textColor="@color/aima_white"
+                        android:textSize="34sp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/symbolNewID"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="50dp"
+                        app:srcCompat="@drawable/ic_home_solid" />
+
                 </FrameLayout>
             </androidx.cardview.widget.CardView>
 
@@ -167,9 +244,23 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|center"
+                        android:layout_marginBottom="50dp"
+                        android:lineSpacingExtra="8sp"
+                        android:text="@string/RequestScheduling"
+                        android:textAlignment="center"
+                        android:textColor="@color/aima_white"
+                        android:textSize="34sp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/symbolCalendar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:text="Card 5"
-                        android:textColor="#FFFFFF" />
+                        android:layout_marginBottom="50dp"
+                        app:srcCompat="@drawable/ic_home_solid" />
+
                 </FrameLayout>
             </androidx.cardview.widget.CardView>
 

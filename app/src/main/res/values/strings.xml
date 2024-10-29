@@ -4,7 +4,12 @@
     <string name="RegisterStaff">Registar Novo Funcionário</string>"
     <string name="Notification">Titulo da notificação</string>
     <string name="NotificationName">Nome do utilizador</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="RequestResidency">Solicitar Residências</string>
+    <string name="RequestEqualityStatus">Etatuto de Igualdade</string>
+    <string name="RequestFamiliarReunification">Reagrupamento Familiar</string>
+    <string name="RequestVisaExtension">Extensões de Vistos</string>
+    <string name="RequestRenewalResidency">Renovação de Residências</string>
+    <string name="RequestScheduling">Solicitar Agendamento</string>
+
 
 </resources>

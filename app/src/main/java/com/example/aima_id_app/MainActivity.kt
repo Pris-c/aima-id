@@ -13,6 +13,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.aima_id_app.databinding.ActivityMainBinding
 import com.example.aima_id_app.ui.view.AdminActivity
 import com.example.aima_id_app.ui.view.LoginActivity
+import com.example.aima_id_app.ui.view.UserActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -37,7 +38,7 @@ class MainActivity : AppCompatActivity() {
 
         // Create a Handler to start the LoginActivity after 1 second
         Handler(Looper.getMainLooper()).postDelayed({
-            val intent = Intent(this@MainActivity, AdminActivity::class.java)
+            val intent = Intent(this@MainActivity, UserActivity::class.java)
             startActivity(intent)
 
             // Define transition animations between activities
