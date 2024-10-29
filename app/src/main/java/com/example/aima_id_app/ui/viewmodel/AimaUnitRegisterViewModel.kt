@@ -45,6 +45,9 @@ class AimaUnitRegisterViewModel(
     private val _createAimaUnitMessage = MutableLiveData<String?>()
     val createAimaUnitMessage: LiveData<String?> = _createAimaUnitMessage
 
+    private val _aimaUnits = MutableLiveData<List<AimaUnit>>()
+    val aimaUnits: LiveData<List<AimaUnit>> = _aimaUnits
+
 
     /**
      * Registers a new Aima Unit with the provided details.
@@ -171,5 +174,7 @@ class AimaUnitRegisterViewModel(
         }
         return true;
     }
+
+
 
 }

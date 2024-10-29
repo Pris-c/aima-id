@@ -8,7 +8,6 @@ import android.os.Handler
 import android.os.Looper
 import android.widget.Button
 import android.widget.EditText
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -20,10 +19,6 @@ import com.example.aima_id_app.data.model.submodel.Address
 import com.example.aima_id_app.data.repository.AuthRepository
 import com.example.aima_id_app.data.repository.UserRepository
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.Firebase
-import com.google.firebase.FirebaseApp
-import com.google.firebase.FirebaseApp.*
-import com.google.firebase.initialize
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*

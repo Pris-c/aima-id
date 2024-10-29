@@ -11,7 +11,9 @@
         android:id="@+id/imageViewID"
         android:layout_width="97dp"
         android:layout_height="74dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -21,24 +23,25 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
         android:lineSpacingExtra="8sp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
         android:text="@string/RegisterStaff"
         android:textAlignment="center"
+        android:layout_marginBottom="55dp"
         android:textColor="@color/aima_white"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/scrollView"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/imageViewID" />
 
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="369.54dp"
-        android:layout_height="440dp"
-        android:layout_marginTop="40dp"
+        android:layout_height="375dp"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -162,7 +165,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Data de Nascimento*"
+                    android:text="Data de Nascimento"
                     android:textColor="@color/aima_pink"
                     android:textSize="20sp" />
 
@@ -222,7 +225,7 @@
 
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/register"
+                android:id="@+id/registerStaffButton"
                 android:layout_width="337dp"
                 android:layout_height="62dp"
                 android:layout_marginTop="20dp"

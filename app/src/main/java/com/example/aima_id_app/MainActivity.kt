@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
 
         // Create a Handler to start the LoginActivity after 1 second
         Handler(Looper.getMainLooper()).postDelayed({
-            val intent = Intent(this@MainActivity, UserActivity::class.java)
+            val intent = Intent(this@MainActivity, AdminActivity::class.java)
             startActivity(intent)
 
             // Define transition animations between activities
