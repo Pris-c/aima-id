@@ -6,6 +6,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.Fragment
 import com.example.aima_id_app.R
 import com.example.aima_id_app.ui.view.RegisterUnitAdminFragment
 
@@ -15,9 +16,13 @@ class AdminActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_admin)
 
-        // Define o listener para o card "card_register_unit"
+
         findViewById<View>(R.id.card_register_unit).setOnClickListener {
-            loadRegisterUnitFragment()
+            loadFragment(RegisterUnitAdminFragment())
+        }
+
+        findViewById<View>(R.id.card_register_staff).setOnClickListener {
+            loadFragment(RegisterStaffAdminFragment())
         }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -27,17 +32,18 @@ class AdminActivity : AppCompatActivity() {
         }
     }
 
-    // Função para carregar o fragmento
-    private fun loadRegisterUnitFragment() {
-        val fragment = RegisterUnitAdminFragment()
+
+    private fun loadFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .setCustomAnimations(
                 R.animator.slide_in_up,
                 R.animator.slide_out_down,
                 R.animator.slide_in_up,
-                R.animator.slide_out_down)
-            .replace(R.id.fragment_container, fragment) // Substitua 'fragment_container' pelo ID do FrameLayout no layout 'activity_admin'
-            .addToBackStack(null) // Permite retornar ao estado anterior com o botão de voltar
+                R.animator.slide_out_down
+            )
+            .replace(R.id.fragment_container, fragment)
+            .addToBackStack(null)
             .commit()
     }
+
 }

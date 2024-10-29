@@ -5,17 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_aima_s"
-    tools:context=".ui.view.RegisterUnitAdminFragment">
+    tools:context=".ui.view.RegisterStaffAdminFragment">
 
     <ImageView
-        android:id="@+id/imageViewHouse"
+        android:id="@+id/imageViewID"
         android:layout_width="97dp"
         android:layout_height="74dp"
         android:layout_marginTop="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_home_solid" />
+        app:srcCompat="@drawable/id_card_identity" />
 
     <TextView
         android:id="@+id/textView"
@@ -24,7 +24,7 @@
         android:lineSpacingExtra="8sp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
-        android:text="@string/RegisterUnit"
+        android:text="@string/RegisterStaff"
         android:textAlignment="center"
         android:textColor="@color/aima_white"
         android:textSize="24sp"
@@ -32,7 +32,7 @@
         app:layout_constraintBottom_toTopOf="@id/scrollView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imageViewHouse" />
+        app:layout_constraintTop_toBottomOf="@id/imageViewID" />
 
     <ScrollView
         android:id="@+id/scrollView"
@@ -52,7 +52,7 @@
             android:padding="16dp">
 
             <LinearLayout
-                android:id="@+id/inputNameUnit"
+                android:id="@+id/inputNameStaff"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
@@ -72,11 +72,11 @@
                     app:hintEnabled="false">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/nameUnit_input"
+                        android:id="@+id/nameStaff_input"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/edit_text_background_rounded"
-                        android:hint="Nome da unidade"
+                        android:hint="Nome completo"
                         android:inputType="text"
                         android:padding="12dp"
                         android:textColor="@color/aima_blue"
@@ -86,7 +86,7 @@
 
 
             <LinearLayout
-                android:id="@+id/inputCityUnit"
+                android:id="@+id/inputEmailStaff"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
@@ -95,7 +95,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Concelho"
+                    android:text="E-mail"
                     android:textColor="@color/aima_pink"
                     android:textSize="20sp" />
 
@@ -106,182 +106,117 @@
                     app:hintEnabled="false">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/cityUnit_input"
+                        android:id="@+id/emailStaff_input"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/edit_text_background_rounded"
-                        android:hint="Conselho da unidade"
+                        android:hint="exemplo@email.com"
+                        android:inputType="textEmailAddress"
+                        android:padding="12dp"
+                        android:textColor="@color/aima_blue"
+                        android:textColorHint="#80000000" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/inputNifStaff"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="NIF"
+                    android:textColor="@color/aima_pink"
+                    android:textSize="20sp" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:boxBackgroundMode="none"
+                    app:hintEnabled="false">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/nifStaff_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/edit_text_background_rounded"
+                        android:hint="000.000.000"
+                        android:inputType="number"
+                        android:padding="12dp"
+                        android:textColor="@color/aima_blue"
+                        android:textColorHint="#80000000" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/inputBirthDateStaff"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Data de Nascimento*"
+                    android:textColor="@color/aima_pink"
+                    android:textSize="20sp" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:boxBackgroundMode="none"
+                    app:hintEnabled="false">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/birthDateStaff_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/edit_text_background_rounded"
+                        android:focusable="false"
+                        android:hint="DD/MM/AAAA"
+                        android:inputType="none"
+                        android:padding="12dp"
+                        android:textColorHint="#80000000" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/inputWorkUnit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Unidade de trabalho"
+                    android:textColor="@color/aima_pink"
+                    android:textSize="20sp" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:boxBackgroundMode="none"
+                    app:hintEnabled="false">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/workUnit_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/edit_text_background_rounded"
+                        android:hint="Selecione uma unidade de trabalho"
                         android:inputType="text"
                         android:padding="12dp"
                         android:textColor="@color/aima_blue"
-                        android:textColorHint="#80000000" />
-                </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
-
-
-
-            <LinearLayout
-                android:id="@+id/inputStreetUnit"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Rua/Av."
-                    android:textColor="@color/aima_pink"
-                    android:textSize="20sp" />
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:boxBackgroundMode="none"
-                    app:hintEnabled="false">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/streetUnit_input"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/edit_text_background_rounded"
-                        android:hint="Rua da unidade"
-                        android:inputType="text"
-                        android:padding="12dp"
-                        android:textColor="@color/aima_blue"
-                        android:textColorHint="#80000000" />
-                </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/inputNumberUnit"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Numeroº"
-                    android:textColor="@color/aima_pink"
-                    android:textSize="20sp" />
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:boxBackgroundMode="none"
-                    app:hintEnabled="false">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/numberUnit_input"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/edit_text_background_rounded"
-                        android:hint="Numero da morada da unidade"
-                        android:inputType="number"
-                        android:padding="12dp"
-                        android:textColor="@color/aima_blue"
-                        android:textColorHint="#80000000" />
-                </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/inputPostalCodeUnit"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Codigo postal"
-                    android:textColor="@color/aima_pink"
-                    android:textSize="20sp" />
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:boxBackgroundMode="none"
-                    app:hintEnabled="false">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/postalCodeUnit_input"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/edit_text_background_rounded"
-                        android:hint="Codigo postal da unidade"
-                        android:inputType="number"
-                        android:padding="12dp"
-                        android:textColor="@color/aima_blue"
-                        android:textColorHint="#80000000" />
-                </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/inputLatitude"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Latitude"
-                    android:textColor="@color/aima_pink"
-                    android:textSize="20sp" />
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:boxBackgroundMode="none"
-                    app:hintEnabled="false">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/latitude_input"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/edit_text_background_rounded"
-                        android:hint="Latitude da unidade"
-                        android:inputType="number"
-                        android:padding="12dp"
-                        android:textColor="@color/aima_blue"
-                        android:textColorHint="#80000000" />
-                </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/inputLongitude"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Longitude"
-                    android:textColor="@color/aima_pink"
-                    android:textSize="20sp" />
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:boxBackgroundMode="none"
-                    app:hintEnabled="false">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/longitude_input"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/edit_text_background_rounded"
-                        android:hint="Longitude da unidade"
-                        android:inputType="number"
-                        android:padding="12dp"
-                        android:textColor="@color/aima_blue"
-                        android:textColorHint="#80000000" />
+                        android:textColorHint="#80000000"
+                        />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
