@@ -1,31 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_aima_id"
-    tools:context="ui.view.RegisterActivity">
+    android:background="@drawable/bg_aima_s"
+    tools:context=".ui.view.RegisterUnitAdminFragment">
 
     <ImageView
         android:id="@+id/imageView7"
-        android:layout_width="139dp"
-        android:layout_height="116dp"
-        android:layout_marginTop="72dp"
+        android:layout_width="97dp"
+        android:layout_height="74dp"
+        android:layout_marginTop="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo_aima_id" />
+        app:srcCompat="@drawable/ic_home_solid" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:lineSpacingExtra="8sp"
+        android:layout_marginBottom="20dp"
+        android:text="@string/RegisterUnit"
+        android:textAlignment="center"
+        android:textColor="@color/aima_white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/scrollView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imageView7" />
 
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="369.54dp"
-        android:layout_height="500dp"
+        android:layout_height="440dp"
+        android:layout_marginTop="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView7"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
         app:layout_constraintVertical_bias="0.25">
 
         <LinearLayout
@@ -35,7 +51,7 @@
             android:padding="16dp">
 
             <LinearLayout
-                android:id="@+id/inputName"
+                android:id="@+id/inputNameUnit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
@@ -44,8 +60,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Nome*"
-                    android:textColor="@color/aima_white"
+                    android:text="Nome"
+                    android:textColor="@color/aima_pink"
                     android:textSize="20sp" />
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -55,11 +71,80 @@
                     app:hintEnabled="false">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/name_input"
+                        android:id="@+id/nameUnit_input"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/edit_text_background_rounded"
-                        android:hint="Nome completo"
+                        android:hint="Nome da unidade"
+                        android:inputType="text"
+                        android:padding="12dp"
+                        android:textColor="@color/aima_blue"
+                        android:textColorHint="#80000000" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/inputCityUnit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Concelho"
+                    android:textColor="@color/aima_pink"
+                    android:textSize="20sp" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:boxBackgroundMode="none"
+                    app:hintEnabled="false">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/cityUnit_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/edit_text_background_rounded"
+                        android:hint="Conselho da unidade"
+                        android:inputType="textEmailAddress"
+                        android:padding="12dp"
+                        android:textColor="@color/aima_blue"
+                        android:textColorHint="#80000000" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:id="@+id/inputStreetUnit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Rua/Av."
+                    android:textColor="@color/aima_pink"
+                    android:textSize="20sp" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:boxBackgroundMode="none"
+                    app:hintEnabled="false">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/streetUnit_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/edit_text_background_rounded"
+                        android:hint="Rua da unidade"
                         android:inputType="text"
                         android:padding="12dp"
                         android:textColor="@color/aima_blue"
@@ -68,7 +153,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/inputNif"
+                android:id="@+id/inputNumberUnit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
@@ -77,8 +162,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="NIF*"
-                    android:textColor="@color/aima_white"
+                    android:text="Numeroº"
+                    android:textColor="@color/aima_pink"
                     android:textSize="20sp" />
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -88,11 +173,11 @@
                     app:hintEnabled="false">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/nif_input"
+                        android:id="@+id/numberUnit_input"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/edit_text_background_rounded"
-                        android:hint="000.000.000"
+                        android:hint="Numero da morada da unidade"
                         android:inputType="number"
                         android:padding="12dp"
                         android:textColor="@color/aima_blue"
@@ -101,7 +186,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/inputEmail"
+                android:id="@+id/inputPostalCodeUnit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
@@ -110,8 +195,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="E-mail*"
-                    android:textColor="@color/aima_white"
+                    android:text="Codigo postal"
+                    android:textColor="@color/aima_pink"
                     android:textSize="20sp" />
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -121,176 +206,11 @@
                     app:hintEnabled="false">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/email_input"
+                        android:id="@+id/postalCodeUnit_input"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/edit_text_background_rounded"
-                        android:hint="exemplo@email.com"
-                        android:inputType="textEmailAddress"
-                        android:padding="12dp"
-                        android:textColor="@color/aima_blue"
-                        android:textColorHint="#80000000" />
-                </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/inputPhone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Tel*"
-                    android:textColor="@color/aima_white"
-                    android:textSize="20sp" />
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:boxBackgroundMode="none"
-                    app:hintEnabled="false">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/phone_input"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/edit_text_background_rounded"
-                        android:hint="+351"
-                        android:inputType="phone"
-                        android:padding="12dp"
-                        android:textColor="@color/aima_blue"
-                        android:textColorHint="#80000000" />
-                </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/inputBirthDate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Data de Nascimento*"
-                    android:textColor="@color/aima_white"
-                    android:textSize="20sp" />
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:boxBackgroundMode="none"
-                    app:hintEnabled="false">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/birthDate_input"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/edit_text_background_rounded"
-                        android:focusable="false"
-                        android:hint="DD/MM/AAAA"
-                        android:inputType="none"
-                        android:padding="12dp"
-                        android:textColorHint="#80000000" />
-                </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/inputCity"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Concelho*"
-                    android:textColor="@color/aima_white"
-                    android:textSize="20sp" />
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:boxBackgroundMode="none"
-                    app:hintEnabled="false">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/city_input"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/edit_text_background_rounded"
-                        android:hint="Digite seu concelho"
-                        android:inputType="text"
-                        android:padding="12dp"
-                        android:textColor="@color/aima_blue"
-                        android:textColorHint="#80000000" />
-                </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/inputStreet"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Rua/Av.*"
-                    android:textColor="@color/aima_white"
-                    android:textSize="20sp" />
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:boxBackgroundMode="none"
-                    app:hintEnabled="false">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/street_input"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/edit_text_background_rounded"
-                        android:hint="Digite seu concelho"
-                        android:inputType="text"
-                        android:padding="12dp"
-                        android:textColor="@color/aima_blue"
-                        android:textColorHint="#80000000" />
-                </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/inputNumber"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Numero morada*"
-                    android:textColor="@color/aima_white"
-                    android:textSize="20sp" />
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:boxBackgroundMode="none"
-                    app:hintEnabled="false">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/number_input"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/edit_text_background_rounded"
-                        android:hint="Numero da sua morada"
+                        android:hint="Codigo postal da unidade"
                         android:inputType="number"
                         android:padding="12dp"
                         android:textColor="@color/aima_blue"
@@ -299,7 +219,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/inputPostalCode"
+                android:id="@+id/inputLatitude"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
@@ -308,8 +228,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Codigo postal*"
-                    android:textColor="@color/aima_white"
+                    android:text="Latitude"
+                    android:textColor="@color/aima_pink"
                     android:textSize="20sp" />
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -319,11 +239,11 @@
                     app:hintEnabled="false">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/postalCode_input"
+                        android:id="@+id/latitude_input"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/edit_text_background_rounded"
-                        android:hint="Codigo postal da morada"
+                        android:hint="Latitude da unidade"
                         android:inputType="number"
                         android:padding="12dp"
                         android:textColor="@color/aima_blue"
@@ -332,7 +252,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/inputPassword"
+                android:id="@+id/inputLongitude"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
@@ -341,8 +261,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Password*"
-                    android:textColor="@color/aima_white"
+                    android:text="Longitude"
+                    android:textColor="@color/aima_pink"
                     android:textSize="20sp" />
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -352,11 +272,11 @@
                     app:hintEnabled="false">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/password_input"
+                        android:id="@+id/longitude_input"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/edit_text_background_rounded"
-                        android:hint="password"
+                        android:hint="Longitude da unidade"
                         android:inputType="textEmailAddress"
                         android:padding="12dp"
                         android:textColor="@color/aima_blue"
@@ -364,45 +284,13 @@
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/inputPasswordConfirm"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Confirm Password*"
-                    android:textColor="@color/aima_white"
-                    android:textSize="20sp" />
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:boxBackgroundMode="none"
-                    app:hintEnabled="false">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/passwordConfirm_input"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/edit_text_background_rounded"
-                        android:hint="confirm password"
-                        android:inputType="textEmailAddress"
-                        android:padding="12dp"
-                        android:textColor="@color/aima_blue"
-                        android:textColorHint="#80000000" />
-                </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/register"
                 android:layout_width="337dp"
                 android:layout_height="62dp"
                 android:layout_marginTop="20dp"
-                android:background="@drawable/aima_gradient_secondary"
+                android:background="@drawable/aima_gradient_primary"
                 android:text="REGISTAR"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textColor="@android:color/white"
