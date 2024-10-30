@@ -209,7 +209,7 @@
                     app:boxBackgroundMode="none"
                     app:hintEnabled="false">
 
-                    <AutoCompleteTextView
+                    <Spinner
                         android:id="@+id/workUnit_input"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

@@ -16,6 +16,7 @@ import com.google.firebase.firestore.toObject
 class AimaUnitRepository {
 
     private val db = FirebaseFirestore.getInstance().collection("aimaUnits")
+    private val aimaUnitsMap = mutableMapOf<String, AimaUnit>()
 
     /**
      * Creates a new `AimaUnit` in the Firestore database.
@@ -141,4 +142,19 @@ class AimaUnitRepository {
             }
     }
 
+
+    fun findAllAimaUnits(onComplete: (Map<String, AimaUnit>) -> Unit) {
+        db.get()
+            .addOnSuccessListener { list ->
+                aimaUnitsMap.clear()
+                for (document in list){
+                    val aimaUnit = document.toObject<AimaUnit>()
+                    aimaUnitsMap[document.id] = aimaUnit
+                }
+                onComplete(aimaUnitsMap)
+            }
+            .addOnFailureListener{
+                onComplete(mutableMapOf())
+            }
+    }
 }

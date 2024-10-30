@@ -175,6 +175,13 @@ class AimaUnitRegisterViewModel(
         return true;
     }
 
+    private val _aimaUnitsMap = MutableLiveData<Map<String, AimaUnit>>()
+    val aimaUnitsMap: LiveData<Map<String, AimaUnit>> = _aimaUnitsMap
 
+    fun fetchAimaUnits() {
+        aimaUnitRepository.findAllAimaUnits { unitsMap ->
+            _aimaUnitsMap.value = unitsMap
+        }
+    }
 
 }
