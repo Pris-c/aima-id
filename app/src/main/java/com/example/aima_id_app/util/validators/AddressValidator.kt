@@ -46,13 +46,13 @@ class AddressValidator (
 
     /**
      * Function that validates if a postal code is valid.
-     * The postal code must be exactly 9 digits long, and all characters must be numeric.
+     * The postal code must be exactly 7 digits long, and all characters must be numeric.
      *
      * @param postalCode The postal code as a string.
-     * @return Returns true if the postal code length is 9 and all characters are digits.
+     * @return Returns true if the postal code length is 7 and all characters are digits.
      */
     fun isValidPostalCode(postalCode: String) : Boolean {
-        return postalCode.length == 8 && postalCode.all { it.isDigit() }
+        return postalCode.length == 7 && postalCode.all { it.isDigit() }
     }
 
 
