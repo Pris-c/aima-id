@@ -11,7 +11,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.aima_id_app.databinding.ActivityMainBinding
+import com.example.aima_id_app.ui.view.AdminActivity
 import com.example.aima_id_app.ui.view.LoginActivity
+import com.example.aima_id_app.ui.view.UserActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 

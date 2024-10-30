@@ -45,6 +45,9 @@ class AimaUnitRegisterViewModel(
     private val _createAimaUnitMessage = MutableLiveData<String?>()
     val createAimaUnitMessage: LiveData<String?> = _createAimaUnitMessage
 
+    private val _aimaUnits = MutableLiveData<List<AimaUnit>>()
+    val aimaUnits: LiveData<List<AimaUnit>> = _aimaUnits
+
 
     /**
      * Registers a new Aima Unit with the provided details.
@@ -64,8 +67,7 @@ class AimaUnitRegisterViewModel(
      */
     fun register(name: String, street: String, number: Int,
                  city: String, postalCode: String, latitude: Double,
-                 longitude: Double){
-
+                 longitude: Double, callback: (Boolean) -> Unit) {
         if (name.isBlank()) {
             _createAimaUnitMessage.value = "Nome da unidade não pode ser vazio."
             return
@@ -83,11 +85,13 @@ class AimaUnitRegisterViewModel(
 
             checkDatabaseForSameAddress(aimaUnitAddress) { isUnique ->
                 if (isUnique){
-                   val newAimaUnit = AimaUnit(name, aimaUnitAddress, geoLocation)
+                    val newAimaUnit = AimaUnit(name, aimaUnitAddress, geoLocation)
                     aimaUnitRepository.createAimaUnit(newAimaUnit) { response ->
                         _createAimaUnitMessage.value = if (response) {
+                            callback(true)
                             "Unidade $name registrada com sucesso."
                         } else {
+                            callback(false)
                             "Falha ao registrar unidade."
                         }
                     }
@@ -170,6 +174,21 @@ class AimaUnitRegisterViewModel(
             return false
         }
         return true;
+    }
+
+    /**
+     * Map of AIMA units, where the key is the unit ID and the value is the AimaUnit object.
+     */
+    private val _aimaUnitsMap = MutableLiveData<Map<String, AimaUnit>>()
+    val aimaUnitsMap: LiveData<Map<String, AimaUnit>> = _aimaUnitsMap
+
+    /**
+     * Fetch all AIMA units from the repository and update LiveData `aimaUnitsMap` with the result.
+     */
+    fun fetchAimaUnits() {
+        aimaUnitRepository.findAllAimaUnits { unitsMap ->
+            _aimaUnitsMap.value = unitsMap
+        }
     }
 
 }

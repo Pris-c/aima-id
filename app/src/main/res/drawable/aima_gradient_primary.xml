@@ -6,4 +6,5 @@
         android:startColor="@color/aima_purple"
         android:endColor="@color/aima_blue"
         android:type="linear" />
+    <corners android:radius="50dp"/>
 </shape>
