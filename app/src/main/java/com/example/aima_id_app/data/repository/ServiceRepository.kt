@@ -19,7 +19,8 @@ class ServiceRepository {
      *
      * @param id The ID of the service to be created.
      * @param service The service object to be stored.
-     * @param onComplete A callback function that returns true if the operation is successful, false otherwise.
+     * @param onComplete A callback function that returns true if the operation is successful,
+     * false otherwise.
      */
     fun createService(id: String, service: Service,  onComplete: (Boolean?) -> Unit) {
         db.document(id).set(service)
@@ -36,9 +37,10 @@ class ServiceRepository {
      * Finds a service by its ID in the database.
      *
      * @param id The ID of the service.
-     * @param onComplete A callback function that returns the service if found, or null if the operation fails.
+     * @param onComplete A callback function that returns the service if found, or null if the
+     * operation fails.
      */
-    fun findUserById(id: String,  onComplete: (Service?) -> Unit) {
+    fun findServiceById(id: String,  onComplete: (Service?) -> Unit) {
         db.document(id).get()
             .addOnSuccessListener { document ->
                 onComplete(document.toObject<Service>())
@@ -48,9 +50,25 @@ class ServiceRepository {
             }
     }
 
+    /**
+     * Finds all service in the database.
+     *
+     * @param onComplete A callback function that returns a MutableList of services
+     */
+    fun getAll(onComplete: (MutableList<Service>) -> Unit){
+        val services: MutableList<Service> = mutableListOf<Service>()
 
-
-
-
+        db.get()
+            .addOnSuccessListener { list ->
+                for (document in list){
+                    val service = document.toObject<Service>()
+                    services.add(service)
+                }
+                onComplete(services)
+            }
+            .addOnFailureListener{
+                onComplete(services)
+            }
+    }
 
 }
