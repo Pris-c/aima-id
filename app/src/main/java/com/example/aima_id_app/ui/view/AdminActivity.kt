@@ -32,7 +32,15 @@ class AdminActivity : AppCompatActivity() {
         }
     }
 
-
+    /**
+     * Loads a fragment into the fragment container with custom slide animations.
+     *
+     * Replaces the current fragment in the container with the provided fragment,
+     * adding it to the back stack for navigation. Uses slide-in/slide-out animations
+     * for a smooth transition.
+     *
+     * @param fragment The fragment to be loaded.
+     */
     private fun loadFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .setCustomAnimations(

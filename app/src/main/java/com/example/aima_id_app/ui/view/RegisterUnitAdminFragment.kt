@@ -303,8 +303,9 @@ class RegisterUnitAdminFragment : Fragment() {
                         requireActivity().supportFragmentManager.popBackStack()
                     }, 3000)
                 }
+            } else {
+                Snackbar.make(view, "Preencha todos os campos corretamente", Snackbar.LENGTH_SHORT).show()
             }
         }
-
     }
 }

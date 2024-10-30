@@ -35,13 +35,13 @@ class RegisterStaffAdminFragment : Fragment() {
     private lateinit var aimaUnitRegisterViewModel: AimaUnitRegisterViewModel
 
     /**
-     * Inicializa a view do fragmento, configura o ViewModel e observa mensagens de erro.
-     * Infla o layout do fragmento e retorna a view criada.
+     * Initializes the fragment view, configures the ViewModel and observes error messages.
+     * Inflates the fragment layout and returns the created view.
      *
-     * @param inflater O LayoutInflater usado para inflar a view.
-     * @param container O ViewGroup pai da view.
-     * @param savedInstanceState O estado salvo do fragmento.
-     * @return A view do fragmento.
+     * @param inflater The LayoutInflater used to inflate the view.
+     * @param container The parent ViewGroup of the view.
+     * @param savedInstanceState The saved state of the fragment.
+     * @return The view of the fragment.
      */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,7 +51,11 @@ class RegisterStaffAdminFragment : Fragment() {
 
         staffRegisterViewModel = ViewModelProvider(this)[StaffRegisterViewModel::class.java]
 
-
+        /**
+         * Displays an error message to the user using a Snackbar.
+         *
+         * @param message The error message to display.
+         */
         fun showError(message: String) {
            Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT).show()
         }
@@ -67,13 +71,11 @@ class RegisterStaffAdminFragment : Fragment() {
                 if (email != null && password != null) {
                     val snackbarMessage = "Login: $email\nPassword: $password"
                     Snackbar.make(requireView(), snackbarMessage, Snackbar.LENGTH_INDEFINITE)
-                        .setAction("OK") { /* Ação ao clicar em OK */ }
+                        .setAction("OK") {  }
                         .show()
-                    // Limpar os valores dos LiveDatas para evitar que o Snackbar seja exibido novamente
-
                 }
             } else {
-                // Lidar com mensagens de erro, se necessário
+
             }
         }
         staffRegisterViewModel.aimaUnitErrorMessage.observe(viewLifecycleOwner, Observer { error ->
@@ -107,7 +109,7 @@ class RegisterStaffAdminFragment : Fragment() {
                 validateNIF(nifStaffInput.text.toString().trim()) &&
                 validateEmail(emailStaffInput.text.toString().trim()) &&
                 validateBirthDate(birthDateStaffInput.text.toString().trim())
-        /*validateWorkUnit(workUnitInput.toString().trim())*/
+
     }
 
     /**

@@ -142,7 +142,14 @@ class AimaUnitRepository {
             }
     }
 
-
+    /**
+     * Retrieves all Aima Units from Firestore as a map, where keys are document IDs
+     * and values are AimaUnit objects.
+     * The `onComplete` callback is invoked with the map upon success, or an empty map
+     * upon failure.
+     *
+     * @param onComplete Callback receiving the map of Aima Units.
+     */
     fun findAllAimaUnits(onComplete: (Map<String, AimaUnit>) -> Unit) {
         db.get()
             .addOnSuccessListener { list ->
