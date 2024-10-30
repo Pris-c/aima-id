@@ -1,23 +1,22 @@
 package com.example.aima_id_app.ui.view
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.aima_id_app.R
-import com.example.aima_id_app.data.model.db_model.AimaUnit
-import com.example.aima_id_app.data.model.submodel.Address
-import com.example.aima_id_app.data.model.submodel.GeographicalLocation
 import com.example.aima_id_app.ui.viewmodel.AimaUnitRegisterViewModel
-import com.example.aima_id_app.ui.viewmodel.StaffRegisterViewModel
 import com.google.android.material.snackbar.Snackbar
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 class RegisterUnitAdminFragment : Fragment() {
 
@@ -31,12 +30,54 @@ class RegisterUnitAdminFragment : Fragment() {
     private lateinit var registerButton: Button
     private lateinit var aimaUnitRegisterViewModel: AimaUnitRegisterViewModel
 
+
+    /**
+     * Initializes the fragment view and sets observers for ViewModel error messages.
+     * Inflates the fragment layout and returns the created view.
+     *
+     * @param inflater The LayoutInflater used to inflate the view.
+     * @param container The parent ViewGroup of the view.
+     * @param savedInstanceState The saved state of the fragment.
+     * @return The view of the fragment.
+     */
+    @SuppressLint("FragmentLiveDataObserve")
     override fun onCreateView(
+
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+        savedInstanceState: Bundle?,
+
+        ): View? {
+
+        aimaUnitRegisterViewModel = ViewModelProvider(this)[AimaUnitRegisterViewModel::class.java]
+
+
+        fun showError(message: String) {
+            Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT).show()
+        }
+
+
+        // Observe errors
+        aimaUnitRegisterViewModel.geolocationErrorMessage.observe(viewLifecycleOwner, Observer { error ->
+            error?.let { showError(it) }
+        })
+
+        aimaUnitRegisterViewModel.addressErrorMessage.observe(viewLifecycleOwner, Observer { error ->
+            error?.let { showError(it) }
+        })
+
+        aimaUnitRegisterViewModel.conflictErrorMessage.observe(viewLifecycleOwner, Observer { error ->
+            error?.let { showError(it) }
+        })
+
+        aimaUnitRegisterViewModel.createAimaUnitMessage.observe(viewLifecycleOwner, Observer { message ->
+            message?.let { showError(it) }
+        })
+
+
         return inflater.inflate(R.layout.fragment_register_unit_admin, container, false)
     }
+
+
 
     /**
      * Validates all input fields on the registration form.
@@ -182,8 +223,19 @@ class RegisterUnitAdminFragment : Fragment() {
         }
     }
 
-
+    /**
+     * Called immediately after the view of the fragment has been created.
+     *
+     * This method initializes UI elements, sets up focus change listeners for input validation,
+     * and handles the registration process when the register button is clicked.
+     *
+     * @param view The View returned by onCreateView.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     * from a previous saved state as described by the parameter.
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+
         super.onViewCreated(view, savedInstanceState)
 
         nameUnitInput = view.findViewById(R.id.nameUnit_input)
@@ -235,6 +287,7 @@ class RegisterUnitAdminFragment : Fragment() {
 
 
         registerButton.setOnClickListener {
+
             if (validateInputs()) {
                 val name = nameUnitInput.text.toString().trim()
                 val city = cityUnitInput.text.toString().trim()
@@ -244,9 +297,14 @@ class RegisterUnitAdminFragment : Fragment() {
                 val latitude = latitudeUnitInput.text.toString().trim().toDoubleOrNull() ?: 0.0
                 val longitude = longitudeUnitInput.text.toString().trim().toDoubleOrNull() ?: 0.0
 
-                aimaUnitRegisterViewModel = AimaUnitRegisterViewModel()
-                aimaUnitRegisterViewModel.register(name, street, number, city, postalCode, latitude, longitude)
+
+                aimaUnitRegisterViewModel.register(name, street, number, city, postalCode, latitude, longitude) { success ->
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        requireActivity().supportFragmentManager.popBackStack()
+                    }, 3000)
+                }
             }
         }
+
     }
 }

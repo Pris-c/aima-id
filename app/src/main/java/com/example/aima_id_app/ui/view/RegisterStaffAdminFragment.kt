@@ -2,6 +2,8 @@ package com.example.aima_id_app.ui.view
 
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +12,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.aima_id_app.R
 import com.example.aima_id_app.ui.viewmodel.AimaUnitRegisterViewModel
@@ -31,10 +34,63 @@ class RegisterStaffAdminFragment : Fragment() {
     private lateinit var staffRegisterViewModel: StaffRegisterViewModel
     private lateinit var aimaUnitRegisterViewModel: AimaUnitRegisterViewModel
 
+    /**
+     * Inicializa a view do fragmento, configura o ViewModel e observa mensagens de erro.
+     * Infla o layout do fragmento e retorna a view criada.
+     *
+     * @param inflater O LayoutInflater usado para inflar a view.
+     * @param container O ViewGroup pai da view.
+     * @param savedInstanceState O estado salvo do fragmento.
+     * @return A view do fragmento.
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+
+        staffRegisterViewModel = ViewModelProvider(this)[StaffRegisterViewModel::class.java]
+
+
+        fun showError(message: String) {
+           Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT).show()
+        }
+
+        // Observe errors
+        staffRegisterViewModel.nameErrorMessage.observe(viewLifecycleOwner, Observer { error ->
+            error?.let { showError(it) }
+        })
+        staffRegisterViewModel.registerUserMessage.observe(viewLifecycleOwner) { message ->
+            if (message == "Funcionário registado com sucesso") {
+                val email = staffRegisterViewModel.staffLogin.value
+                val password = staffRegisterViewModel.staffPassword.value
+                if (email != null && password != null) {
+                    val snackbarMessage = "Login: $email\nPassword: $password"
+                    Snackbar.make(requireView(), snackbarMessage, Snackbar.LENGTH_INDEFINITE)
+                        .setAction("OK") { /* Ação ao clicar em OK */ }
+                        .show()
+                    // Limpar os valores dos LiveDatas para evitar que o Snackbar seja exibido novamente
+
+                }
+            } else {
+                // Lidar com mensagens de erro, se necessário
+            }
+        }
+        staffRegisterViewModel.aimaUnitErrorMessage.observe(viewLifecycleOwner, Observer { error ->
+            error?.let { showError(it) }
+        })
+        staffRegisterViewModel.birthdateErrorMessage.observe(viewLifecycleOwner, Observer { error ->
+            error?.let { showError(it) }
+        })
+        staffRegisterViewModel.conflictErrorMessage.observe(viewLifecycleOwner, Observer { error ->
+            error?.let { showError(it) }
+        })
+        staffRegisterViewModel.nifErrorMessage.observe(viewLifecycleOwner, Observer { error ->
+            error?.let { showError(it) }
+        })
+
+
+
         return inflater.inflate(R.layout.fragment_register_staff_admin, container, false)
     }
 
@@ -147,24 +203,15 @@ class RegisterStaffAdminFragment : Fragment() {
         }
     }
 
-    /**
-     * Validates the city provided by the user.
-     *
-     * The city must be between 3 and 150 characters.
-     *
-     * @param city The city to be validated.
-     * @return True if the city is valid, false otherwise.
-     */
-    /*private fun validateWorkUnit(unit: String): Boolean {
-        return if (unit.isNotEmpty()) {
-            workUnitInput.error = null
-            true
-        } else {
-            workUnitInput.error = "Selecione uma unidade."
-            false
-        }
-    }*/
 
+    /**
+     * Initializes the fragment view, configures listeners for input validation,
+     * watches ViewModel error messages and configures the registration button.
+     *
+     * @param view The View returned by onCreateView.
+     * @param savedInstanceState If not null, this fragment is being rebuilt
+     * from a previous saved state as described by the parameter.
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -175,7 +222,7 @@ class RegisterStaffAdminFragment : Fragment() {
         workUnitInput = view.findViewById(R.id.workUnit_input)
         registerButton = view.findViewById(R.id.registerStaffButton)
 
-        // Configurar DatePicker para birthDate input
+        // Set click listener for the date of birth field
         birthDateStaffInput.setOnClickListener {
             showDatePicker()
         }
@@ -185,10 +232,10 @@ class RegisterStaffAdminFragment : Fragment() {
         nifStaffInput.setOnFocusChangeListener { _, hasFocus -> if (!hasFocus) validateNIF(nifStaffInput.text.toString().trim()) }
         emailStaffInput.setOnFocusChangeListener { _, hasFocus -> if (!hasFocus) validateEmail(emailStaffInput.text.toString().trim()) }
         birthDateStaffInput.setOnFocusChangeListener { _, hasFocus -> if (!hasFocus) validateBirthDate(birthDateStaffInput.text.toString().trim()) }
-        /*workUnitInput.setOnFocusChangeListener { _, hasFocus -> if (!hasFocus) validateWorkUnit(workUnitInput.toString().trim()) }*/
+
 
         staffRegisterViewModel =
-            ViewModelProvider(this).get(StaffRegisterViewModel::class.java) // Obter instância do ViewModel
+            ViewModelProvider(this).get(StaffRegisterViewModel::class.java)
 
         staffRegisterViewModel.nameErrorMessage.observe(viewLifecycleOwner) { message ->
             nameStaffInput.error = message
@@ -202,12 +249,23 @@ class RegisterStaffAdminFragment : Fragment() {
             birthDateStaffInput.error = message
         }
 
-        /*staffRegisterViewModel.aimaUnitErrorMessage.observe(viewLifecycleOwner) { message ->
-            workUnitInput.error = message
-        }*/
+        staffRegisterViewModel.registerUserMessage.observe(viewLifecycleOwner) { message ->
+            if (message == "Funcionário registado com sucesso") {
+                val email = staffRegisterViewModel.staffLogin.value
+                val password = staffRegisterViewModel.staffPassword.value
+                if (email != null && password != null) {
+                    val snackbarMessage = "Login: $email\nPassword: $password"
+                    Snackbar.make(requireView(), snackbarMessage, Snackbar.LENGTH_INDEFINITE)
+                        .setAction("OK") {  }
+                        .show()
+
+                }
+            }
+        }
+
 
         aimaUnitRegisterViewModel = ViewModelProvider(this).get(AimaUnitRegisterViewModel::class.java)
-        aimaUnitRegisterViewModel.fetchAimaUnits() // Buscar as unidades ao iniciar
+        aimaUnitRegisterViewModel.fetchAimaUnits()
 
         aimaUnitRegisterViewModel.aimaUnitsMap.observe(viewLifecycleOwner) { unitsMap ->
             val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, unitsMap.values.map { it.name })
@@ -219,13 +277,20 @@ class RegisterStaffAdminFragment : Fragment() {
                     val name = nameStaffInput.text.toString().trim()
                     val nif = nifStaffInput.text.toString().trim()
                     val email = emailStaffInput.text.toString().trim()
+
                     val dateOfBirth = LocalDate.parse(birthDateStaffInput.text.toString().trim(), DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+
 
                     val selectedAimaUnitPosition = workUnitInput.selectedItemPosition
                     val selectedAimaUnitId = unitsMap.keys.toList().getOrNull(selectedAimaUnitPosition)
 
                     if (selectedAimaUnitId != null) {
                         staffRegisterViewModel.register(name, email, nif, dateOfBirth, selectedAimaUnitId)
+
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            requireActivity().supportFragmentManager.popBackStack()
+                        }, 3000)
+
                     } else {
                         Snackbar.make(view, "Selecione uma unidade válida.", Snackbar.LENGTH_SHORT).show()
                     }

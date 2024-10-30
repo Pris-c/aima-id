@@ -132,6 +132,9 @@
                     callback(false)
                 } else {
                     callback(true)
+                    _registerUserMessage.value = "Funcionário registado com sucesso"
+                    _staffLogin
+                    _staffPassword
                 }
             }
         }
