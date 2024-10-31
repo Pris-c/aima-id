@@ -83,7 +83,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginBottom="50dp"
-                        app:srcCompat="@drawable/ic_home_solid" />
+                        app:srcCompat="@drawable/ic_cardid" />
 
                 </FrameLayout>
             </androidx.cardview.widget.CardView>
@@ -118,7 +118,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginBottom="50dp"
-                        app:srcCompat="@drawable/ic_home_solid" />
+                        app:srcCompat="@drawable/ic_passport" />
 
                 </FrameLayout>
             </androidx.cardview.widget.CardView>
@@ -153,7 +153,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginBottom="50dp"
-                        app:srcCompat="@drawable/ic_home_solid" />
+                        app:srcCompat="@drawable/ic_equal" />
 
                 </FrameLayout>
             </androidx.cardview.widget.CardView>
@@ -176,10 +176,10 @@
                         android:layout_gravity="bottom|center"
                         android:layout_marginBottom="50dp"
                         android:lineSpacingExtra="8sp"
-                        android:text="@string/RequestFamiliarReunification"
+                        android:text="@string/UploadDocs"
                         android:textAlignment="center"
                         android:textColor="@color/aima_white"
-                        android:textSize="34sp"
+                        android:textSize="36sp"
                         android:textStyle="bold" />
 
                     <ImageView
@@ -188,7 +188,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginBottom="50dp"
-                        app:srcCompat="@drawable/ic_home_solid" />
+                        app:srcCompat="@drawable/ic_upload" />
 
                 </FrameLayout>
             </androidx.cardview.widget.CardView>
@@ -223,7 +223,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginBottom="50dp"
-                        app:srcCompat="@drawable/ic_home_solid" />
+                        app:srcCompat="@drawable/ic_cardid" />
 
                 </FrameLayout>
             </androidx.cardview.widget.CardView>
@@ -259,7 +259,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginBottom="50dp"
-                        app:srcCompat="@drawable/ic_home_solid" />
+                        app:srcCompat="@drawable/ic_calendarhome" />
 
                 </FrameLayout>
             </androidx.cardview.widget.CardView>
@@ -273,7 +273,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:fontFamily="sans-serif"
-        android:text="Notificações"
+        android:text="Recentes"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="@color/aima_pink"
         android:textSize="24sp"
