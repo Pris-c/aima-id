@@ -1,60 +1,15 @@
 <resources>
     <string name="app_name">AIMA ID</string>
-    <string name="UserName">Nome de Utilizador</string>
     <string name="RegisterUnit">Registar Nova Unidade</string>
-    <string name="StartAnalysis">Analisar Documentos</string>">
-    <string name="ManagerAppoints">Gerenciar Agendamentos</string>">
-    <string name="RegisterStaff">Registar Novo Funcionário</string>
+    <string name="RegisterStaff">Registar Novo Funcionário</string>"
     <string name="Notification">Titulo da notificação</string>
     <string name="NotificationName">Nome do utilizador</string>
-    <string name="RequestResidency">Iniciar Requerimentos</string>
+    <string name="RequestResidency">Solicitar Residências</string>
     <string name="RequestEqualityStatus">Estatuto de Igualdade</string>
     <string name="UploadDocs">Enviar Documentos</string>
     <string name="RequestVisaExtension">Extensões de Vistos</string>
     <string name="RequestRenewalResidency">Renovação de Residências</string>
     <string name="RequestScheduling">Realizar Agendamento</string>
-    <string name="MyDocs">Meus Documentos</string>
-
-    <!--Services Description-->
-
-    <string name="DescriptionRequestResidencyWorkService">
-        Autorização de residência concedida a pessoas que exercem atividades subordinadas.
-        A autorização é válida pelo período de dois anos contados a partir da data da emissão do
-        respetivo título e é renovável por períodos sucessivos de três anos.
-    </string>
-
-    <string name="DescriptionRequestResidencyStudyService">
-        Autorização de residência concedida a estudantes do ensino superior abrangidos por programas
-        da União Europeia ou multilaterais que incluam medidas de mobilidade, ou por um acordo entre
-        duas ou mais instituições do ensino superior, é válida por dois anos ou tem a duração do
-        programa de estudos se for inferior (podendo ser de um ano no caso de não se encontrarem
-        reunidas à data da concessão as condições de admissão ou de suficiência de recursos)
-    </string>
-
-    <string name="DescriptionRequestEqualityService">Estatuto de Igualdade de Direitos e Deveres
-        concede aos cidadãos brasileiros residentes em Portugal um conjunto de direitos em
-        diversas áreas, como economia, educação e trabalho;
-    </string>
-
-    <string name="DescriptionRequestVisaExtensionService">Aos cidadãos estrangeiros admitidos em
-        território nacional nos termos da lei que desejem permanecer no País por período de tempo
-        superior ao inicialmente autorizado pode ser prorrogada a permanência.
-    </string>
-
-    <string name="DescriptionRequestRenewalResidencyService">Serviço destinado a pessoas que já
-        possuem autorização de residência e se enquadram na condição de renovação automática sem
-        a necessidade de prova presencial de documentos.
-    </string>
-
-    <!--Services Process Description-->
-    <string name="DescriptionRequestSchedulingService">Realizar Agendamento</string>
-    <string name="DescriptionUploadDocsService">Selecione o tipo de documento que deseja enviar e em
-        seguida clique no botão para escolher o documento/arquivo em seu dispositivo que deseja enviar.
-        Antes de iniciar um requerimento, seus documentos serão analisados e verificados. Acompanhe o estatus
-        na sua area pessoal. Se precisar atualizar ou corrigir, basta realizar um novo envio do documento/arquivo.
-    </string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>
