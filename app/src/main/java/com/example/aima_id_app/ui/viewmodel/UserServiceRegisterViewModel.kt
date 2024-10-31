@@ -8,6 +8,7 @@ import com.example.aima_id_app.data.model.submodel.Address
 import com.example.aima_id_app.data.repository.AuthRepository
 import com.example.aima_id_app.data.repository.UserRepository
 import com.example.aima_id_app.ui.view.UserActivity
+import com.example.aima_id_app.util.enums.UserRole
 import com.example.aima_id_app.util.validators.AddressValidator
 import com.example.aima_id_app.util.validators.UserValidator
 import java.time.LocalDate
@@ -26,6 +27,7 @@ import java.time.LocalDate
 class UserServiceRegisterViewModel : ViewModel() {
 
     private val authRepository = AuthRepository()
+
     //private val govApiService = GovApiService()
     private val userValidator = UserValidator()
     private val addressValidator = AddressValidator()
@@ -34,8 +36,12 @@ class UserServiceRegisterViewModel : ViewModel() {
     private val _registrationError = MutableLiveData<String?>()
     val registrationError: LiveData<String?> = _registrationError
 
+    private val _conflictErrorMessage = MutableLiveData<String?>()
+    val conflictErrorMessage: LiveData<String?> = _conflictErrorMessage
+
     private val _navigateToActivity = MutableLiveData<Class<*>>()
     val navigateToActivity: LiveData<Class<*>> get() = _navigateToActivity
+
 
     /**
      * Registration function that receives new user data and attempts to register them in the system.
@@ -80,42 +86,70 @@ class UserServiceRegisterViewModel : ViewModel() {
             return
         }
 
+        checkDatabaseForUser(nif) { isUnique ->
+            if (isUnique) {
 
-        authRepository.register(email, password) { userId ->
-            if (userId == null) {
-                _registrationError.value = "Falha ao registrar usuário"
-                callback(false)
-                return@register
-            }
-            val address = Address(
-                street = street,
-                number = number,
-                city = city,
-                postalCode = postalCode
-            )
+                authRepository.register(email, password) { userId ->
+                    if (userId == null) {
+                        _registrationError.value = "Falha ao registrar autenticação"
+                        callback(false)
+                        return@register
+                    }
+
+                    val address = Address(
+                        street = street,
+                        number = number,
+                        city = city,
+                        postalCode = postalCode
+                    )
+
+                    val serviceUser = ServiceUser(
+                        email = email,
+                        nif = nif,
+                        name = name,
+                        dateOfBirth = dateOfBirth,
+                        phone = phone,
+                        address = address
+                    )
 
 
-            val serviceUser = ServiceUser(
-                email = email,
-                nif = nif,
-                name = name,
-                dateOfBirth = dateOfBirth,
-                phone = phone,
-                address = address
-            )
+                    userRepository.createUser(userId, serviceUser) { success ->
+                        if (success == true) {
+                            _navigateToActivity.value = UserActivity::class.java
+                            callback(true)
+                        } else {
+                            _registrationError.value = "Falha ao salvar usuário"
+                            callback(false)
+                        }
 
-
-            userRepository.createUser(userId, serviceUser) { success ->
-                if (success == true) {
-                    _navigateToActivity.value = UserActivity::class.java
-                    callback(true)
-                } else {
-                    _registrationError.value = "Falha ao salvar informações do usuário"
-                    callback(false)
+                    }
                 }
 
             }
         }
     }
+
+
+    /**
+     * Checks if a user member is already registered by NIF.
+     *
+     * @param nif The NIF to check for existing user.
+     * @param callback A callback function returning true if unique, false if already registered.
+     */
+    private fun checkDatabaseForUser(nif: String, callback: (Boolean) -> Unit) {
+        userRepository.findUserByNif(nif) { user ->
+            if (user != null) {
+                if (user.role == UserRole.SERVICE_USER) {
+                    _conflictErrorMessage.value = "O utilizador já se encontra registado."
+                    callback(false)
+                } else {
+                    callback(true)
+                }
+            } else {
+                callback(true)
+            }
+        }
+    }
+
 }
 
