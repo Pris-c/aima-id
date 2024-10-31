@@ -164,4 +164,29 @@ class AimaUnitRepository {
                 onComplete(mutableMapOf())
             }
     }
+
+
+    /**
+     * Counts the number of staff members for each AimaUnit in the database.
+     *
+     * @param onComplete A callback that receives a map of document IDs (Strings)
+     *                   and their corresponding staff counts (Ints).
+     *
+     * On success, it populates the map and calls `onComplete`.
+     * On failure, it calls `onComplete` with an empty map.
+     */
+    fun mapStaffNumberByUnit(onComplete: (MutableMap<String, Int>) -> Unit){
+        var staffByUnitMap: MutableMap<String, Int> = mutableMapOf()
+        db.get()
+            .addOnSuccessListener { aimaUnits ->
+                for (unit in aimaUnits){
+                    val aimaUnit = unit.toObject<AimaUnit>()
+                    staffByUnitMap[unit.id] = aimaUnit.staffIds.size
+                }
+                onComplete(staffByUnitMap)
+            }
+            .addOnFailureListener(){
+                onComplete(staffByUnitMap)
+            }
+    }
 }
