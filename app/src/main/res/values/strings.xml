@@ -5,11 +5,11 @@
     <string name="Notification">Titulo da notificação</string>
     <string name="NotificationName">Nome do utilizador</string>
     <string name="RequestResidency">Solicitar Residências</string>
-    <string name="RequestEqualityStatus">Etatuto de Igualdade</string>
-    <string name="RequestFamiliarReunification">Reagrupamento Familiar</string>
+    <string name="RequestEqualityStatus">Estatuto de Igualdade</string>
+    <string name="UploadDocs">Enviar Documentos</string>
     <string name="RequestVisaExtension">Extensões de Vistos</string>
     <string name="RequestRenewalResidency">Renovação de Residências</string>
-    <string name="RequestScheduling">Solicitar Agendamento</string>
+    <string name="RequestScheduling">Realizar Agendamento</string>
 
 
 </resources>
