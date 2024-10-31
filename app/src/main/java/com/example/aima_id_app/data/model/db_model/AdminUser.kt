@@ -12,7 +12,12 @@ import java.time.LocalDate
  * @property name The name of the admin user.
  * @property dateOfBirth The date of birth of the admin user.
  */
-class AdminUser(email: String, nif: String, name: String, dateOfBirth: LocalDate) :
+class AdminUser(
+    email: String = "",
+    nif: String = "",
+    name: String = "",
+    dateOfBirth: LocalDate = LocalDate.of(1,1,1)
+) :
     User (UserRole.ADMIN, email, nif , name, dateOfBirth)
 
 
