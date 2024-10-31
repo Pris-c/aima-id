@@ -13,7 +13,6 @@
         android:layout_width="37dp"
         android:layout_height="34dp"
         android:adjustViewBounds="true"
-        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.042"
@@ -54,7 +53,6 @@
 
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/card_service"
                 android:layout_width="300dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="40dp"
@@ -85,14 +83,82 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginBottom="50dp"
-                        app:srcCompat="@drawable/ic_request" />
+                        app:srcCompat="@drawable/ic_cardid" />
 
                 </FrameLayout>
             </androidx.cardview.widget.CardView>
 
+            <androidx.cardview.widget.CardView
+                android:layout_width="300dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="40dp"
+                app:cardCornerRadius="30dp"
+                app:cardElevation="4dp">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bg_aima_id">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|center"
+                        android:layout_marginBottom="50dp"
+                        android:lineSpacingExtra="8sp"
+                        android:text="@string/RequestVisaExtension"
+                        android:textAlignment="center"
+                        android:textColor="@color/aima_white"
+                        android:textSize="34sp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/symbolID"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="50dp"
+                        app:srcCompat="@drawable/ic_passport" />
+
+                </FrameLayout>
+            </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/card_upload"
+                android:layout_width="300dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="40dp"
+                app:cardCornerRadius="30dp"
+                app:cardElevation="4dp">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bg_aima_id">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|center"
+                        android:layout_marginBottom="50dp"
+                        android:lineSpacingExtra="8sp"
+                        android:text="@string/RequestEqualityStatus"
+                        android:textAlignment="center"
+                        android:textColor="@color/aima_white"
+                        android:textSize="34sp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/symbolPassport"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="50dp"
+                        app:srcCompat="@drawable/ic_equal" />
+
+                </FrameLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
                 android:layout_width="300dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="40dp"
@@ -127,9 +193,42 @@
                 </FrameLayout>
             </androidx.cardview.widget.CardView>
 
+            <androidx.cardview.widget.CardView
+                android:layout_width="300dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="40dp"
+                app:cardCornerRadius="30dp"
+                app:cardElevation="4dp">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bg_aima_id">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|center"
+                        android:layout_marginBottom="50dp"
+                        android:lineSpacingExtra="8sp"
+                        android:text="@string/RequestRenewalResidency"
+                        android:textAlignment="center"
+                        android:textColor="@color/aima_white"
+                        android:textSize="34sp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/symbolNewID"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="50dp"
+                        app:srcCompat="@drawable/ic_cardid" />
+
+                </FrameLayout>
+            </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/card_scheduling"
                 android:layout_width="300dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="40dp"
