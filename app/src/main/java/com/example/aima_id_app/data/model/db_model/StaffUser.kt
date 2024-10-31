@@ -14,10 +14,10 @@ import java.time.LocalDate
  * @property aimaUnitId The AIMA unit ID associated with the staff user.
  */
 class StaffUser(
-    email: String,
-    nif: String,
-    name: String,
-    dateOfBirth: LocalDate,
-    val aimaUnitId: String
+    email: String = "",
+    nif: String = "",
+    name: String = "",
+    dateOfBirth: String = LocalDate.of(1,1,1).toString(),
+    val aimaUnitId: String = ""
 ) :
     User (UserRole.STAFF, email, nif , name, dateOfBirth)

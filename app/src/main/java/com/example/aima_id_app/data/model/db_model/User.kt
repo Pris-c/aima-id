@@ -13,9 +13,9 @@ import java.time.LocalDate
  * @property dateOfBirth The date of birth of the user.
  */
 open class User (
-    val role: UserRole,
-    val email: String,
-    val nif: String,
-    val name: String,
-    val dateOfBirth: LocalDate,
+    val role: UserRole = UserRole.SERVICE_USER,
+    val email: String = "",
+    val nif: String = "",
+    val name: String = "",
+    val dateOfBirth: String = LocalDate.of(1,1,1).toString(),
 )

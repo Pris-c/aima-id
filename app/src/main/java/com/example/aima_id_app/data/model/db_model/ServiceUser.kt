@@ -18,7 +18,13 @@ import java.time.LocalDate
  * @property docs A mutable list of documents associated with the service user.
  *                Defaults to an empty list if not provided.
  */
-class ServiceUser(email: String, nif: String, name: String, dateOfBirth: LocalDate, val phone: String,
-    val address: Address, val docs: MutableList<DocUser> = mutableListOf()
+class ServiceUser(
+    email: String = "",
+    nif: String = "",
+    name: String = "",
+    dateOfBirth: String = LocalDate.of(1,1,1).toString(),
+    val phone: String ="",
+    val address: Address = Address(),
+    val docs: MutableList<DocUser> = mutableListOf()
 ) :
     User (UserRole.SERVICE_USER, email, nif , name, dateOfBirth)

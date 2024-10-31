@@ -86,7 +86,7 @@
                                 if (userID != null){
 
                                     // Register staff User in Firebase Firestore
-                                    val staff = StaffUser(email, nif, name, birthdate, aimaUnitId)
+                                    val staff = StaffUser(email, nif, name, birthdate.toString(), aimaUnitId)
                                     registerStaffUser(userID, staff) { response ->
                                         if (response){
 
@@ -166,6 +166,10 @@
          */
         private fun validateUser(name: String, email: String, nif: String, birthdate: LocalDate): Boolean{
             if(!userValidator.isValidName(name)){
+                _nameErrorMessage.value = "O nome do funcionário deve ter entre 3 e 150 caracteres"
+                return false
+            }
+            if(!userValidator.isValidEmail(email)){
                 _nameErrorMessage.value = "O nome do funcionário deve ter entre 3 e 150 caracteres"
                 return false
             }
