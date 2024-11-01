@@ -4,7 +4,7 @@
     <string name="RegisterStaff">Registar Novo Funcionário</string>"
     <string name="Notification">Titulo da notificação</string>
     <string name="NotificationName">Nome do utilizador</string>
-    <string name="RequestResidency">Iniciar requerimentos</string>
+    <string name="RequestResidency">Iniciar Requerimentos</string>
     <string name="RequestEqualityStatus">Estatuto de Igualdade</string>
     <string name="UploadDocs">Enviar Documentos</string>
     <string name="RequestVisaExtension">Extensões de Vistos</string>
@@ -27,5 +27,7 @@
     <!--Services Process Description-->
     <string name="DescriptionRequestSchedulingService">Solicitar Residências</string>
     <string name="DescriptionUploadDocsService">Estatuto de Igualdade</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
