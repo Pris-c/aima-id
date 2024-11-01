@@ -13,6 +13,7 @@
         android:layout_width="37dp"
         android:layout_height="34dp"
         android:adjustViewBounds="true"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.042"
@@ -91,6 +92,7 @@
 
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/card_upload"
                 android:layout_width="300dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="40dp"
@@ -127,6 +129,7 @@
 
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/card_scheduling"
                 android:layout_width="300dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="40dp"

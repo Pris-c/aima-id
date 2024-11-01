@@ -13,29 +13,25 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.aima_id_app.R
 import com.example.aima_id_app.data.repository.ServiceRepository
-import com.example.aima_id_app.data.repository.UserRepository
 import com.example.aima_id_app.ui.adapter.FileInputAdapter
 import com.example.aima_id_app.util.enums.DocType
-import com.google.firebase.auth.FirebaseAuth
 
-class RequestResidencyFragment : Fragment() {
+class UploadDocsFragment : Fragment() {
 
     private lateinit var recyclerViewFiles: RecyclerView
     private lateinit var spinner: Spinner
     private val serviceRepository = ServiceRepository()
     private var selectedFiles: MutableMap<DocType, Uri?> = mutableMapOf()
-    private val userRepository = UserRepository()
-    private val firebaseAuth = FirebaseAuth.getInstance()
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_request_residency, container, false)
-        recyclerViewFiles = view.findViewById(R.id.recyclerViewFiles)
+        val view = inflater.inflate(R.layout.fragment_upload_docs, container, false)
+        recyclerViewFiles = view.findViewById(R.id.recyclerViewDocs)
         recyclerViewFiles.layoutManager = LinearLayoutManager(context)
-        spinner = view.findViewById(R.id.nameStaff_input)
+        spinner = view.findViewById(R.id.nameDocs_input)
         return view
     }
 
@@ -47,29 +43,20 @@ class RequestResidencyFragment : Fragment() {
             spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinner.adapter = spinnerAdapter
 
-            spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            /*spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                     val selectedService = services[position]
                     val fileInputs = selectedService.requiredDocuments
-
-                    // Buscar os documentos do usuário no Firebase
-                    val currentUser = firebaseAuth.currentUser
-                    if (currentUser != null) {
-                        userRepository.getUserDocuments(currentUser.uid) { userDocuments ->
-                            // Criar o adapter com a lista de documentos do usuário
-                            val adapter = FileInputAdapter(requireContext(), fileInputs, userDocuments)
-                            recyclerViewFiles.adapter = adapter
-                        }
-                    } else {
-                        // Lidar com o caso em que o usuário não está logado
-                        // Exibir uma mensagem de erro ou redirecionar para a tela de login
+                    val adapter = FileInputAdapter(requireContext(), fileInputs) { docType, uri ->
+                        selectedFiles[docType] = uri
                     }
+                    recyclerViewFiles.adapter = adapter
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {
                     // ...
                 }
-            }
+            }*/
         }
     }
 }

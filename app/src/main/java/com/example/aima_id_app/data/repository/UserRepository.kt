@@ -1,9 +1,11 @@
 package com.example.aima_id_app.data.repository
 
+import androidx.lifecycle.get
 import com.example.aima_id_app.data.model.db_model.AdminUser
 import com.example.aima_id_app.data.model.db_model.ServiceUser
 import com.example.aima_id_app.data.model.db_model.StaffUser
 import com.example.aima_id_app.data.model.db_model.User
+import com.example.aima_id_app.data.model.db_model.UserDocument
 import com.example.aima_id_app.util.enums.UserRole
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.FirebaseFirestore
@@ -18,6 +20,7 @@ import kotlinx.coroutines.tasks.await
 class UserRepository {
 
     private val db = FirebaseFirestore.getInstance().collection("users")
+    private val firestore = FirebaseFirestore.getInstance()
 
     /**
      * Creates a new user in the database with the given ID.
@@ -121,6 +124,27 @@ class UserRepository {
 
             .addOnFailureListener {
                 onComplete(false)
+            }
+    }
+
+    fun getUserDocuments(uid: String, callback: (List<UserDocument>) -> Unit) {
+        val userDocumentsRef = firestore.collection("userDocuments").whereEqualTo("userId", uid)
+
+        userDocumentsRef.get()
+            .addOnSuccessListener { documents ->
+                val userDocuments = documents.mapNotNull { document ->
+                    try {
+                        document.toObject(UserDocument::class.java)
+                    } catch (e: Exception) {
+                        // Lidar com erros de conversão de dados
+                        null
+                    }
+                }
+                callback(userDocuments) // Chamar o callback com a lista de documentos
+            }
+            .addOnFailureListener { exception ->
+                // Lidar com erros de acesso ao Firebase
+                // Exibir uma mensagem de erro ou registrar o erro
             }
     }
 }
