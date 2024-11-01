@@ -15,7 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_upload" />
+        app:srcCompat="@drawable/ic_services" />
 
     <TextView
         android:id="@+id/textView"
@@ -24,7 +24,7 @@
 
         android:layout_marginBottom="10dp"
         android:lineSpacingExtra="8sp"
-        android:text="@string/UploadDocs"
+        android:text="@string/RequestResidency"
         android:textAlignment="center"
         android:textColor="@color/aima_white"
         android:textSize="24sp"
@@ -52,6 +52,39 @@
             android:orientation="vertical"
             android:padding="16dp">
 
+            <LinearLayout
+                android:id="@+id/inputNameStaff"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Selecione o tipo de serviço"
+                    android:textColor="@color/aima_pink"
+                    android:textSize="20sp" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:boxBackgroundMode="none"
+                    app:hintEnabled="false">
+
+                    <Spinner
+                        android:id="@+id/nameDocs_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/edit_text_background_rounded"
+                        android:hint="Selecione um tipo"
+                        android:inputType="text"
+                        android:padding="12dp"
+                        android:textColor="@color/aima_blue"
+                        android:textColorHint="#80000000" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
 
             <LinearLayout
                 android:id="@+id/inputTextArea"
@@ -63,7 +96,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Orientação"
+                    android:text="Descrição"
                     android:textColor="@color/aima_pink"
                     android:textSize="20sp" />
 
@@ -80,85 +113,20 @@
                         android:background="@drawable/edit_text_background_rounded"
                         android:focusable="false"
                         android:clickable="false"
-                        android:hint="@string/DescriptionUploadDocsService"
+                        android:hint="@string/DescriptionRequestResidencyWorkService"
                         android:inputType="textMultiLine"
                         android:padding="12dp"
                         android:textColor="@color/aima_blue"
-                        android:textColorHint="@color/aima_blue" />
+                        android:textColorHint="#80000000" />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/inputNameStaff"
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewDocs"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Selecione o tipo de documento"
-                    android:textColor="@color/aima_pink"
-                    android:textSize="20sp" />
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:boxBackgroundMode="none"
-                    app:hintEnabled="false">
-
-                    <Spinner
-                        android:id="@+id/nameStaff_input"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/edit_text_background_rounded"
-                        android:hint="Selecione um tipo"
-                        android:inputType="text"
-                        android:padding="12dp"
-                        android:textColor="@color/aima_blue"
-                        android:textColorHint="@color/aima_blue" />
-                </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:id="@+id/inputFileLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toTopOf="@id/recyclerViewFiles"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Selecione o arquivo"
-                    android:textColor="@color/aima_pink"
-                    android:textSize="20sp" />
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:boxBackgroundMode="none"
-                    app:hintEnabled="false">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/inputFileEditText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/edit_text_background_rounded"
-                        android:focusable="false"
-                        android:clickable="true"
-                        android:hint="Selecione um arquivo"
-                        android:inputType="text"
-                        android:padding="12dp"
-                        android:textColor="@color/aima_blue"
-                        android:textColorHint="@color/aima_blue" />
-                </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
+                android:layout_height="300dp"
+                android:layout_marginBottom="15dp" />
 
 
             <com.google.android.material.button.MaterialButton
@@ -167,7 +135,7 @@
                 android:layout_height="62dp"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/aima_gradient_primary"
-                android:text="ENVIAR"
+                android:text="REGISTAR"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"
