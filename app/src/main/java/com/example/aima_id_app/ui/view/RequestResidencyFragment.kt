@@ -16,6 +16,7 @@ import com.example.aima_id_app.data.repository.ServiceRepository
 import com.example.aima_id_app.data.repository.UserRepository
 import com.example.aima_id_app.ui.adapter.FileInputAdapter
 import com.example.aima_id_app.util.enums.DocType
+import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 
 class RequestResidencyFragment : Fragment() {
@@ -42,6 +43,16 @@ class RequestResidencyFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val textAreaInput = view.findViewById<TextInputEditText>(R.id.textArea_input) // Obter a referência do TextInputEditText
+
+        val serviceDescriptions = mapOf(
+            "Pedido de Autorização de Residencia: Trabalho" to getString(R.string.DescriptionRequestResidencyWorkService),
+            "Pedido de Autorização de Residencia: Estudo" to getString(R.string.DescriptionRequestResidencyStudyService),
+            "Extensão de visto" to getString(R.string.DescriptionRequestEqualityService),
+            "Estatuto de Igualdade de Direitos e Deveres Sociais" to getString(R.string.DescriptionRequestVisaExtensionService),
+            "Renovação de Autorização de Residência" to getString(R.string.DescriptionRequestRenewalResidencyService)
+        )
+
         serviceRepository.getAll { services ->
             val spinnerAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, services.map { it.name })
             spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -62,8 +73,13 @@ class RequestResidencyFragment : Fragment() {
                         }
                     } else {
                         // Lidar com o caso em que o usuário não está logado
-                        // Exibir uma mensagem de erro ou redirecionar para a tela de login
                     }
+
+                    // Obter a descrição do serviço
+                    val serviceDescription = serviceDescriptions[selectedService.name] ?: "" // Descrição padrão se não encontrada
+
+                    // Definir o texto do textarea
+                    textAreaInput.setText(serviceDescription)
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {
