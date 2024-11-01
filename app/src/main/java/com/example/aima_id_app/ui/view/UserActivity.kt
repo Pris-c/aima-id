@@ -19,6 +19,14 @@ class UserActivity : AppCompatActivity() {
             loadFragment(RequestResidencyFragment())
         }
 
+        findViewById<View>(R.id.card_upload).setOnClickListener {
+            loadFragment(UploadDocsFragment())
+        }
+
+        findViewById<View>(R.id.card_scheduling).setOnClickListener {
+            loadFragment(SchedulingFragment())
+        }
+
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
