@@ -4,12 +4,28 @@
     <string name="RegisterStaff">Registar Novo Funcionário</string>"
     <string name="Notification">Titulo da notificação</string>
     <string name="NotificationName">Nome do utilizador</string>
-    <string name="RequestResidency">Solicitar Residências</string>
+    <string name="RequestResidency">Iniciar requerimentos</string>
     <string name="RequestEqualityStatus">Estatuto de Igualdade</string>
     <string name="UploadDocs">Enviar Documentos</string>
     <string name="RequestVisaExtension">Extensões de Vistos</string>
     <string name="RequestRenewalResidency">Renovação de Residências</string>
     <string name="RequestScheduling">Realizar Agendamento</string>
 
+    <!--Services Description-->
+
+    <string name="DescriptionRequestResidencyWorkService">
+        Autorização de residência destinada a pessoas que exercem atividades subordinadas.
+        A autorização é válida pelo período de dois anos contados a partir da data da emissão do
+        respetivo título e é renovável por períodos sucessivos de três anos.
+    </string>
+
+    <string name="DescriptionRequestResidencyStudyService">Registar Novo Funcionário</string>
+    <string name="DescriptionRequestEqualityService">Registar Novo Funcionário</string>
+    <string name="DescriptionRequestVisaExtensionService">Titulo da notificação</string>
+    <string name="DescriptionRequestRenewalResidencyService">Nome do utilizador</string>
+
+    <!--Services Process Description-->
+    <string name="DescriptionRequestSchedulingService">Solicitar Residências</string>
+    <string name="DescriptionUploadDocsService">Estatuto de Igualdade</string>
 
 </resources>

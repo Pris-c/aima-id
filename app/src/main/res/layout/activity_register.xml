@@ -257,7 +257,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/edit_text_background_rounded"
-                        android:hint="Digite seu concelho"
+                        android:hint="Digite sua rua/avenida"
                         android:inputType="text"
                         android:padding="12dp"
                         android:textColor="@color/aima_blue"
