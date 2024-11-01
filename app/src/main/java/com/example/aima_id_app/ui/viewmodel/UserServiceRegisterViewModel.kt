@@ -107,7 +107,7 @@ class UserServiceRegisterViewModel : ViewModel() {
                         email = email,
                         nif = nif,
                         name = name,
-                        dateOfBirth = dateOfBirth,
+                        dateOfBirth = dateOfBirth.toString(),
                         phone = phone,
                         address = address
                     )
