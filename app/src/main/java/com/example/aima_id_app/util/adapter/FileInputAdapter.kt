@@ -3,7 +3,6 @@ package com.example.aima_id_app.ui.adapter
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,12 +10,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.aima_id_app.R
+import com.example.aima_id_app.data.model.db_model.UserDocument
+import com.example.aima_id_app.util.enums.DocStatus
 import com.example.aima_id_app.util.enums.DocType
 
 class FileInputAdapter(
     private val context: Context,
     private val fileInputs: List<DocType>,
-    private val onFileSelected: (DocType, Uri?) -> Unit
+    private val userDocuments: List<UserDocument>
 ) : RecyclerView.Adapter<FileInputAdapter.ViewHolder>() {
 
     companion object {
@@ -73,7 +74,16 @@ class FileInputAdapter(
         val docType = fileInputs[position]
         holder.iconImageView.setImageResource(getIconForDocType(docType))
         holder.titleTextView.text = getTitleForDocType(docType)
-        holder.descriptionTextView.text = getDescriptionForDocType(docType)
+
+        val userDocument = userDocuments.find { it.docType == docType }
+
+        holder.descriptionTextView.text = when (userDocument?.status) {
+            DocStatus.SUBMITTED -> "Enviado"
+            DocStatus.APPROVED -> "Aprovado"
+            DocStatus.REJECTED -> "Rejeitado"
+            DocStatus.EXPIRED -> "Expirado"
+            null -> "Não enviado"
+        }
     }
 
     override fun getItemCount(): Int {
