@@ -31,7 +31,7 @@ class ServiceViewModel (
 
     private val userDocument2 = UserDocument(
         docPath = "path/to/residence_visa.pdf",
-        docType = DocType.RESIDENCE_VISA,
+        docType = DocType.CITIZENSHIP_ID,
         userId = "55xnD5aqrN2hxo7gGoaY",
         status = DocStatus.APPROVED,
         submittedAt = LocalDate.now().minusDays(10)
