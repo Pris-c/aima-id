@@ -170,7 +170,7 @@
                 return false
             }
             if(!userValidator.isValidEmail(email)){
-                _nameErrorMessage.value = "O nome do funcionário deve ter entre 3 e 150 caracteres"
+                _nameErrorMessage.value = "Email inválido!"
                 return false
             }
             if (!userValidator.isValidNIF(nif)){
