@@ -141,6 +141,7 @@ class UserServiceRegisterViewModel : ViewModel() {
             if (user != null) {
                 if (user.role == UserRole.SERVICE_USER) {
                     _conflictErrorMessage.value = "O utilizador já se encontra registado."
+                    callback(false)
                 } else {
                     callback(true)
                 }
