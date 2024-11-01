@@ -57,7 +57,7 @@ class RegisterStaffAdminFragment : Fragment() {
          * @param message The error message to display.
          */
         fun showError(message: String) {
-            Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT).show()
+           Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT).show()
         }
 
         // Observe errors
