@@ -81,7 +81,7 @@
                         android:inputType="text"
                         android:padding="12dp"
                         android:textColor="@color/aima_blue"
-                        android:textColorHint="#80000000" />
+                        android:textColorHint="@color/aima_blue" />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
