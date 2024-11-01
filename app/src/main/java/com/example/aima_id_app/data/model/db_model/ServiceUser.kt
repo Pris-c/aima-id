@@ -22,7 +22,7 @@ class ServiceUser(
     email: String = "",
     nif: String = "",
     name: String = "",
-    dateOfBirth: LocalDate = LocalDate.of(1,1,1),
+    dateOfBirth: String = LocalDate.of(1,1,1).toString(),
     val phone: String ="",
     val address: Address = Address(),
     val docs: MutableList<DocUser> = mutableListOf()

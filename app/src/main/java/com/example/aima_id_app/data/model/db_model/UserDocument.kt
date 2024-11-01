@@ -20,6 +20,6 @@ data class UserDocument (
     val docType: DocType = DocType.NIF,
     val userId: String = "",
     val status: DocStatus = DocStatus.SUBMITTED,
-    val submittedAt: LocalDate = LocalDate.of(1,1,1),
-    val expirationDate: LocalDate = LocalDate.of(2125,12,30)
+    val submittedAt: String = LocalDate.of(1,1,1).toString(),
+    val expirationDate: String = LocalDate.of(2125,12,30).toString()
 )

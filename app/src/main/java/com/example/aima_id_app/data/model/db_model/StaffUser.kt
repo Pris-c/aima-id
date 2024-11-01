@@ -17,7 +17,7 @@ class StaffUser(
     email: String = "",
     nif: String = "",
     name: String = "",
-    dateOfBirth: LocalDate = LocalDate.of(1,1,1),
+    dateOfBirth: String = LocalDate.of(1,1,1).toString(),
     val aimaUnitId: String = ""
 ) :
     User (UserRole.STAFF, email, nif , name, dateOfBirth)
