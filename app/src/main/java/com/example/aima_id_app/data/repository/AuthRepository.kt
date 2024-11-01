@@ -1,6 +1,7 @@
 package com.example.aima_id_app.data.repository
 
 
+import android.util.Log
 import com.example.aima_id_app.util.enums.UserRole
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -10,7 +11,9 @@ import com.google.firebase.firestore.FirebaseFirestore
  * AuthRepository is responsible for managing user authentication operations
  * with Firebase Authentication, including user registration and login.
  */
-class AuthRepository {
+class AuthRepository(
+    val userRepository: UserRepository = UserRepository()
+) {
 
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     private val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
@@ -50,20 +53,11 @@ class AuthRepository {
                 if (task.isSuccessful) {
                     val userId = auth.currentUser?.uid
                     if (userId != null) {
-                        firestore.collection("users").document(userId).get()
-                            .addOnSuccessListener { document ->
-                                val role = document.getString("role")
-                                val userRole = when (role) {
-                                    "ADMIN" -> UserRole.ADMIN
-                                    "SERVICE_USER" -> UserRole.SERVICE_USER
-                                    "STAFF" -> UserRole.STAFF
-                                    else -> null
-                                }
-                                onComplete(userId, userRole)
+                        userRepository.findUserById(userId.toString()) { user ->
+                            if (user != null) {
+                                onComplete(userId, user.role)
                             }
-                            .addOnFailureListener {
-                                onComplete(userId, null)
-                            }
+                        }
                     } else {
                         onComplete(null, null)
                     }
