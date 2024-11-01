@@ -9,4 +9,7 @@ import com.example.aima_id_app.util.enums.DocType
  * @property docId The unique identifier of the document.
  *
  */
-class DocUser (val docType: DocType, val docId: String)
+class DocUser (
+    val docType: DocType = DocType.NIF,
+    val docId: String = ""
+)
