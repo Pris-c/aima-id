@@ -92,7 +92,11 @@ class UserDocumentRepository {
     fun filterByUser(id: String, onComplete: (MutableList<UserDocument>) -> Unit) {
         db.whereEqualTo("userId", id).get()
             .addOnSuccessListener { result ->
-                onComplete(result.mapNotNull { it.toObject<UserDocument>() }.toMutableList())
+                if (!result.isEmpty){
+                    onComplete(result.mapNotNull { it.toObject<UserDocument>() }.toMutableList())
+                } else {
+                    onComplete(mutableListOf())
+                }
             }
             .addOnFailureListener {
                 onComplete(mutableListOf())
