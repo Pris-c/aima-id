@@ -1,5 +1,6 @@
 package com.example.aima_id_app.data.repository
 
+import android.util.Log
 import com.example.aima_id_app.data.model.db_model.UserDocument
 import com.example.aima_id_app.util.enums.DocStatus
 import com.google.firebase.firestore.FirebaseFirestore
@@ -110,6 +111,37 @@ class UserDocumentRepository {
             }
             .addOnFailureListener {
                 onComplete(mutableListOf())
+            }
+    }
+
+
+    /**
+     * Retrieves the file name for a given document path from the database.
+     *
+     * @param path The path of the document in the database.
+     * @param onComplete A callback that returns the file name as a String, or null if not found.
+     */
+    fun getFileName(path: String, onComplete: (String?) -> Unit) {
+        db.whereEqualTo("docPath", path).get()
+            .addOnSuccessListener { result ->
+
+                if (result.documents.isNotEmpty()) {
+                    val doc = result.documents.first().toObject<UserDocument>()
+
+                    if (doc != null) {
+
+                        val docName = "${doc.userId}_${doc.docType}"
+                        onComplete(docName)
+                    } else {
+
+                        onComplete(null)
+                    }
+                } else {
+                    onComplete(null)
+                }
+            }
+            .addOnFailureListener {
+                onComplete(null)
             }
     }
 }
