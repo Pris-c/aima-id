@@ -3,6 +3,7 @@ package com.example.aima_id_app.ui.adapter
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,14 +11,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.aima_id_app.R
-import com.example.aima_id_app.data.model.db_model.UserDocument
-import com.example.aima_id_app.util.enums.DocStatus
 import com.example.aima_id_app.util.enums.DocType
 
 class FileInputAdapter(
     private val context: Context,
     private val fileInputs: List<DocType>,
-    private val userDocuments: List<UserDocument>
+    private val onFileSelected: (DocType, Uri?) -> Unit
 ) : RecyclerView.Adapter<FileInputAdapter.ViewHolder>() {
 
     companion object {
@@ -29,6 +28,40 @@ class FileInputAdapter(
         val titleTextView: TextView = itemView.findViewById(R.id.titleTextView)
         val descriptionTextView: TextView = itemView.findViewById(R.id.descriptionTextView)
 
+        init {
+            itemView.setOnClickListener {
+                val position = bindingAdapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    val docType = fileInputs[position]
+
+                    val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+                        type = when (docType) {
+                            DocType.PASSPORT -> "application/pdf/*"
+                            DocType.VISA -> "application/pdf/*"
+                            DocType.NIF -> "application/pdf/*"
+                            DocType.NISS -> "application/pdf/*"
+                            DocType.PROOF_INCOME -> "application/pdf/*"
+                            DocType.CITIZENSHIP_ID -> "application/pdf/*"
+                            DocType.ADDRESS_PROOF -> "application/pdf/*"
+                            DocType.HEALTH_INSURANCE -> "application/pdf/*"
+                            DocType.CRIMINAL_RECORD -> "application/pdf/*"
+                            DocType.EMPLOYMENT_CONTRACT -> "application/pdf/*"
+                            DocType.SCHOOL_REGISTRATION -> "application/pdf/*"
+                            DocType.RESIDENCE_VISA -> "application/pdf/*"
+                            DocType.RESIDENT_PERMIT -> "application/pdf/*"
+                            else -> "*/*"
+                        }
+                    }
+
+                    (context as Activity).startActivityForResult(
+                        intent,
+                        REQUEST_CODE_PICK_FILE
+                    )
+
+                    itemView.tag = docType
+                }
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -40,16 +73,7 @@ class FileInputAdapter(
         val docType = fileInputs[position]
         holder.iconImageView.setImageResource(getIconForDocType(docType))
         holder.titleTextView.text = getTitleForDocType(docType)
-
-        val userDocument = userDocuments.find { it.docType == docType }
-
-        holder.descriptionTextView.text = when (userDocument?.status) {
-            DocStatus.SUBMITTED -> "Enviado"
-            DocStatus.APPROVED -> "Aprovado"
-            DocStatus.REJECTED -> "Rejeitado"
-            DocStatus.EXPIRED -> "Expirado"
-            null -> "Não enviado"
-        }
+        holder.descriptionTextView.text = getDescriptionForDocType(docType)
     }
 
     override fun getItemCount(): Int {
@@ -69,6 +93,7 @@ class FileInputAdapter(
             DocType.CRIMINAL_RECORD -> R.drawable.ic_criminal
             DocType.EMPLOYMENT_CONTRACT -> R.drawable.ic_contract
             DocType.SCHOOL_REGISTRATION -> R.drawable.ic_school
+            DocType.RESIDENCE_VISA -> R.drawable.ic_passport
             DocType.RESIDENT_PERMIT -> R.drawable.ic_cardid
             else -> R.drawable.ic_to_do_list // default
         }
@@ -87,6 +112,7 @@ class FileInputAdapter(
             DocType.CRIMINAL_RECORD -> "Atestado criminalidade"
             DocType.EMPLOYMENT_CONTRACT -> "Contrato de trabalho"
             DocType.SCHOOL_REGISTRATION -> "Matrícula escolar"
+            DocType.RESIDENCE_VISA -> "Visto de residência"
             DocType.RESIDENT_PERMIT -> "Autorização de residência"
             else -> "Documento" // default
         }
