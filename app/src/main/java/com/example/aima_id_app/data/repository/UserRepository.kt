@@ -136,15 +136,13 @@ class UserRepository {
                     try {
                         document.toObject(UserDocument::class.java)
                     } catch (e: Exception) {
-                        // Lidar com erros de conversão de dados
                         null
                     }
                 }
-                callback(userDocuments) // Chamar o callback com a lista de documentos
+                callback(userDocuments)
             }
             .addOnFailureListener { exception ->
-                // Lidar com erros de acesso ao Firebase
-                // Exibir uma mensagem de erro ou registrar o erro
+                //
             }
     }
 }

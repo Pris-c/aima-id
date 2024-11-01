@@ -29,40 +29,6 @@ class FileInputAdapter(
         val titleTextView: TextView = itemView.findViewById(R.id.titleTextView)
         val descriptionTextView: TextView = itemView.findViewById(R.id.descriptionTextView)
 
-        init {
-            itemView.setOnClickListener {
-                val position = bindingAdapterPosition
-                if (position != RecyclerView.NO_POSITION) {
-                    val docType = fileInputs[position]
-
-                    val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
-                        type = when (docType) {
-                            DocType.PASSPORT -> "application/pdf/*"
-                            DocType.VISA -> "application/pdf/*"
-                            DocType.NIF -> "application/pdf/*"
-                            DocType.NISS -> "application/pdf/*"
-                            DocType.PROOF_INCOME -> "application/pdf/*"
-                            DocType.CITIZENSHIP_ID -> "application/pdf/*"
-                            DocType.ADDRESS_PROOF -> "application/pdf/*"
-                            DocType.HEALTH_INSURANCE -> "application/pdf/*"
-                            DocType.CRIMINAL_RECORD -> "application/pdf/*"
-                            DocType.EMPLOYMENT_CONTRACT -> "application/pdf/*"
-                            DocType.SCHOOL_REGISTRATION -> "application/pdf/*"
-                            DocType.RESIDENCE_VISA -> "application/pdf/*"
-                            DocType.RESIDENT_PERMIT -> "application/pdf/*"
-                            else -> "*/*"
-                        }
-                    }
-
-                    (context as Activity).startActivityForResult(
-                        intent,
-                        REQUEST_CODE_PICK_FILE
-                    )
-
-                    itemView.tag = docType
-                }
-            }
-        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
