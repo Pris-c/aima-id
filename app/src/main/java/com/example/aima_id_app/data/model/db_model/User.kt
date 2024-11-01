@@ -17,5 +17,5 @@ open class User (
     val email: String = "",
     val nif: String = "",
     val name: String = "",
-    val dateOfBirth: String = LocalDate.of(1,1,1).toString(),
+    val dateOfBirth: String = LocalDate.of(1,1,1).toString()
 )
