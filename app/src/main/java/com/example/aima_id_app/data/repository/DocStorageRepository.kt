@@ -1,6 +1,7 @@
 package com.example.aima_id_app.data.repository
 
 import android.net.Uri
+import android.os.Environment
 import android.util.Log
 import android.widget.Toast
 import com.google.android.gms.tasks.OnFailureListener
@@ -58,8 +59,9 @@ class DocStorageRepository {
          * @param onComplete A callback function that returns the retrieved file if successful, or null if it fails.
          */
         fun getFile(path: String, onComplete: (File?) -> Unit) {
-            val documentRef = storageRef.child("userDocuments")
-            val localFile = File.createTempFile("downloaded", null)
+            val documentRef = storageRef.child(path)
+            val downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+            val localFile = File(downloadsDir, "aima-doc-.pdf")
             documentRef.getFile(localFile)
                 .addOnSuccessListener {
                     onComplete(localFile)
