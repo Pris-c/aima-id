@@ -14,6 +14,12 @@
         android:title="Calendário" />
 
     <item
+        android:id="@+id/nav_profile"
+        android:icon="@drawable/ic_avatar"
+        android:background="@color/aima_pink"
+        android:title="Perfil" />
+
+    <item
         android:id="@+id/nav_notifications"
         android:icon="@drawable/ic_notification"
         android:background="@color/aima_pink"
