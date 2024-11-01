@@ -67,17 +67,19 @@ class UserRepository {
      * @param onComplete A callback function that returns the user if found, or null if the operation fails.
      */
     fun findUserByNif(nif: String, onComplete: (User?) -> Unit) {
-        db.document(nif).get()
-            .addOnSuccessListener { document ->
-                val role = document.getString("role")
-                var user: User?=null
-                when (role) {
-
-                    UserRole.SERVICE_USER.role -> user = document.toObject<ServiceUser>()
-                    UserRole.ADMIN.role -> user = document.toObject<AdminUser>()
-                    UserRole.STAFF.role -> user = document.toObject<StaffUser>()
+        db.whereEqualTo("nif", nif).get()
+            .addOnSuccessListener { documents ->
+                if (!documents.isEmpty){
+                    val document = documents.documents.first()
+                    val role = document.getString("role")
+                    var user: User?=null
+                    when (role) {
+                        UserRole.SERVICE_USER.role -> user = document.toObject<ServiceUser>()
+                        UserRole.ADMIN.role -> user = document.toObject<AdminUser>()
+                        UserRole.STAFF.role -> user = document.toObject<StaffUser>()
+                    }
+                    onComplete(user)
                 }
-                onComplete(user)
             }
             .addOnFailureListener {
                 onComplete(null)
