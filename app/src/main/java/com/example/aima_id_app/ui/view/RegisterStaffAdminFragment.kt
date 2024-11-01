@@ -57,7 +57,7 @@ class RegisterStaffAdminFragment : Fragment() {
          * @param message The error message to display.
          */
         fun showError(message: String) {
-           Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT).show()
         }
 
         // Observe errors
@@ -112,6 +112,7 @@ class RegisterStaffAdminFragment : Fragment() {
 
     }
 
+
     /**
      * Displays a date selection dialog for the date of birth field.
      *
@@ -120,10 +121,10 @@ class RegisterStaffAdminFragment : Fragment() {
      */
     private fun showDatePicker() {
         val calendar = Calendar.getInstance()
-        val datePickerDialog = DatePickerDialog(
-            requireContext(),
+        val datePickerDialog = DatePickerDialog(requireActivity(),
             { _, year, month, dayOfMonth ->
-                birthDateStaffInput.setText("$dayOfMonth/${month + 1}/$year")
+                val selectedDate = LocalDate.of(year, month + 1, dayOfMonth)
+                birthDateStaffInput.setText(selectedDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")))
             },
             calendar.get(Calendar.YEAR),
             calendar.get(Calendar.MONTH),
@@ -279,7 +280,6 @@ class RegisterStaffAdminFragment : Fragment() {
                     val name = nameStaffInput.text.toString().trim()
                     val nif = nifStaffInput.text.toString().trim()
                     val email = emailStaffInput.text.toString().trim()
-
                     val dateOfBirth = LocalDate.parse(birthDateStaffInput.text.toString().trim(), DateTimeFormatter.ofPattern("dd/MM/yyyy"))
 
 
@@ -301,4 +301,6 @@ class RegisterStaffAdminFragment : Fragment() {
         }
 
     }
+
+
 }
