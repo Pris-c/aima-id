@@ -2,26 +2,23 @@ package com.example.aima_id_app.ui.view
 
 import android.app.DatePickerDialog
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.widget.Button
 import android.widget.EditText
 import androidx.activity.enableEdgeToEdge
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.aima_id_app.R
-import com.example.aima_id_app.data.model.db_model.ServiceUser
-import com.example.aima_id_app.data.model.submodel.Address
-import com.example.aima_id_app.data.repository.AuthRepository
-import com.example.aima_id_app.data.repository.UserRepository
+import com.example.aima_id_app.ui.viewmodel.UserServiceRegisterViewModel
+import com.example.aima_id_app.util.validators.AddressValidator
+import com.example.aima_id_app.util.validators.UserValidator
 import com.google.android.material.snackbar.Snackbar
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.util.*
+import java.util.Calendar
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -37,9 +34,8 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var passwordInput: EditText
     private lateinit var passwordConfirmInput: EditText
     private lateinit var registerButton: Button
-    private lateinit var authRepository: AuthRepository
-    private lateinit var userRepository: UserRepository
-    private lateinit var address: Address
+    private val userValidator = UserValidator()
+    private val addressValidator = AddressValidator()
 
     /**
      * Method called when the activity is created.
@@ -50,7 +46,6 @@ class RegisterActivity : AppCompatActivity() {
      *
      * @param savedInstanceState The state of the activity, if it exists. Used to restore the activity from a previous state.
      */
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -64,6 +59,7 @@ class RegisterActivity : AppCompatActivity() {
         phoneInput = findViewById(R.id.phone_input)
         birthDateInput = findViewById(R.id.birthDate_input)
         cityInput = findViewById(R.id.city_input)
+        streetInput = findViewById(R.id.street_input)
         streetInput = findViewById(R.id.street_input)
         numberInput = findViewById(R.id.number_input)
         postalCodeInput = findViewById(R.id.postalCode_input)
@@ -110,35 +106,21 @@ class RegisterActivity : AppCompatActivity() {
                 val postalCode = postalCodeInput.text.toString().trim()
                 val password = passwordInput.text.toString().trim()
 
-                val address = Address(city = city, street = street, number = number, postalCode = postalCode)
+                val userRegister = UserServiceRegisterViewModel()
+                userRegister.register(name, email, nif, dateOfBirth, street, number, city, postalCode, phone, password) { op ->
+                    if (true) {
+                        Snackbar.make(findViewById(android.R.id.content), "Usuário registado com sucesso!", Snackbar.LENGTH_SHORT).show()
 
-                val serviceUser = ServiceUser(email = email, nif = nif, name = name, dateOfBirth = dateOfBirth, phone = phone, address = address)
-
-                authRepository = AuthRepository()
-                authRepository.register(email, password) { userId ->
-                    if (userId != null) {
-
-                        userRepository = UserRepository()
-                        userRepository.createUser(userId, serviceUser) { success ->
-                            if (success == true) {
-                                Snackbar.make(findViewById(android.R.id.content), "Usuário registado com sucesso!", Snackbar.LENGTH_SHORT).show()
-
-                                Handler(Looper.getMainLooper()).postDelayed({
-                                    startActivity(Intent(this, LoginActivity::class.java))
-                                    finish()
-                                }, 3000)
-                            } else {
-                                Snackbar.make(findViewById(android.R.id.content), "Erro ao registar o usuário!", Snackbar.LENGTH_SHORT).show()
-                            }
-                        }
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            startActivity(Intent(this, LoginActivity::class.java))
+                            finish()
+                        }, 3000)
                     } else {
                         Snackbar.make(findViewById(android.R.id.content), "Erro ao registar o usuário!", Snackbar.LENGTH_SHORT).show()
                     }
                 }
             }
         }
-
-
     }
 
     /**
@@ -151,7 +133,8 @@ class RegisterActivity : AppCompatActivity() {
         val calendar = Calendar.getInstance()
         val datePickerDialog = DatePickerDialog(this,
             { _, year, month, dayOfMonth ->
-                birthDateInput.setText("$dayOfMonth/${month + 1}/$year")
+                val selectedDate = LocalDate.of(year, month + 1, dayOfMonth)
+                birthDateInput.setText(selectedDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")))
             },
             calendar.get(Calendar.YEAR),
             calendar.get(Calendar.MONTH),
@@ -191,7 +174,7 @@ class RegisterActivity : AppCompatActivity() {
      * @return True if the name is valid, false otherwise.
      */
     private fun validateName(name: String): Boolean {
-        return if (name.length in 3..150) {
+        return if (userValidator.isValidName(name)) {
             nameInput.error = null
             true
         } else {
@@ -209,7 +192,7 @@ class RegisterActivity : AppCompatActivity() {
      * @return True if the NIF is valid, false otherwise.
      */
     private fun validateNIF(nif: String): Boolean {
-        return if (nif.length == 9 && nif.all { it.isDigit() }) {
+        return if (userValidator.isValidNIF(nif)) {
             nifInput.error = null
             true
         } else {
@@ -227,7 +210,7 @@ class RegisterActivity : AppCompatActivity() {
      * @return True if the email is valid, false otherwise.
      */
     private fun validateEmail(email: String): Boolean {
-        return if (email.contains("@")) {
+        return if (userValidator.isValidEmail(email)) {
             emailInput.error = null
             true
         } else {
@@ -239,18 +222,18 @@ class RegisterActivity : AppCompatActivity() {
     /**
      * Validates the phone number provided by the user.
      *
-     * Phone number must start with "+351", be exactly 13 characters long
-     * and the remaining 9 digits must be numeric.
+     * Phone number must start with "9", be exactly 9 characters long
+     * and the digits must be numeric.
      *
      * @param phone The phone to be validated.
      * @return True if the phone number is valid, false otherwise.
      */
     private fun validatePhone(phone: String): Boolean {
-        return if (phone.startsWith("+351") && phone.length == 13 && phone.substring(4).all { it.isDigit() }) {
+        return if (userValidator.isValidPortuguesePhone(phone)) {
             phoneInput.error = null
             true
         } else {
-            phoneInput.error = "Telefone inválido. Deve conter DDI português + 9 digitos"
+            phoneInput.error = "Telefone inválido. O telefone dever ter 9 digitos"
             false
         }
     }
@@ -282,7 +265,7 @@ class RegisterActivity : AppCompatActivity() {
      * @return True if the city is valid, false otherwise.
      */
     private fun validateCity(city: String): Boolean {
-        return if (city.length in 3..150) {
+        return if (addressValidator.isValidCity(city)) {
             cityInput.error = null
             true
         } else {
@@ -300,7 +283,7 @@ class RegisterActivity : AppCompatActivity() {
      * @return True if the street is valid, false otherwise.
      */
     private fun validateStreet(street: String): Boolean {
-        return if (street.length in 2..150) {
+        return if (addressValidator.isValidStreet(street)) {
             streetInput.error = null
             true
         } else {
@@ -336,7 +319,7 @@ class RegisterActivity : AppCompatActivity() {
      * @return True if the postalCode is valid, false otherwise.
      */
     private fun validatePostalCode(postalCode: String): Boolean {
-        return if (postalCode.length >= 7 && postalCode.all { it.isDigit() }) {
+        return if (addressValidator.isValidPostalCode(postalCode)) {
             postalCodeInput.error = null
             true
         } else {

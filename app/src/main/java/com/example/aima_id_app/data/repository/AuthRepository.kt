@@ -1,16 +1,22 @@
 package com.example.aima_id_app.data.repository
 
-import android.widget.Toast
+
+import android.util.Log
+import com.example.aima_id_app.util.enums.UserRole
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.FirebaseFirestore
 
 /**
  * AuthRepository is responsible for managing user authentication operations
  * with Firebase Authentication, including user registration and login.
  */
-class AuthRepository {
+class AuthRepository(
+    val userRepository: UserRepository = UserRepository()
+) {
 
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
+    private val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
 
     /**
      * Registers a new user with the specified email and password.
@@ -41,14 +47,22 @@ class AuthRepository {
      * @param onComplete A callback that returns the user ID as a String if the login was successful,
      *                   or null if the login failed.
      */
-    fun login(email: String, password: String, onComplete: (String?) -> Unit){
+    fun login(email: String, password: String, onComplete: (String?, UserRole?) -> Unit){
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     val userId = auth.currentUser?.uid
-                    onComplete(userId)
+                    if (userId != null) {
+                        userRepository.findUserById(userId.toString()) { user ->
+                            if (user != null) {
+                                onComplete(userId, user.role)
+                            }
+                        }
+                    } else {
+                        onComplete(null, null)
+                    }
                 } else {
-                    onComplete(null)
+                    onComplete(null, null)
                 }
             }
     }
