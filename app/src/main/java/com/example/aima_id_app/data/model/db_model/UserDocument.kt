@@ -16,10 +16,10 @@ import java.time.LocalDate
  */
 
 data class UserDocument (
-    val docPath: String = "",
+    var docPath: String = "",
     val docType: DocType = DocType.NIF,
     val userId: String = "",
-    val status: DocStatus = DocStatus.SUBMITTED,
-    val submittedAt: String = LocalDate.of(1,1,1).toString(),
-    val expirationDate: String = LocalDate.of(2125,12,30).toString()
+    var status: DocStatus = DocStatus.SUBMITTED,
+    var submittedAt: String = LocalDate.of(1,1,1).toString(),
+    var expirationDate: String = LocalDate.of(2125,12,30).toString()
 )

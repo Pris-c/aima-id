@@ -1,11 +1,6 @@
 package com.example.aima_id_app.data.repository
 
-import com.example.aima_id_app.data.model.db_model.AdminUser
 import com.example.aima_id_app.data.model.db_model.Service
-import com.example.aima_id_app.data.model.db_model.ServiceUser
-import com.example.aima_id_app.data.model.db_model.StaffUser
-import com.example.aima_id_app.data.model.db_model.User
-import com.example.aima_id_app.util.enums.UserRole
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.toObject
 
