@@ -11,7 +11,7 @@ package com.example.aima_id_app.util.enums
  * @property EXPIRED The document is no longer valid due to expiration.
  */
 
-enum class DocStatus(status: String) {
+enum class DocStatus(val status: String) {
         SUBMITTED("Submetido"),
         APPROVED("Aprovado"),
         REJECTED("Rejeitado"),
