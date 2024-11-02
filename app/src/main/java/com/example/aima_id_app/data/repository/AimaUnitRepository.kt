@@ -189,4 +189,17 @@ class AimaUnitRepository {
                 onComplete(staffByUnitMap)
             }
     }
+
+
+    fun countStaff(aimaUnitId: String, onComplete: (Int) -> Unit){
+        db.document(aimaUnitId).get()
+            .addOnSuccessListener { unit ->
+                val aimaUnit = unit.toObject<AimaUnit>()
+                if (aimaUnit != null) {
+                    onComplete(aimaUnit.staffIds.size)
+                } else {
+                    onComplete(0)
+                }
+            }
+    }
 }
