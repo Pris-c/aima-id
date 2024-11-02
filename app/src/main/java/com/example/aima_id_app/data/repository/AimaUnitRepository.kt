@@ -75,6 +75,21 @@ class AimaUnitRepository {
             }
     }
 
+    fun getAimaUnitsByCity(city: String, onComplete: (Map<String, AimaUnit>) -> Unit) {
+        db.whereEqualTo("address.city", city).get()
+            .addOnSuccessListener { list ->
+                val aimaUnitsMap = mutableMapOf<String, AimaUnit>()
+                for (document in list) {
+                    val aimaUnit = document.toObject<AimaUnit>()
+                    aimaUnitsMap[document.id] = aimaUnit
+                }
+                onComplete(aimaUnitsMap)
+            }
+            .addOnFailureListener {
+                onComplete(emptyMap())
+            }
+    }
+
 
     /**
      * Retrieves `AimaUnit` objects that match the specified address.
