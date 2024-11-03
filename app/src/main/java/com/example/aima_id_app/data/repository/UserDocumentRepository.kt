@@ -3,6 +3,7 @@ package com.example.aima_id_app.data.repository
 import android.util.Log
 import com.example.aima_id_app.data.model.db_model.UserDocument
 import com.example.aima_id_app.util.enums.DocStatus
+import com.example.aima_id_app.util.enums.DocType
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.toObject
 
@@ -102,6 +103,37 @@ class UserDocumentRepository {
                 onComplete(mutableListOf())
             }
     }
+
+    fun findDocTypeByUser(id: String, doctype: DocType, onComplete: (String?, UserDocument?) -> Unit){
+        db.whereEqualTo("userId", id).whereEqualTo("docType", doctype.doc).get()
+            .addOnSuccessListener { result ->
+                if (!result.isEmpty){
+                    val document = result.documents[0]
+                    onComplete(document.id, document.toObject<UserDocument>())
+                }
+                onComplete(null, null)
+            }
+            .addOnFailureListener {
+                onComplete(null, null)
+            }
+    }
+
+    fun getDocumentsByUser(id: String, onComplete: (MutableMap<String, UserDocument>) -> Unit) {
+        val documentsByUser = mutableMapOf<String, UserDocument>()
+        db.whereEqualTo("userId", id).get()
+            .addOnSuccessListener { result ->
+                if (!result.isEmpty){
+                    for(doc in result){
+                        documentsByUser[doc.id] = doc.toObject<UserDocument>()
+                    }
+                }
+                onComplete(documentsByUser)
+            }
+            .addOnFailureListener {
+                onComplete(mutableMapOf())
+            }
+    }
+
 
     /**
      * Retrieves all UserDocuments with a "SUBMITTED" status.
