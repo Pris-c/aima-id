@@ -77,7 +77,7 @@ class RequestResidencyFragment : Fragment() {
                     }
 
                     // Obter a descrição do serviço
-                    val serviceDescription = serviceDescriptions[selectedService.name] ?: "" // Descrição padrão se não encontrada
+                    val serviceDescription = serviceDescriptions[selectedService.name] ?: ""
 
                     // Definir o texto do textarea
                     textAreaInput.setText(serviceDescription)
