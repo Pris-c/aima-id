@@ -1,8 +1,12 @@
 package com.example.aima_id_app.util.enums
 
-import java.time.LocalTime
-
-
+/**
+ * Enum class representing possible scheduling times throughout the day.
+ *
+ * Each enum constant corresponds to a specific time, formatted as "HH:mm".
+ *
+ * @property time The string representation of the scheduled time.
+ */
 enum class PossibleScheduling(val time: String) {
     TIME_09_00("09:00"),
     TIME_09_30("09:30"),

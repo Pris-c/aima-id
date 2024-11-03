@@ -1,6 +1,13 @@
 package com.example.aima_id_app.util.enums
 
-enum class PortugueseCities(val cidade: String) {
+/**
+ * Enum class representing various cities in Portugal.
+ *
+ * Each enum constant corresponds to a city, providing its name as a string.
+ *
+ * @property city The name of the city in Portuguese.
+ */
+enum class PortugueseCities(val city: String) {
     LISBOA("Lisboa"),
     PORTO("Porto"),
     VILA_NOVA_DE_GAIA("Vila Nova de Gaia"),
