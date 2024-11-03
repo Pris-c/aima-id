@@ -17,6 +17,6 @@ data class Appointment (
     val processId: String = "",
     val aimaUnitId: String = "",
     val date: String = "",
-    val time: PossibleScheduling = PossibleScheduling.TIME_09_00,
+    val time: String = PossibleScheduling.TIME_09_00.time,
 ) {
 }
