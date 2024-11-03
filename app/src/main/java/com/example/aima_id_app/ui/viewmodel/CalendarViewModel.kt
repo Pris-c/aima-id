@@ -39,8 +39,6 @@ class CalendarViewModel(
     }
 
     fun getUnavailableDays(city: String, month: YearMonth, onComplete: (List<Int>) -> Unit) {
-        Log.d(TAG, "getUnavailableDays called")
-
         val unavailableDays = mutableListOf<Int>()
         val daysInMonth = month.lengthOfMonth()
         var checksCompleted = 0
@@ -62,8 +60,6 @@ class CalendarViewModel(
     }
 
     private fun isDayAvailable(city: String, day: LocalDate, callback: (Boolean) -> Unit) {
-        Log.d(TAG, "IsDayAvailable called")
-
         getAimaUnitsByCity(city) { units ->
             if (units.isNotEmpty()) {
                 var foundAvailableUnit = false
@@ -71,8 +67,6 @@ class CalendarViewModel(
                 val totalUnits = units.size
 
                 for ((unitId, _) in units) {
-
-                    Log.d(TAG, "loop $unitsChecked")
 
                     isUnitAvailable(unitId, day) { isAvailable ->
                         unitsChecked++
@@ -103,11 +97,12 @@ class CalendarViewModel(
 
         aimaUnitRepository.countStaff(aimaUnitId) { staffs ->
                 val dailyPossibleScheduling = PossibleScheduling.entries.size
-                //val unitDailyCapacity = staffs * dailyPossibleScheduling
-                val unitDailyCapacity = dailyPossibleScheduling
+                val unitDailyCapacity = staffs * dailyPossibleScheduling
 
                 getAppointmentsByUnit(aimaUnitId, day) { unitAppointments ->
                     val dayAppointments = unitAppointments.size
+                    Log.d("DEBUG", "Unidade $aimaUnitId: agendamentos dia: ${day}  capacidade: $unitDailyCapacity")
+
                     if (dayAppointments < unitDailyCapacity){
                         onComplete(true)
                     } else {
@@ -125,7 +120,6 @@ class CalendarViewModel(
                     val filteredAppointments = unitAppointments.filter { it.date == date }
                     onComplete(filteredAppointments)
                 } else {
-                    Log.d(TAG, "No Appointment to $aimaUnitId were found")
                     onComplete(emptyList())
                 }
             }
