@@ -1,9 +1,12 @@
 package com.example.aima_id_app.data.repository
 
+import android.util.Log
 import com.example.aima_id_app.data.model.db_model.Appointment
+import com.example.aima_id_app.util.enums.PossibleScheduling
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.toObject
 
 class AppointmentRepository() {
 
@@ -184,6 +187,26 @@ class AppointmentRepository() {
                 onComplete(appointments)
             }
             .addOnFailureListener { onComplete(mutableListOf()) }
+    }
+
+
+    fun findDayAppointmentOfUnit(aimaUnitId: String, day: String,
+                                 onComplete: (MutableList<Appointment>) -> Unit){
+        db.whereEqualTo("aimaUnitId", aimaUnitId).whereEqualTo("date", day).get()
+            .addOnSuccessListener { appointments ->
+
+                Log.d("DEBUG", "Day appointments to unit $aimaUnitId:  ${appointments.size()}")
+                val appointmentList = mutableListOf<Appointment>()
+                for (appointment in appointments){
+                    val ap = appointment.toObject<Appointment>()
+                    Log.d("DEBUG", "    Appointment time: ${ap.time}")
+                    appointmentList.add(ap)
+                }
+                onComplete(appointmentList)
+            }
+            .addOnFailureListener{ exception ->
+                Log.d("DEBUG", exception.toString())
+            }
     }
 
 }

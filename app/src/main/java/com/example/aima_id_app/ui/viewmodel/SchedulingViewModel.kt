@@ -57,7 +57,7 @@ class SchedulingViewModel(
             Log.d("DEBUG", "Unit ${aimaUnitId} has $staff staffs")
 
             for (time in PossibleScheduling.entries) {
-                val countAppointment = dayAppointments.filter { it.time == time }.size
+                val countAppointment = dayAppointments.filter { it.time == time.time }.size
                 Log.d("DEBUG", "Unit ${aimaUnitId} has $countAppointment for time $time")
 
                 if (countAppointment < staff){
