@@ -1,7 +1,9 @@
 <resources>
     <string name="app_name">AIMA ID</string>
     <string name="RegisterUnit">Registar Nova Unidade</string>
-    <string name="RegisterStaff">Registar Novo Funcionário</string>"
+    <string name="StartAnalysis">Analisar Documentos</string>">
+    <string name="ManagerAppoints">Gerenciar Agendamentos</string>">
+    <string name="RegisterStaff">Registar Novo Funcionário</string>
     <string name="Notification">Titulo da notificação</string>
     <string name="NotificationName">Nome do utilizador</string>
     <string name="RequestResidency">Iniciar Requerimentos</string>
@@ -10,6 +12,7 @@
     <string name="RequestVisaExtension">Extensões de Vistos</string>
     <string name="RequestRenewalResidency">Renovação de Residências</string>
     <string name="RequestScheduling">Realizar Agendamento</string>
+    <string name="MyDocs">Meus Documentos</string>
 
     <!--Services Description-->
 
