@@ -18,6 +18,7 @@ class AdminUser(
     name: String = "",
     dateOfBirth: String = LocalDate.of(1,1,1).toString()
 ) :
-    User (UserRole.ADMIN, email, nif , name, dateOfBirth)
+    User (
+        UserRole.ADMIN.role, email, nif , name, dateOfBirth)
 
 
