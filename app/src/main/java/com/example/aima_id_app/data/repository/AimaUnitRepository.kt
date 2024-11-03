@@ -54,24 +54,30 @@ class AimaUnitRepository {
     }
 
     /**
-     * Finds `AimaUnit` objects that are located in a specified city.
+     * Retrieves `AimaUnit` objects located in a specified city.
+     *
+     * This method queries the Firestore database for all Aima Units
+     * that have an address matching the given city. The results are
+     * returned as a map, where the keys are the document IDs and the
+     * values are the corresponding `AimaUnit` objects.
      *
      * @param city The city to filter `AimaUnit` objects.
-     * @param onComplete A callback function that takes a mutable list of
-     *                   `AimaUnit` objects found in the specified city.
+     * @param onComplete A callback function that takes a map of `AimaUnit`
+     *                   objects found in the specified city. The map will be
+     *                   empty if the query fails or no units are found.
      */
-    fun findAimaUnitByCity(city: String, onComplete: (MutableList<AimaUnit>) -> Unit) {
+    fun getAimaUnitsByCity(city: String, onComplete: (Map<String, AimaUnit>) -> Unit) {
         db.whereEqualTo("address.city", city).get()
             .addOnSuccessListener { list ->
-                val aimaUnits = mutableListOf<AimaUnit>()
-                for (document in list){
+                val aimaUnitsMap = mutableMapOf<String, AimaUnit>()
+                for (document in list) {
                     val aimaUnit = document.toObject<AimaUnit>()
-                    aimaUnits.add(aimaUnit)
+                    aimaUnitsMap[document.id] = aimaUnit
                 }
-                onComplete(aimaUnits)
+                onComplete(aimaUnitsMap)
             }
-            .addOnFailureListener{
-                onComplete(mutableListOf())
+            .addOnFailureListener {
+                onComplete(emptyMap())
             }
     }
 
@@ -102,8 +108,6 @@ class AimaUnitRepository {
                 onComplete(mutableListOf())
             }
     }
-
-
 
     /**
      * Deletes an `AimaUnit` from the Firestore database.
@@ -165,28 +169,21 @@ class AimaUnitRepository {
             }
     }
 
-
     /**
-     * Counts the number of staff members for each AimaUnit in the database.
+     * Counts the number of staff members for a specific AimaUnit.
      *
-     * @param onComplete A callback that receives a map of document IDs (Strings)
-     *                   and their corresponding staff counts (Ints).
-     *
-     * On success, it populates the map and calls `onComplete`.
-     * On failure, it calls `onComplete` with an empty map.
+     * @param aimaUnitId The unique ID of the AimaUnit.
+     * @param onComplete A callback that receives the count of staff members (Ints).
      */
-    fun mapStaffNumberByUnit(onComplete: (MutableMap<String, Int>) -> Unit){
-        var staffByUnitMap: MutableMap<String, Int> = mutableMapOf()
-        db.get()
-            .addOnSuccessListener { aimaUnits ->
-                for (unit in aimaUnits){
-                    val aimaUnit = unit.toObject<AimaUnit>()
-                    staffByUnitMap[unit.id] = aimaUnit.staffIds.size
+    fun countStaff(aimaUnitId: String, onComplete: (Int) -> Unit){
+        db.document(aimaUnitId).get()
+            .addOnSuccessListener { unit ->
+                val aimaUnit = unit.toObject<AimaUnit>()
+                if (aimaUnit != null) {
+                    onComplete(aimaUnit.staffIds.size)
+                } else {
+                    onComplete(0)
                 }
-                onComplete(staffByUnitMap)
-            }
-            .addOnFailureListener(){
-                onComplete(staffByUnitMap)
             }
     }
 }
