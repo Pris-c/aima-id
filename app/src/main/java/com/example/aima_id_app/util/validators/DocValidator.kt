@@ -4,28 +4,52 @@ import java.io.File
 import java.io.FileInputStream
 import java.io.IOException
 
+/**
+ * A class responsible for validating PDF document files.
+ *
+ * This class provides methods to verify that a document is a valid PDF file
+ * and meets specific criteria, such as file format and size limits.
+ */
 class DocValidator {
 
-    private val MAX_FILE_SIZE = 5 * 1024 * 1024 // 5 MB in bytes
+    private val MAX_FILE_SIZE = 5 * 1024 * 1024
 
-    // Method to validate if the file is a PDF and within the size limit
+    /**
+     * Validates whether the provided document is a valid PDF file.
+     *
+     * This method checks that the document:
+     * - Exists and is a file.
+     * - Is in PDF format (starting with "%PDF").
+     * - Is within the specified size limit (5 MB).
+     *
+     * @param document the file to validate.
+     * @return a string indicating the validation result.
+     */
     fun validatePDF(document: File): String {
         if (!document.exists() || !document.isFile) {
-            return "Invalid document: The file does not exist or is not a valid file."
+            return "Document does not exist or is not a file."
         }
 
         if (!isPDF(document)) {
-            return "Invalid document: The file is not a PDF."
+            return "Document is not a PDF file."
         }
 
         if (!isWithinSizeLimit(document)) {
-            return "Invalid document: The file exceeds the maximum size of 5 MB."
+            return "Document exceeds the maximum allowed size of 5 MB."
         }
 
-        return "The document is a valid PDF and meets the size requirements."
+        return "Document is a valid PDF."
     }
 
-    // Helper function to check if the file has PDF's magic number
+    /**
+     * Checks if the provided file is in PDF format.
+     *
+     * This method reads the first four bytes of the file to verify
+     * it starts with the "%PDF" signature, indicating a PDF format.
+     *
+     * @param file the file to check.
+     * @return `true` if the file is a PDF, `false` otherwise.
+     */
     private fun isPDF(file: File): Boolean {
         try {
             FileInputStream(file).use { fis ->
@@ -44,9 +68,13 @@ class DocValidator {
         return false
     }
 
-    // Helper function to check if the file size is within the acceptable limit
+    /**
+     * Checks if the provided file is within the allowed size limit.
+     *
+     * @param file the file to check.
+     * @return `true` if the file size is within 5 MB, `false` otherwise.
+     */
     private fun isWithinSizeLimit(file: File): Boolean {
         return file.length() <= MAX_FILE_SIZE
     }
-
 }
