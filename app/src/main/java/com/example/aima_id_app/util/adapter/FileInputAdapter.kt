@@ -69,7 +69,6 @@ class FileInputAdapter(
             DocType.CRIMINAL_RECORD -> R.drawable.ic_criminal
             DocType.EMPLOYMENT_CONTRACT -> R.drawable.ic_contract
             DocType.SCHOOL_REGISTRATION -> R.drawable.ic_school
-            DocType.RESIDENCE_VISA -> R.drawable.ic_passport
             DocType.RESIDENT_PERMIT -> R.drawable.ic_cardid
             else -> R.drawable.ic_to_do_list // default
         }
@@ -88,7 +87,6 @@ class FileInputAdapter(
             DocType.CRIMINAL_RECORD -> "Atestado criminalidade"
             DocType.EMPLOYMENT_CONTRACT -> "Contrato de trabalho"
             DocType.SCHOOL_REGISTRATION -> "Matrícula escolar"
-            DocType.RESIDENCE_VISA -> "Visto de residência"
             DocType.RESIDENT_PERMIT -> "Autorização de residência"
             else -> "Documento" // default
         }
