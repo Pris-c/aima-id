@@ -36,10 +36,12 @@ class AddressValidator (
 
     /**
      * Function that validates if the city name is valid.
-     * The city name must have a length between 3 and 150 characters.
+     * The city name must have a length between 3 and 150 characters
+     * and must match an entry in the PortugueseCities enum.
      *
      * @param city The city name as a string.
-     * @return Returns true if the city name length is between 3 and 150 characters.
+     * @return Returns true if the city name length is between 3 and 150 characters
+     *         and if it exists in the PortugueseCities enum. Returns false otherwise.
      */
     fun isValidCity(city: String): Boolean {
         return city.length in 3..150 && try {
