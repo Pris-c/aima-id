@@ -18,7 +18,7 @@ class UserActivity : AppCompatActivity() {
         setContentView(R.layout.activity_user)
 
         findViewById<View>(R.id.card_service).setOnClickListener {
-            loadFragment(RequestResidencyFragment())
+            loadFragment(RequestServiceFragment())
         }
 
         findViewById<View>(R.id.card_upload).setOnClickListener {
@@ -41,7 +41,7 @@ class UserActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_calendar -> {
-                    loadFragment(SchedulingFragment())
+                    loadFragment(SchedulingUserFragment())
                     true
                 }
                 R.id.nav_notifications -> {

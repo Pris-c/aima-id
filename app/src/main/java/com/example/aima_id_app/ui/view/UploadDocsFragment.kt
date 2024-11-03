@@ -63,7 +63,6 @@ class UploadDocsFragment : Fragment() {
             DocType.CRIMINAL_RECORD -> "Atestado criminalidade"
             DocType.EMPLOYMENT_CONTRACT -> "Contrato de trabalho"
             DocType.SCHOOL_REGISTRATION -> "Matrícula escolar"
-            DocType.RESIDENCE_VISA -> "Visto de residência"
             DocType.RESIDENT_PERMIT -> "Autorização de residência"
             else -> "Selecione um documento/arquivo" // default
         }
