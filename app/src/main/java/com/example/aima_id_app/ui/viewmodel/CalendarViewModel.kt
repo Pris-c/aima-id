@@ -12,42 +12,21 @@ import java.time.LocalDate
 import java.time.YearMonth
 
 class CalendarViewModel(
+
     private val TAG: String = "DEBUG",
     private val appointmentRepository: AppointmentRepository = AppointmentRepository(),
     private val aimaUnitRepository: AimaUnitRepository = AimaUnitRepository(),
 
-
 ): ViewModel() {
 
-  //  private lateinit var staffByUnit: MutableMap<String, Int>
-    private lateinit var cityAimaUnits: Map<String, AimaUnit>
-
-
     init {
-       // mapStaffByUnit()
-        getAvailableCities()
+        loadAvailableCities()
     }
 
     private val _cities = MutableLiveData<List<String>>()
     val cities: MutableLiveData<List<String>> = _cities
 
-    private val _aimaUnits = MutableLiveData<MutableList<AimaUnit>>()
-    val aimaUnits: MutableLiveData<MutableList<AimaUnit>> = _aimaUnits
-
-    private val _processId = MutableLiveData<String>()
-    val processId: MutableLiveData<String> = _processId
-
-/*    private fun mapStaffByUnit() {
-        aimaUnitRepository.mapStaffNumberByUnit { staffNumber ->
-            if (staffNumber.isNotEmpty()) {
-                staffByUnit = staffNumber
-            } else {
-                Log.d(TAG, "Empty staff map")
-            }
-        }
-    }*/
-
-    private fun getAvailableCities(){
+    private fun loadAvailableCities(){
         aimaUnitRepository.findAllAimaUnits { units ->
             if (units.isNotEmpty()){
                 _cities.value = units.values
@@ -59,7 +38,30 @@ class CalendarViewModel(
         }
     }
 
-    fun isDayAvailable(city: String, day: LocalDate, callback: (Boolean) -> Unit) {
+    fun getUnavailableDays(city: String, month: YearMonth, onComplete: (List<Int>) -> Unit) {
+        Log.d(TAG, "getUnavailableDays called")
+
+        val unavailableDays = mutableListOf<Int>()
+        val daysInMonth = month.lengthOfMonth()
+        var checksCompleted = 0
+
+        for (day in 1..daysInMonth) {
+            val date = month.atDay(day)
+            isDayAvailable(city, date) { isAvailable ->
+                Log.d(TAG, "checking day $date : $isAvailable")
+
+                if (!isAvailable) {
+                    unavailableDays.add(day)
+                }
+                checksCompleted++
+                if (checksCompleted == daysInMonth) {
+                    onComplete(unavailableDays)
+                }
+            }
+        }
+    }
+
+    private fun isDayAvailable(city: String, day: LocalDate, callback: (Boolean) -> Unit) {
         Log.d(TAG, "IsDayAvailable called")
 
         getAimaUnitsByCity(city) { units ->
@@ -96,13 +98,13 @@ class CalendarViewModel(
         }
     }
 
-    fun isUnitAvailable(aimaUnitId: String, day: LocalDate, onComplete:
+    private fun isUnitAvailable(aimaUnitId: String, day: LocalDate, onComplete:
         (Boolean) -> Unit) {
 
         aimaUnitRepository.countStaff(aimaUnitId) { staffs ->
                 val dailyPossibleScheduling = PossibleScheduling.entries.size
-                val unitDailyCapacity = staffs * dailyPossibleScheduling
-                //val unitDailyCapacity = dailyPossibleScheduling
+                //val unitDailyCapacity = staffs * dailyPossibleScheduling
+                val unitDailyCapacity = dailyPossibleScheduling
 
                 getAppointmentsByUnit(aimaUnitId, day) { unitAppointments ->
                     val dayAppointments = unitAppointments.size
