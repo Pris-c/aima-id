@@ -180,5 +180,17 @@ class UserDocumentRepository {
                 onComplete(null)
             }
     }
+    fun getDocumentId(userId: String, docType: DocType, onComplete: (String?) -> Unit) {
+        db.whereEqualTo("userId", userId)
+            .whereEqualTo("docType", docType)
+            .get()
+            .addOnSuccessListener { documents ->
+                val docId = documents.documents.firstOrNull()?.id
+                onComplete(docId)
+            }
+            .addOnFailureListener {
+                onComplete(null)
+            }
+    }
 }
 
