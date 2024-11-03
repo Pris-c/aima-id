@@ -55,7 +55,7 @@ class DocValidator {
             FileInputStream(file).use { fis ->
                 val buffer = ByteArray(4)
                 if (fis.read(buffer) == 4) {
-                    // PDF files start with "%PDF"
+
                     return buffer[0] == 0x25.toByte() &&
                             buffer[1] == 0x50.toByte() &&
                             buffer[2] == 0x44.toByte() &&
