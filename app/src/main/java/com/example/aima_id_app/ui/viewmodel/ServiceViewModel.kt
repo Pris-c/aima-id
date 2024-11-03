@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.aima_id_app.data.model.db_model.AimaProcess
+import com.example.aima_id_app.data.model.db_model.Service
 import com.example.aima_id_app.data.model.db_model.UserDocument
 import com.example.aima_id_app.data.repository.AimaProcessRepository
 import com.example.aima_id_app.data.repository.ServiceRepository
@@ -110,6 +111,12 @@ class ServiceViewModel (
         val process = AimaProcess(userId, servCode)
         aimaProcessRepository.createProcess(process){ success ->
             onComplete(success)
+        }
+    }
+
+    fun getAll(callback: (List<Service>) -> Unit) {
+        serviceRepository.getAll { services ->
+            callback(services)
         }
     }
 

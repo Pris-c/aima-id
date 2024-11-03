@@ -1,8 +1,5 @@
 package com.example.aima_id_app.ui.adapter
 
-import android.app.Activity
-import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,46 +11,36 @@ import com.example.aima_id_app.data.model.db_model.UserDocument
 import com.example.aima_id_app.util.enums.DocStatus
 import com.example.aima_id_app.util.enums.DocType
 
-class FileInputAdapter(
-    private val context: Context,
-    private val fileInputs: List<DocType>,
-    private val userDocuments: List<UserDocument>
-) : RecyclerView.Adapter<FileInputAdapter.ViewHolder>() {
+class UserDocsAdapter(private val documents: List<UserDocument>) :
+    RecyclerView.Adapter<UserDocsAdapter.ViewHolder>() {
 
-    companion object {
-        const val REQUEST_CODE_PICK_FILE = 155
-    }
-
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val iconImageView: ImageView = itemView.findViewById(R.id.iconImageView)
         val titleTextView: TextView = itemView.findViewById(R.id.titleTextView)
         val descriptionTextView: TextView = itemView.findViewById(R.id.descriptionTextView)
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.item_file_input, parent, false)
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_file_input, parent, false)
         return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val docType = fileInputs[position]
-        holder.iconImageView.setImageResource(getIconForDocType(docType))
-        holder.titleTextView.text = getTitleForDocType(docType)
-
-        val userDocument = userDocuments.find { it.docType == docType }
-
-        holder.descriptionTextView.text = when (userDocument?.status) {
+        val document = documents[position]
+        holder.iconImageView.setImageResource(getIconForDocType(document.docType))
+        holder.titleTextView.text = getTitleForDocType(document.docType)
+        holder.descriptionTextView.text = when (document.status) {
             DocStatus.SUBMITTED -> "Enviado"
             DocStatus.APPROVED -> "Aprovado"
             DocStatus.REJECTED -> "Rejeitado"
             DocStatus.EXPIRED -> "Expirado"
-            null -> "Não enviado"
+            else -> "Não enviado"
         }
     }
 
     override fun getItemCount(): Int {
-        return fileInputs.size
+        return documents.size
     }
 
     private fun getIconForDocType(docType: DocType): Int {
@@ -88,15 +75,7 @@ class FileInputAdapter(
             DocType.EMPLOYMENT_CONTRACT -> "Contrato de trabalho"
             DocType.SCHOOL_REGISTRATION -> "Matrícula escolar"
             DocType.RESIDENT_PERMIT -> "Autorização de residência"
-            else -> "Documento" // default
-        }
-    }
-
-    private fun getDescriptionForDocType(docType: DocType): String {
-        return when (docType) {
-            DocType.PASSPORT -> "Clique para carregar seu arquivo"
-            // ... outros tipos de documentos ...
-            else -> "Clique para carregar seu arquivo" // Default
+            else -> "Documento"
         }
     }
 }

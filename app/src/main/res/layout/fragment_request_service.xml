@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_aima_s"
-    tools:context=".ui.view.RequestResidencyFragment">
+    tools:context=".ui.view.RequestServiceFragment">
 
     <ImageView
         android:id="@+id/imageViewID"
