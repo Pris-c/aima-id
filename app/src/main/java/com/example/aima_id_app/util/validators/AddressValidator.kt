@@ -1,6 +1,7 @@
 package com.example.aima_id_app.util.validators
 
-
+import com.example.aima_id_app.util.enums.PortugueseCities
+import java.util.Locale
 
 
 /**
@@ -40,8 +41,13 @@ class AddressValidator (
      * @param city The city name as a string.
      * @return Returns true if the city name length is between 3 and 150 characters.
      */
-    fun isValidCity(city: String) : Boolean {
-        return city.length in 3..150
+    fun isValidCity(city: String): Boolean {
+        return city.length in 3..150 && try {
+            PortugueseCities.valueOf(city.uppercase(Locale.ROOT))
+            true
+        } catch (e: IllegalArgumentException) {
+            false
+        }
     }
 
     /**
