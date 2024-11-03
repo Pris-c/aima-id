@@ -13,7 +13,7 @@ import java.time.LocalDate
  * @property dateOfBirth The date of birth of the user.
  */
 open class User (
-    val role: UserRole = UserRole.SERVICE_USER,
+    val role: String = UserRole.SERVICE_USER.role,
     val email: String = "",
     val nif: String = "",
     val name: String = "",

@@ -1,5 +1,6 @@
 package com.example.aima_id_app.ui.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -64,6 +65,7 @@ class UserServiceRegisterViewModel : ViewModel() {
         street: String, number: Int, city: String, postalCode: String,
         phone: String, password: String, callback: (Boolean) -> Unit
     ) {
+        Log.d("TESTE REGISTER", "VM register")
 
         if (!userValidator.isValidName(name) ||
             !userValidator.isValidEmail(email) ||
@@ -71,6 +73,7 @@ class UserServiceRegisterViewModel : ViewModel() {
             !userValidator.isValidDateOfBirth(dateOfBirth) ||
             !userValidator.isValidPortuguesePhone(phone)
         ) {
+            Log.d("TESTE REGISTER", "Erro de usuario")
             _registrationError.value = "Usuário Inválido"
             callback(false)
             return
@@ -81,16 +84,20 @@ class UserServiceRegisterViewModel : ViewModel() {
             !addressValidator.isValidStreet(street) ||
             !addressValidator.isValidPostalCode(postalCode)
         ) {
+            Log.d("TESTE REGISTER", "Erro de morada")
             _registrationError.value = "Morada Inválida"
             callback(false)
             return
         }
 
+
         checkDatabaseForUser(nif) { isUnique ->
             if (isUnique) {
+                Log.d("TESTE REGISTER", "is unique")
 
                 authRepository.register(email, password) { userId ->
                     if (userId == null) {
+                        Log.d("TESTE REGISTER", "Falha no registro de autenticação")
                         _registrationError.value = "Falha ao registrar autenticação"
                         callback(false)
                         return@register
@@ -112,6 +119,7 @@ class UserServiceRegisterViewModel : ViewModel() {
                         address = address
                     )
 
+                    Log.d("TESTE REGISTER", "Chamando repositorio")
 
                     userRepository.createUser(userId, serviceUser) { success ->
                         if (success == true) {
@@ -124,6 +132,9 @@ class UserServiceRegisterViewModel : ViewModel() {
 
                     }
                 }
+
+            } else {
+                Log.d("TESTE REGISTER", "Chamando repositorio")
 
             }
         }
@@ -139,7 +150,7 @@ class UserServiceRegisterViewModel : ViewModel() {
     private fun checkDatabaseForUser(nif: String, callback: (Boolean) -> Unit) {
         userRepository.findUserByNif(nif) { user ->
             if (user != null) {
-                if (user.role == UserRole.SERVICE_USER) {
+                if (user.role == UserRole.SERVICE_USER.role) {
                     _conflictErrorMessage.value = "O utilizador já se encontra registado."
                     callback(false)
                 } else {

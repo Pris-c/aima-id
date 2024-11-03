@@ -20,4 +20,4 @@ class StaffUser(
     dateOfBirth: String = LocalDate.of(1,1,1).toString(),
     val aimaUnitId: String = ""
 ) :
-    User (UserRole.STAFF, email, nif , name, dateOfBirth)
+    User (UserRole.STAFF.role, email, nif , name, dateOfBirth)

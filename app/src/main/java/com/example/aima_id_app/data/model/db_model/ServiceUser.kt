@@ -27,4 +27,4 @@ class ServiceUser(
     val address: Address = Address(),
     val docs: MutableList<DocUser> = mutableListOf()
 ) :
-    User (UserRole.SERVICE_USER, email, nif , name, dateOfBirth)
+    User (UserRole.SERVICE_USER.role, email, nif , name, dateOfBirth)

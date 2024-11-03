@@ -208,7 +208,7 @@
         private fun checkDatabaseForStaff(nif: String, callback: (Boolean) -> Unit){
             userRepository.findUserByNif(nif){ user ->
                 if (user != null){
-                    if (user.role == UserRole.STAFF){
+                    if (user.role == UserRole.STAFF.role){
                         _conflictErrorMessage.value = "O funcionário já se encontra registado."
                         callback(false)
                     } else{

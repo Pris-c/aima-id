@@ -79,6 +79,8 @@ class UserRepository {
                         UserRole.STAFF.role -> user = document.toObject<StaffUser>()
                     }
                     onComplete(user)
+                } else {
+                    onComplete(null)
                 }
             }
             .addOnFailureListener {
