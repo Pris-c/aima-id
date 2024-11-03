@@ -16,6 +16,7 @@ import com.example.aima_id_app.data.repository.ServiceRepository
 import com.example.aima_id_app.data.repository.UserRepository
 import com.example.aima_id_app.ui.adapter.FileInputAdapter
 import com.example.aima_id_app.util.enums.DocType
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 
@@ -72,7 +73,7 @@ class RequestResidencyFragment : Fragment() {
                             recyclerViewFiles.adapter = adapter
                         }
                     } else {
-                        // Lidar com o caso em que o usuário não está logado
+                        Snackbar.make(view!!, "Usuário não autenticado", Snackbar.LENGTH_SHORT).show()
                     }
 
                     // Obter a descrição do serviço
