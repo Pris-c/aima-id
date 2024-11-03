@@ -56,9 +56,7 @@ class AuthRepository(
                         userRepository.findUserById(userId.toString()) { user ->
                             if (user != null) {
                                 val userRole = UserRole.fromRole(user.role)
-
                                 onComplete(userId, userRole)
-                                //onComplete(userId, user.role)
                             }
                         }
                     } else {
