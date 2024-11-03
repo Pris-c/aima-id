@@ -103,6 +103,25 @@ class UserDocumentRepository {
             }
     }
 
+
+
+    fun getDocumentsByUser(id: String, onComplete: (MutableMap<String, UserDocument>) -> Unit) {
+        val documentsByUser = mutableMapOf<String, UserDocument>()
+        db.whereEqualTo("userId", id).get()
+            .addOnSuccessListener { result ->
+                if (!result.isEmpty){
+                    for(doc in result){
+                        documentsByUser[doc.id] = doc.toObject<UserDocument>()
+                    }
+                }
+                onComplete(documentsByUser)
+            }
+            .addOnFailureListener {
+                onComplete(mutableMapOf())
+            }
+    }
+
+
     /**
      * Retrieves all UserDocuments with a "SUBMITTED" status.
      *
