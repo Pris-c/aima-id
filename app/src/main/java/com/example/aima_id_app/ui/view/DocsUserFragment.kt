@@ -30,32 +30,12 @@ class DocsUserFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // Carregar os documentos do usuário
-        serviceViewModel.loadUserDocuments("")
+        serviceViewModel.loadUserDocuments("") // Passe o código do serviço, se necessário
 
         // Observar as mudanças na lista de documentos
         serviceViewModel.docList.observe(viewLifecycleOwner) { documents ->
             val adapter = UserDocsAdapter(documents)
             recyclerView.adapter = adapter
         }
-
-        view.findViewById<View>(R.id.updateDocsButton).setOnClickListener {
-            loadFragment(UploadDocsFragment())
-        }
-
     }
-
-    private fun loadFragment(fragment: Fragment) {
-
-        parentFragmentManager.beginTransaction()
-            .setCustomAnimations(
-                R.animator.slide_in_up,
-                R.animator.slide_out_down,
-                R.animator.slide_in_up,
-                R.animator.slide_out_down
-            )
-            .replace(R.id.fragment_container, fragment)
-            .addToBackStack(null)
-            .commit()
-    }
-
 }
