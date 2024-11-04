@@ -21,22 +21,20 @@ class UserDocsViewModel(
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
 ) : ViewModel() {
 
+
     /**
-     * Retrieves documents associated with the currently authenticated user.
+     * Retrieves a mutable list of UserDocument entries associated with the currently
+     * authenticated user.
      *
-     * @param onComplete A callback function that receives a map of user documents once the
-     * retrieval is complete.
-     *
-     *    The key is a String identifier for the document, and the value is the
-     *    correspondingUserDocument object.
-     *
+     * @param onComplete A callback function that receives a MutableList of UserDocument entries.
+     *                   If no documents are found, an empty list is returned.
      */
-    fun getUserDocs(onComplete: (MutableMap<String, UserDocument>) -> Unit) {
-        val userId = auth.currentUser?.uid?: return
-        userDocumentRepository.getDocumentsByUser(userId) { userDocuments ->
-            onComplete(userDocuments)
+    fun getUserDocs(onComplete: (MutableList<UserDocument>) -> Unit) {
+        //val userId = auth.currentUser?.uid?: return
+        val userId = "ZDwOcmkFVhd9ZVoizOrUn7TYiex1"
+        userDocumentRepository.filterByUser(userId) { userDocuments ->
+            onComplete(userDocuments.ifEmpty { mutableListOf() })
         }
     }
-
 
 }
