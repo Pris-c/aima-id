@@ -33,7 +33,6 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        main();
 
 
         // Create a Handler to start the LoginActivity after 1 second
@@ -51,11 +50,5 @@ class MainActivity : AppCompatActivity() {
 
 
     }
-    fun main() {
-        val document = File("path/to/your/document.pdf")
-        val validator = DocValidator()
 
-        val validationMessage = validator.validatePDF(document)
-        println(validationMessage)
-    }
 }
