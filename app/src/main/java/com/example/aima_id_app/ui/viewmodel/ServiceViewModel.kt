@@ -42,7 +42,7 @@ class ServiceViewModel (
     fun loadUserDocuments(code: String) {
         val userId = auth.currentUser?.uid.toString()
         var userDocuments: MutableList<UserDocument>? = null
-        var requiredDocs: MutableList<DocType>? = null
+        var requiredDocs: MutableList<String>? = null
 
         userDocRepository.filterByUser(userId) { documents ->
             if (documents.isNotEmpty()) {
@@ -72,7 +72,7 @@ class ServiceViewModel (
      */
     private fun checkIfCompleted(
         userDocuments: MutableList<UserDocument>?,
-        requiredDocs: MutableList<DocType>?,
+        requiredDocs: MutableList<String>?,
     ) {
         if (userDocuments != null && requiredDocs != null) {
             val filteredDocuments = userDocuments.filter { userDocument ->
@@ -82,12 +82,12 @@ class ServiceViewModel (
             for (doc in filteredDocuments) {
                 val expirationDay = LocalDate.parse(doc.expirationDate)
                 if (expirationDay.isBefore(LocalDate.now())) {
-                    doc.status = DocStatus.EXPIRED
+                    doc.status = DocStatus.EXPIRED.status
                 }
             }
 
             val approvedDocs = filteredDocuments.filter { doc ->
-                doc.status == DocStatus.APPROVED
+                doc.status == DocStatus.APPROVED.status
             }
 
             _docList.value = filteredDocuments

@@ -17,9 +17,9 @@ import java.time.LocalDate
 
 data class UserDocument (
     var docPath: String = "",
-    val docType: DocType = DocType.NIF,
+    val docType: String = DocType.NIF.toString(),
     val userId: String = "",
-    var status: DocStatus = DocStatus.SUBMITTED,
+    var status: String = DocStatus.SUBMITTED.toString(),
     var submittedAt: String = LocalDate.of(1,1,1).toString(),
     var expirationDate: String = LocalDate.of(2125,12,30).toString()
 )

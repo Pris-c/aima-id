@@ -20,5 +20,12 @@ enum class DocType(val doc: String) {
     NIF("NIF"),
     NISS("NISS"),
     CITIZENSHIP_ID("Atestado de Nacionalidade"),
-    PROOF_INCOME("Comprovativo de Meios de Subsistência")
+    PROOF_INCOME("Comprovativo de Meios de Subsistência");
+
+    companion object {
+        fun fromType(doc: String): DocType? {
+            return DocType.values().find { it.doc.equals(doc, ignoreCase = true) }
+        }
+    }
+
 }

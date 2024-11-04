@@ -10,6 +10,7 @@ import com.example.aima_id_app.util.enums.DocType
  *
  */
 class DocUser (
+    // TODO Update to String
     val docType: DocType = DocType.NIF,
     val docId: String = ""
 )
