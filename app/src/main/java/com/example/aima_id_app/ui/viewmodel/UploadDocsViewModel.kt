@@ -30,8 +30,8 @@ class UploadDocsViewModel(
     private val userDocumentRepository: UserDocumentRepository = UserDocumentRepository()
 ) : ViewModel() {
 
-    private val _uploadStatus = MutableLiveData<String?>()
-    val uploadStatus: LiveData<String?> get() = _uploadStatus
+    private val _documentErrorMessage = MutableLiveData<String?>()
+    val documentErrorMessage: LiveData<String?> get() = _documentErrorMessage
 
     /**
      * Saves a new document or updates an existing document for the authenticated user.
@@ -42,26 +42,24 @@ class UploadDocsViewModel(
      * @param docType The type of document to be checked and saved.
      * @return Returns the authenticated user or null if no user is authenticated.
      */
-    fun saveOrUpdateDoc(document: File, docType: DocType): FirebaseUser? {
+    fun saveOrUpdateDoc(document: File, docType: DocType): User? {
         val userId = auth.currentUser?.uid.toString()
-        val user = auth.currentUser
 
         userRepository.findUserById(userId) { user ->
-            if (user != null && user.role == UserRole.SERVICE_USER) {
-                val serviceUser = user as? ServiceUser
+            if (user != null && (user.role).equals(UserRole.SERVICE_USER)) {
 
-                userDocumentRepository.filterByUser(userId) { userDocuments ->
-                    val hasDocument = userDocuments.any { it.docType == docType }
-
-                    if (!hasDocument) {
+                userDocumentRepository.findDocTypeByUser(userId, docType) { id, userDocuments ->
+                    if (userDocuments != null) {
+                        updateDocument(userDocuments,document)
+                    }else{
                         newDocUpdate(document, docType)
-                    } else {
-                        updateExistingDoc(document, userId, docType)
                     }
                 }
+            }else{
+                _documentErrorMessage.postValue("Usuário inválido")
             }
         }
-        return auth.currentUser
+
     }
 
     /**
@@ -73,13 +71,13 @@ class UploadDocsViewModel(
      */
     private fun newDocUpdate(document: File, docType: DocType) {
         val userId = auth.currentUser?.uid ?: return
-        val serviceUser = auth.currentUser as? ServiceUser
+        val serviceUser = auth.currentUser as ServiceUser
 
         storageRepository.saveFile(document) { docPath ->
             if (docPath != null) {
                 val userDocument = UserDocument(
                     docPath = docPath,
-                    docType = docType,
+                    docType = docType.toString(),
                     userId = userId,
                     submittedAt = LocalDate.now().toString()
                 )
@@ -87,58 +85,55 @@ class UploadDocsViewModel(
                 userDocumentRepository.save(doc = userDocument) { docId ->
                     if (docId != null) {
                         val newDoc = DocUser(docType, docId)
-                        serviceUser?.docs?.add(newDoc)
-
-                        userRepository.updateUser(userId, user = User) { success ->
-                            if (success == true) {
-                                Log.d("UploadDocsViewModel", "Document added successfully.")
-                            } else {
-                                Log.e("UploadDocsViewModel", "Failed to update user.")
-                            }
-                        }
+                        serviceUser.docs.add(newDoc)
                     } else {
-                        Log.e("UploadDocsViewModel", "Failed to save UserDocument.")
+                        _documentErrorMessage.postValue("Failed to save UserDocument.")
                     }
                 }
             } else {
-                Log.e("UploadDocsViewModel", "Failed to save file to storage.")
+                _documentErrorMessage.postValue("Failed to save file to storage.")
             }
         }
     }
-
     /**
-     * Updates an existing document in Firebase Storage and in the user's document repository.
-     * Retrieves the old document path, saves the new file, and deletes the old file.
+     * Updates an existing document by saving the new file to Firebase Storage, updating the document fields,
+     * and deleting the old file from storage.
      *
-     * @param document The new file to be saved.
-     * @param userId The ID of the user for whom the document is being updated.
-     * @param docType The type of document being updated.
+     * @param document The existing UserDocument to update.
+     * @param newFile The new file to upload.
      */
-    private fun updateExistingDoc(document: File, userId: String, docType: DocType) {
-        val serviceUser = auth.currentUser as? ServiceUser
+    fun updateDocument(document: UserDocument, newFile: File) {
+        val oldDocPath = document.docPath
 
-        userDocumentRepository.filterByUser(userId) { userDocuments ->
-            val existingDocument = userDocuments.find { it.docType == docType }
-
-            if (existingDocument != null) {
-                val oldDocPath = existingDocument.docPath.toString()
-
-                storageRepository.saveFile(document) { newDocPath ->
-                    if (newDocPath != null) {
-                        existingDocument.apply {
-                            docPath = newDocPath
-                            status = DocStatus.SUBMITTED
-                            submittedAt = LocalDate.now().toString()
+        storageRepository.saveFile(newFile) { newDocPath ->
+            if (newDocPath != null) {
+                document.apply {
+                    docPath = newDocPath
+                    submittedAt = LocalDate.now().toString()
+                    status = DocStatus.SUBMITTED.toString()
+                    expirationDate = LocalDate.of(2125, 12, 30).toString()
+                }
+                userDocumentRepository.getDocumentId(document.userId, document.docType) { docId ->
+                    if (docId != null) {
+                        userDocumentRepository.update(docId, document) { updateSuccess ->
+                            if (updateSuccess!!) {
+                                storageRepository.deleteFile(oldDocPath) { deleteSuccess ->
+                                    if (deleteSuccess) {
+                                        _documentErrorMessage.postValue("Documento atualizado e arquivo antigo deletado com sucesso.")
+                                    } else {
+                                        _documentErrorMessage.postValue("Falha ao deletar o arquivo antigo.")
+                                    }
+                                }
+                            } else {
+                                _documentErrorMessage.postValue("Falha ao atualizar o arquivo.")
+                            }
                         }
-
-                        storageRepository.deleteFile(oldDocPath)
-                        Log.d("UploadDocsViewModel", "Document updated successfully.")
                     } else {
-                        Log.e("UploadDocsViewModel", "Failed to save new file for update.")
+                        _documentErrorMessage.postValue("ID do documento não encontrado.")
                     }
                 }
             } else {
-                Log.e("UploadDocsViewModel", "No existing document found for update.")
+                _documentErrorMessage.postValue("Falha ao salvar o novo arquivo.")
             }
         }
     }
