@@ -1,13 +1,9 @@
 package com.example.aima_id_app.data.repository
 
-import android.net.Uri
 import android.os.Environment
 import android.util.Log
-import android.widget.Toast
-import com.google.android.gms.tasks.OnFailureListener
-import com.google.android.gms.tasks.OnSuccessListener
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileInputStream
@@ -18,12 +14,12 @@ import java.io.FileInputStream
  * Provides methods for saving, retrieving, and deleting documents.
  */
 class DocStorageRepository(
-    val userDocRepository: UserDocumentRepository = UserDocumentRepository()
+    val userDocRepository: UserDocumentRepository = UserDocumentRepository(),
+    val auth : FirebaseAuth = FirebaseAuth.getInstance()
 ) {
 
-    private val storageRef = FirebaseStorage.getInstance().reference.child("userDocuments")
-
-
+    private val storageRefToDelete = FirebaseStorage.getInstance().reference
+    private val storageRef = storageRefToDelete.child("userDocuments")
 
     /**
      * Saves a document to Firebase Storage.
@@ -32,6 +28,7 @@ class DocStorageRepository(
      * @param onComplete A callback function that returns the storage path if the upload is successful, or null if it fails.
      */
     fun saveFile(document: File, onComplete: (String?) -> Unit) {
+
         val fileInputStream = FileInputStream(document)
         val baos = ByteArrayOutputStream()
         val buffer = ByteArray(1024)
@@ -42,14 +39,14 @@ class DocStorageRepository(
         }
         val fileData = baos.toByteArray()
 
-        val documentRef = storageRef.child(document.name)
+        val documentRef = storageRef.child("${auth.currentUser?.uid.toString()}_${System.currentTimeMillis()}_${document.name}")
         val uploadTask = documentRef.putBytes(fileData)
 
         uploadTask
             .addOnSuccessListener {
                 onComplete(documentRef.path)
             }
-            .addOnFailureListener { exception ->
+            .addOnFailureListener {
                 onComplete(null)
             }
     }
@@ -67,18 +64,15 @@ class DocStorageRepository(
         userDocRepository.getFileName(path){ fileName ->
 
             if (fileName != null){
-                Log.e("CHEKINHO", fileName)
                 val localFile = File(downloadsDir, fileName)
                 documentRef.getFile(localFile)
                     .addOnSuccessListener {
                         onComplete(localFile)
                     }
                     .addOnFailureListener { exception ->
-                        Log.e("ERROR", "Failed to retrieve file data: ${exception.message}")
                         onComplete(null)
                     }
             } else {
-                Log.e("ERROR", "Failed to retrieve file data.")
                 onComplete(null)
             }
         }
@@ -91,8 +85,7 @@ class DocStorageRepository(
      * @param onComplete A callback function that returns true if the deletion is successful, or false if it fails.
      */
     fun deleteFile(path: String, onComplete: (Boolean) -> Unit) {
-        val documentRef = storageRef.child(path)
-
+        val documentRef = storageRefToDelete.child(path)
         documentRef.delete()
             .addOnSuccessListener {
                 onComplete(true)
@@ -100,5 +93,6 @@ class DocStorageRepository(
             .addOnFailureListener {
                 onComplete(false)
             }
+
     }
 }
