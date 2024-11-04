@@ -315,5 +315,13 @@ enum class PortugueseCities(val city: String) {
     MONCHIQUE("Monchique"),
     MONFORTE("Monforte"),
     VINHAIS("Vinhais"),
-    VILA_VICOSA("Vila Viçosa")
+    VILA_VICOSA("Vila Viçosa");
+
+
+    companion object {
+        fun fromCity(city: String): PortugueseCities? {
+            return PortugueseCities.values().find { it.city.equals(city, ignoreCase = true) }
+        }
+    }
+
 }

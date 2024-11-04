@@ -25,4 +25,12 @@ enum class PossibleScheduling(val time: String) {
     TIME_16_00("16:00"),
     TIME_16_30("16:30"),
     TIME_17_00("17:00");
+
+
+
+    companion object {
+        fun fromTime(time: String): PossibleScheduling? {
+            return PossibleScheduling.values().find { it.time.equals(time, ignoreCase = true) }
+        }
+    }
 }

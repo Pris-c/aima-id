@@ -11,5 +11,11 @@ enum class DocStatus(val status: String) {
         SUBMITTED("Submetido"),
         APPROVED("Aprovado"),
         REJECTED("Rejeitado"),
-        EXPIRED("Expirado")
+        EXPIRED("Expirado");
+
+        companion object {
+                fun fromStatus(status: String): DocStatus? {
+                        return DocStatus.values().find { it.status.equals(status, ignoreCase = true) }
+                }
+        }
 }

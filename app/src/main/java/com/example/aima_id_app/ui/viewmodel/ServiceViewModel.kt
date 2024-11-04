@@ -90,8 +90,6 @@ class ServiceViewModel (
                 doc.status == DocStatus.APPROVED.status
             }
 
-
-
             _docList.value = filteredDocuments
             _hasAllDocumentsApproved.value = approvedDocs.size == filteredDocuments.size
         }
