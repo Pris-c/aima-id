@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.Spinner
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,12 +14,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.aima_id_app.R
 import com.example.aima_id_app.ui.adapter.FileInputAdapter
 import com.example.aima_id_app.ui.viewmodel.ServiceViewModel
+import com.example.aima_id_app.util.enums.DocType
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 
 class RequestServiceFragment : Fragment() {
 
     private lateinit var recyclerViewFiles: RecyclerView
     private lateinit var spinner: Spinner
+    private lateinit var registerServiceButton: Button
     private val serviceViewModel = ServiceViewModel()
 
     override fun onCreateView(
@@ -58,7 +62,9 @@ class RequestServiceFragment : Fragment() {
                     serviceViewModel.loadUserDocuments(selectedService.name)
 
                     serviceViewModel.docList.observe(viewLifecycleOwner) { documents ->
-                        val adapter = FileInputAdapter(requireContext(), selectedService.requiredDocuments, documents)
+                        val docTypeList: List<DocType> = fileInputs.mapNotNull { DocType.fromType(it) }
+
+                        val adapter = FileInputAdapter(requireContext(), docTypeList, documents)
                         recyclerViewFiles.adapter = adapter
                     }
 
@@ -72,5 +78,22 @@ class RequestServiceFragment : Fragment() {
                 }
             }
         }
+
+        registerServiceButton.setOnClickListener {
+            val selectedServicePosition = spinner.selectedItemPosition
+            val selectedServiceCode = serviceViewModel.getAll { services -> services[selectedServicePosition].name }
+            // 1. Check if all required documents are approved
+                serviceViewModel.hasAllDocumentsApproved.observe(viewLifecycleOwner) { hasAllApproved ->
+                    if (hasAllApproved) {
+                        Snackbar.make(requireView(), "Todos os documentos foram aprovados.", Snackbar.LENGTH_SHORT).show()
+                    } else {
+                       Snackbar.make(requireView(), "Por favor, aprovar todos os documentos antes de prosseguir.", Snackbar.LENGTH_SHORT).show()
+                    }
+                }
+            serviceViewModel.loadUserDocuments(selectedServiceCode.toString())
+        }
+
+
+
     }
 }

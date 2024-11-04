@@ -28,13 +28,15 @@ class UserDocsAdapter(private val documents: List<UserDocument>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val document = documents[position]
-        holder.iconImageView.setImageResource(getIconForDocType(document.docType))
-        holder.titleTextView.text = getTitleForDocType(document.docType)
+        val documentEnum = DocType.fromType(document.docType) ?: return
+
+        holder.iconImageView.setImageResource(getIconForDocType(documentEnum))
+        holder.titleTextView.text = getTitleForDocType(documentEnum)
         holder.descriptionTextView.text = when (document.status) {
-            DocStatus.SUBMITTED -> "Enviado"
-            DocStatus.APPROVED -> "Aprovado"
-            DocStatus.REJECTED -> "Rejeitado"
-            DocStatus.EXPIRED -> "Expirado"
+            DocStatus.SUBMITTED.status -> "Enviado"
+            DocStatus.APPROVED.status -> "Aprovado"
+            DocStatus.REJECTED.status -> "Rejeitado"
+            DocStatus.EXPIRED.status -> "Expirado"
             else -> "Não enviado"
         }
     }
