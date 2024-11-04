@@ -104,20 +104,12 @@ class UserDocumentRepository {
             }
     }
 
-    fun findDocTypeByUser(id: String, doctype: DocType, onComplete: (String?, UserDocument?) -> Unit){
-        db.whereEqualTo("userId", id).whereEqualTo("docType", doctype.doc).get()
-            .addOnSuccessListener { result ->
-                if (!result.isEmpty){
-                    val document = result.documents[0]
-                    onComplete(document.id, document.toObject<UserDocument>())
-                }
-                onComplete(null, null)
-            }
-            .addOnFailureListener {
-                onComplete(null, null)
-            }
-    }
-
+    /**
+     * Retrieves documents associated with a specific user ID.
+     *
+     * @param id The user ID to filter by.
+     * @param onComplete A callback returning a map of document IDs to UserDocument objects.
+     */
     fun getDocumentsByUser(id: String, onComplete: (MutableMap<String, UserDocument>) -> Unit) {
         val documentsByUser = mutableMapOf<String, UserDocument>()
         db.whereEqualTo("userId", id).get()
@@ -133,6 +125,28 @@ class UserDocumentRepository {
                 onComplete(mutableMapOf())
             }
     }
+
+    /**
+     * Finds a document of a specific type associated with the given user ID.
+     *
+     * @param id The user ID to filter by.
+     * @param docType The type of document to search for.
+     * @param onComplete A callback returning the document ID and the UserDocument object if found, or nulls if not.
+     */
+    fun findDocTypeByUser(id: String, doctype: DocType, onComplete: (String?, UserDocument?) -> Unit){
+        db.whereEqualTo("userId", id).whereEqualTo("docType", doctype.doc).get()
+            .addOnSuccessListener { result ->
+                if (!result.isEmpty){
+                    val document = result.documents[0]
+                    onComplete(document.id, document.toObject<UserDocument>())
+                }
+                onComplete(null, null)
+            }
+            .addOnFailureListener {
+                onComplete(null, null)
+            }
+    }
+
 
 
     /**
@@ -180,6 +194,15 @@ class UserDocumentRepository {
                 onComplete(null)
             }
     }
+
+
+    /**
+     * Retrieves the document ID for a specific user ID and document type.
+     *
+     * @param userId The user ID to filter by.
+     * @param docType The type of document to search for.
+     * @param onComplete A callback that returns the document ID, or null if not found.
+     */
     fun getDocumentId(userId: String, docType: DocType, onComplete: (String?) -> Unit) {
         db.whereEqualTo("userId", userId)
             .whereEqualTo("docType", docType)
@@ -192,5 +215,7 @@ class UserDocumentRepository {
                 onComplete(null)
             }
     }
+
+
 }
 
