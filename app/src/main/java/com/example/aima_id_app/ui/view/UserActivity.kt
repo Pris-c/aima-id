@@ -73,7 +73,7 @@ class UserActivity : AppCompatActivity() {
      *
      * @param fragment The fragment to be loaded.
      */
-    private fun loadFragment(fragment: Fragment) {
+     fun loadFragment(fragment: Fragment) {
         val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
 
         if (currentFragment == null || currentFragment::class != fragment::class) {
