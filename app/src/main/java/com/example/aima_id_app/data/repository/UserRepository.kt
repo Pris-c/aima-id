@@ -127,23 +127,5 @@ class UserRepository {
             }
     }
 
-    fun getUserDocuments(uid: String, callback: (List<UserDocument>) -> Unit) {
-        val userDocumentsRef = firestore.collection("userDocuments").whereEqualTo("userId", uid)
-
-        userDocumentsRef.get()
-            .addOnSuccessListener { documents ->
-                val userDocuments = documents.mapNotNull { document ->
-                    try {
-                        document.toObject(UserDocument::class.java)
-                    } catch (e: Exception) {
-                        null
-                    }
-                }
-                callback(userDocuments)
-            }
-            .addOnFailureListener { exception ->
-                //
-            }
-    }
 }
 
