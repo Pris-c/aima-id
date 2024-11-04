@@ -3,7 +3,9 @@ package com.example.aima_id_app.ui.viewmodel
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.aima_id_app.data.model.db_model.AimaProcess
 import com.example.aima_id_app.data.model.db_model.UserDocument
+import com.example.aima_id_app.data.repository.AimaProcessRepository
 import com.example.aima_id_app.data.repository.ServiceRepository
 import com.example.aima_id_app.data.repository.UserDocumentRepository
 import com.example.aima_id_app.util.enums.DocStatus
@@ -21,7 +23,8 @@ import java.time.LocalDate
 class ServiceViewModel (
     private val auth: FirebaseAuth = FirebaseAuth.getInstance(),
     private val userDocRepository : UserDocumentRepository = UserDocumentRepository(),
-    private val serviceRepository : ServiceRepository = ServiceRepository()
+    private val serviceRepository : ServiceRepository = ServiceRepository(),
+    private val aimaProcessRepository : AimaProcessRepository = AimaProcessRepository()
 ) : ViewModel() {
 
     private val _docList = MutableLiveData<List<UserDocument>>()
@@ -92,6 +95,21 @@ class ServiceViewModel (
 
             _docList.value = filteredDocuments
             _hasAllDocumentsApproved.value = approvedDocs.size == filteredDocuments.size
+        }
+    }
+
+    /**
+     * Initiates a new process for the specified user and service code.
+     *
+     * @param userId The unique identifier of the user initiating the process.
+     * @param servCode The service code associated with the process to be created.
+     * @param onComplete A callback function that is invoked upon completion of the process creation.
+     *                   The callback receives a Boolean indicating whether the process creation was successful.
+     */
+   fun newProcess(userId: String, servCode: String, onComplete: (Boolean) -> Unit){
+        val process = AimaProcess(userId, servCode)
+        aimaProcessRepository.createProcess(process){ success ->
+            onComplete(success)
         }
     }
 
