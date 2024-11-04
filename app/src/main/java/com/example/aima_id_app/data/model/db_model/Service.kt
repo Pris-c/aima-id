@@ -5,5 +5,5 @@ import com.example.aima_id_app.util.enums.DocType
 class Service(
     val name: String = "",
     val hasPresencialAttendance: Boolean = false,
-    val requiredDocuments: MutableList<DocType> = mutableListOf<DocType>()
+    val requiredDocuments: MutableList<String> = mutableListOf<String>()
 ) {}
