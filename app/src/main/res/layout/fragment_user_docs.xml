@@ -59,12 +59,12 @@
                 android:layout_marginBottom="15dp" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/registerStaffButton"
+                android:id="@+id/updateDocsButton"
                 android:layout_width="337dp"
                 android:layout_height="62dp"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/aima_gradient_primary"
-                android:text="REGISTAR"
+                android:text="ATUALIZAR DOCUMENTOS"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"
