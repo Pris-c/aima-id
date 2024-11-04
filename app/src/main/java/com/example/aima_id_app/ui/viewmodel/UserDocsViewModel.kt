@@ -30,8 +30,7 @@ class UserDocsViewModel(
      *                   If no documents are found, an empty list is returned.
      */
     fun getUserDocs(onComplete: (MutableList<UserDocument>) -> Unit) {
-        //val userId = auth.currentUser?.uid?: return
-        val userId = "ZDwOcmkFVhd9ZVoizOrUn7TYiex1"
+        val userId = auth.currentUser?.uid?: return
         userDocumentRepository.filterByUser(userId) { userDocuments ->
             onComplete(userDocuments.ifEmpty { mutableListOf() })
         }
