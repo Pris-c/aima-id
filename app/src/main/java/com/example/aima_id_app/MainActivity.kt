@@ -14,6 +14,7 @@ import com.example.aima_id_app.databinding.ActivityMainBinding
 import com.example.aima_id_app.ui.view.AdminActivity
 import com.example.aima_id_app.ui.view.LoginActivity
 import com.example.aima_id_app.ui.view.UserActivity
+import com.example.aima_id_app.ui.viewmodel.StatusViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 

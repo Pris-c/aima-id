@@ -5,131 +5,112 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.toObject
 
 /**
- * A repository class for managing processes in a Firestore database.
+ * Repository for managing AimaProcess objects within a Firestore database.
  *
- * This class provides methods to create, retrieve, update, and find processes
- * associated with different criteria such as type and user ID.
+ * Provides methods to create, retrieve, update, and filter processes based on
+ * criteria such as user ID and service code.
  */
 class AimaProcessRepository {
 
     private val db = FirebaseFirestore.getInstance().collection("processes")
 
     /**
-     * Creates a new process in the Firestore database.
+     * Adds a new process to the Firestore database.
      *
-     * @param process The process object to be added to the database.
-     * @param onComplete A callback function that is invoked with a Boolean value
-     *                   indicating success (true) or failure (false) of the operation.
+     * @param process The AimaProcess object to be added.
+     * @param onComplete Callback invoked with `true` if the operation succeeds, `false` otherwise.
      */
-    fun createProcess(process: AimaProcess, onComplete: (Boolean) -> Unit){
+    fun createProcess(process: AimaProcess, onComplete: (Boolean) -> Unit) {
         db.add(process)
-            .addOnSuccessListener {
-                onComplete(true)
-            }
-            .addOnFailureListener {
-                onComplete(false)
-            }
+            .addOnSuccessListener { onComplete(true) }
+            .addOnFailureListener { onComplete(false) }
     }
 
     /**
-     * Retrieves a process by its ID from the Firestore database.
+     * Retrieves a specific process by its unique ID.
      *
-     * @param id The unique identifier of the process to retrieve.
-     * @param onComplete A callback function that is invoked with the retrieved process
-     *                   object or null if the process is not found.
+     * @param id The ID of the process to retrieve.
+     * @param onComplete Callback invoked with the retrieved AimaProcess object, or `null` if not found.
      */
-    fun findProcessById(id: String,  onComplete: (AimaProcess?) -> Unit) {
+    fun findProcessById(id: String, onComplete: (AimaProcess?) -> Unit) {
         db.document(id).get()
-            .addOnSuccessListener { document ->
-                onComplete(document.toObject<AimaProcess>())
-            }
-            .addOnFailureListener {
-                onComplete(null)
-            }
+            .addOnSuccessListener { document -> onComplete(document.toObject<AimaProcess>()) }
+            .addOnFailureListener { onComplete(null) }
     }
 
     /**
-     * Finds processes by their service code.
+     * Retrieves processes filtered by service code.
      *
-     * @param serviceCode The service code to filter processes.
-     * @param onComplete A callback function that is invoked with a mutable list of
-     *                   processes that match the service code.
+     * @param serviceCode The service code to match against.
+     * @param onComplete Callback invoked with a list of processes matching the specified service code.
      */
     fun findProcessByType(serviceCode: String, onComplete: (MutableList<AimaProcess>) -> Unit) {
         db.whereEqualTo("serviceCode", serviceCode).get()
-            .addOnSuccessListener { list ->
-                val processes = mutableListOf<AimaProcess>()
-                for (document in list){
-                    val process = document.toObject<AimaProcess>()
-                    processes.add(process)
-                }
+            .addOnSuccessListener { documents ->
+                val processes = documents.mapNotNull { it.toObject<AimaProcess>() }.toMutableList()
                 onComplete(processes)
             }
-            .addOnFailureListener{
-                onComplete(mutableListOf())
-            }
+            .addOnFailureListener { onComplete(mutableListOf()) }
     }
 
     /**
-     * Finds processes associated with a specific user ID.
+     * Retrieves processes associated with a specific user ID.
      *
-     * @param userId The user ID to filter processes.
-     * @param onComplete A callback function that is invoked with a mutable list of
-     *                   processes associated with the user ID.
+     * @param userId The user ID to match.
+     * @param onComplete Callback invoked with a map of process IDs to AimaProcess objects.
+     */
+    fun filterProcessesByUser(userId: String, onComplete: (MutableMap<String, AimaProcess>) -> Unit) {
+        val userProcesses = mutableMapOf<String, AimaProcess>()
+
+        db.whereEqualTo("userId", userId).get()
+            .addOnSuccessListener { documents ->
+                documents.forEach { document ->
+                    userProcesses[document.id] = document.toObject<AimaProcess>()
+                }
+                onComplete(userProcesses)
+            }
+            .addOnFailureListener { onComplete(userProcesses) }
+    }
+
+    /**
+     * Retrieves processes associated with a specific user ID as a list.
+     *
+     * @param userId The user ID to match.
+     * @param onComplete Callback invoked with a list of processes associated with the specified user ID.
      */
     fun findProcessesByUser(userId: String, onComplete: (MutableList<AimaProcess>) -> Unit) {
         db.whereEqualTo("userId", userId).get()
-            .addOnSuccessListener { list ->
-                val processes = mutableListOf<AimaProcess>()
-                for (document in list){
-                    val process = document.toObject<AimaProcess>()
-                    processes.add(process)
-                }
+            .addOnSuccessListener { documents ->
+                val processes = documents.mapNotNull { it.toObject<AimaProcess>() }.toMutableList()
                 onComplete(processes)
             }
-            .addOnFailureListener{
-                onComplete(mutableListOf())
-            }
+            .addOnFailureListener { onComplete(mutableListOf()) }
     }
 
     /**
      * Retrieves all processes from the Firestore database.
      *
-     * @param onComplete A callback function that is invoked with a mutable list of
-     *                   all processes retrieved from the database.
+     * @param onComplete Callback invoked with a list of all processes, or an empty list if none are found.
      */
     fun findAllProcesses(onComplete: (MutableList<AimaProcess>) -> Unit) {
         db.get()
-            .addOnSuccessListener { list ->
-                val processes = mutableListOf<AimaProcess>()
-                for (document in list) {
-                    val process = document.toObject<AimaProcess>()
-                    processes.add(process)
-                }
+            .addOnSuccessListener { documents ->
+                val processes = documents.mapNotNull { it.toObject<AimaProcess>() }.toMutableList()
                 onComplete(processes)
             }
-            .addOnFailureListener {
-                onComplete(mutableListOf())
-            }
+            .addOnFailureListener { onComplete(mutableListOf()) }
     }
 
     /**
      * Updates an existing process in the Firestore database.
      *
-     * @param id The unique identifier of the process to update.
-     * @param process The updated process object.
-     * @param onComplete A callback function that is invoked with a Boolean value
-     *                   indicating success (true) or failure (false) of the operation.
+     * @param id The ID of the process to update.
+     * @param process The updated AimaProcess object.
+     * @param onComplete Callback invoked with `true` if the update succeeds, `false` otherwise.
      */
-    fun updateProcess(id: String, process: AimaProcess, onComplete: (Boolean?) -> Unit) {
+    fun updateProcess(id: String, process: AimaProcess, onComplete: (Boolean) -> Unit) {
         db.document(id).set(process)
-            .addOnSuccessListener {
-                onComplete(true)
-            }
-
-            .addOnFailureListener {
-                onComplete(false)
-            }
+            .addOnSuccessListener { onComplete(true) }
+            .addOnFailureListener { onComplete(false) }
     }
-
 }
