@@ -1,6 +1,7 @@
 package com.example.aima_id_app.util.validators
 
-
+import com.example.aima_id_app.util.enums.PortugueseCities
+import java.util.Locale
 
 
 /**
@@ -34,14 +35,18 @@ class AddressValidator (
     }
 
     /**
-     * Function that validates if the city name is valid.
-     * The city name must have a length between 3 and 150 characters.
+     * Validates if the provided city name is recognized as a valid city within Portugal.
      *
-     * @param city The city name as a string.
-     * @return Returns true if the city name length is between 3 and 150 characters.
+     * This function checks if the given `city` matches any entry in the `PortugueseCities` enum,
+     * ignoring case differences. It compares the provided city name to entries in the enum
+     * to determine if it exists in the list of valid Portuguese cities.
+     *
+     * @param city The name of the city to validate, provided as a string.
+     * @return `true` if the city exists in the `PortugueseCities` enum, `false` otherwise.
      */
-    fun isValidCity(city: String) : Boolean {
-        return city.length in 3..150
+    fun isValidCity(city: String): Boolean {
+        val portugueseCities: List<String> = PortugueseCities.entries.map { it.city }
+        return portugueseCities.any { it.equals(city, ignoreCase = true) }
     }
 
     /**
