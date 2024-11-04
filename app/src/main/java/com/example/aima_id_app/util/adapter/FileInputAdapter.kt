@@ -41,14 +41,15 @@ class FileInputAdapter(
         holder.iconImageView.setImageResource(getIconForDocType(docType))
         holder.titleTextView.text = getTitleForDocType(docType)
 
-        val userDocument = userDocuments.find { it.docType == docType }
+        val userDocument = userDocuments.find { DocType.fromType(it.docType) == docType }
 
         holder.descriptionTextView.text = when (userDocument?.status) {
-            DocStatus.SUBMITTED -> "Enviado"
-            DocStatus.APPROVED -> "Aprovado"
-            DocStatus.REJECTED -> "Rejeitado"
-            DocStatus.EXPIRED -> "Expirado"
+            DocStatus.SUBMITTED.status -> "Enviado"
+            DocStatus.APPROVED.status -> "Aprovado"
+            DocStatus.REJECTED.status -> "Rejeitado"
+            DocStatus.EXPIRED.status -> "Expirado"
             null -> "Não enviado"
+            else -> "Não enviado"
         }
     }
 
@@ -92,11 +93,14 @@ class FileInputAdapter(
         }
     }
 
-    private fun getDescriptionForDocType(docType: DocType): String {
-        return when (docType) {
-            DocType.PASSPORT -> "Clique para carregar seu arquivo"
-            // ... outros tipos de documentos ...
-            else -> "Clique para carregar seu arquivo" // Default
+    private fun getDescriptionForDocStatus(docStatus: DocStatus): String {
+        return when (docStatus) {
+            DocStatus.SUBMITTED -> "Enviado"
+            DocStatus.APPROVED -> "Aprovado"
+            DocStatus.REJECTED -> "Rejeitado"
+            DocStatus.EXPIRED -> "Expirado"
+            null -> "Pendente"
+            else -> "Não enviado" // Default
         }
     }
 }
