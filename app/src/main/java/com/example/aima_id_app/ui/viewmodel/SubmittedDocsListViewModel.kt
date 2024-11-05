@@ -9,10 +9,9 @@ class SubmittedDocsListViewModel (
 
 ) : ViewModel() {
 
-    fun getDocsToAnalyse(onComplete: (MutableList<UserDocument>) -> Unit) {
-
+    fun getDocsToAnalyse(onComplete: (MutableMap<String, UserDocument>) -> Unit) {
         userDocumentRepository.filterSubmittedDocs { documents ->
-           onComplete(documents)
+            onComplete(documents)
         }
     }
 
