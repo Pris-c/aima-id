@@ -38,73 +38,16 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_main)
 
-      // TODO : Carregar documentos da Ana
-
-        /*val mockUserDocument = UserDocument(
-            "image/path",
-            "Passaporte",
-            "ZDwOcmkFVhd9ZVoizOrUn7TYiex1",
-            "Aprovado",
-            LocalDate.of(1,1,1).toString(),
-            LocalDate.of(2125,12,30).toString()
-        )
-
-        val mockUserDocument1 = UserDocument(
-            "image/path",
-            "NISS",
-            "ZDwOcmkFVhd9ZVoizOrUn7TYiex1",
-            "Aprovado",
-            LocalDate.of(1,1,1).toString(),
-            LocalDate.of(2125,12,30).toString()
-        )
-
-        val mockUserDocument2 = UserDocument(
-            "image/path",
-            "Autoriação de Residência",
-            "ZDwOcmkFVhd9ZVoizOrUn7TYiex1",
-            "Aprovado",
-            LocalDate.of(1,1,1).toString(),
-            LocalDate.of(2125,12,30).toString()
-        )
-
-        val mockUserDocument3 = UserDocument(
-            "image/path",
-            "Atestado de Nacionalidade",
-            "ZDwOcmkFVhd9ZVoizOrUn7TYiex1",
-            "Aprovado",
-            LocalDate.of(1,1,1).toString(),
-            LocalDate.of(2125,12,30).toString()
-        )*/
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-
-
         // Create a Handler to start the LoginActivity after 1 second
         Handler(Looper.getMainLooper()).postDelayed({
-            val intent = Intent(this@MainActivity, LoginActivity::class.java)
+            val intent = Intent(this@MainActivity, StaffActivity::class.java)
             startActivity(intent)
-
-            /*val repository = UserDocumentRepository()
-            val mockDocuments = listOf(mockUserDocument, mockUserDocument1, mockUserDocument2, mockUserDocument3)
-
-
-            for (mockDocument in mockDocuments) {
-                repository.save(mockDocument) { documentId ->
-                    if (documentId != null) {
-
-                        Log.d("MainActivity", "Document saved with ID: $documentId")
-
-                    } else {
-                        // Save failed
-                        Log.e("MainActivity", "Failed to save document")
-                    }// Handle success or failure for each mockDocument
-                }
-            }*/
 
             // Define transition animations between activities
             overridePendingTransition(R.transition.fade_in, R.transition.fade_out)

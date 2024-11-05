@@ -79,19 +79,39 @@ class RequestServiceFragment : Fragment() {
             }
         }
 
+        registerServiceButton = view.findViewById(R.id.registerServiceButton)
+
         registerServiceButton.setOnClickListener {
             val selectedServicePosition = spinner.selectedItemPosition
-            val selectedServiceCode = serviceViewModel.getAll { services -> services[selectedServicePosition].name }
-            // 1. Check if all required documents are approved
+
+            // Aqui to carregando o serviço selecionado
+            serviceViewModel.getAll { services ->
+                val selectedService = services[selectedServicePosition]
+                val selectedServiceCode = selectedService.name
+
+                // agora os documentos do usuário para o serviço selecionado
+                serviceViewModel.loadUserDocuments(selectedServiceCode)
+
+                // Observo o status de aprovação dos documentos
                 serviceViewModel.hasAllDocumentsApproved.observe(viewLifecycleOwner) { hasAllApproved ->
                     if (hasAllApproved) {
-                        Snackbar.make(requireView(), "Todos os documentos foram aprovados.", Snackbar.LENGTH_SHORT).show()
+
+                        val userId = serviceViewModel.auth.currentUser?.uid.toString()
+                        serviceViewModel.newProcess(userId, selectedServiceCode) { success ->
+                            if (success) {
+                                Snackbar.make(requireView(), "Serviço registrado com sucesso.", Snackbar.LENGTH_SHORT).show()
+                            } else {
+                                Snackbar.make(requireView(), "Falha ao registrar o serviço.", Snackbar.LENGTH_SHORT).show()
+                            }
+                        }
                     } else {
-                       Snackbar.make(requireView(), "Por favor, aprovar todos os documentos antes de prosseguir.", Snackbar.LENGTH_SHORT).show()
+
+                        Snackbar.make(requireView(), "Por favor, aprove todos os documentos antes de prosseguir.", Snackbar.LENGTH_SHORT).show()
                     }
                 }
-            serviceViewModel.loadUserDocuments(selectedServiceCode.toString())
+            }
         }
+
 
 
 

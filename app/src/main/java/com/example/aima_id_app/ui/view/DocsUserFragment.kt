@@ -32,20 +32,10 @@ class DocsUserFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Carregar os documentos do usuário
-        //serviceViewModel.loadUserDocuments("")
         UserDocumentRepository().filterByUser(auth.currentUser?.uid.toString()){ documents ->
             val adapter = UserDocsAdapter(documents)
             recyclerView.adapter = adapter
         }
-
-/*
-        // Observar as mudanças na lista de documentos
-        serviceViewModel.docList.observe(viewLifecycleOwner) { documents ->
-            val adapter = UserDocsAdapter(documents)
-            recyclerView.adapter = adapter
-        }
-*/
 
         view.findViewById<View>(R.id.updateDocsButton).setOnClickListener {
             loadFragment(UploadDocsFragment())
