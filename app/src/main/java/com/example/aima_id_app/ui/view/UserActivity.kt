@@ -45,11 +45,11 @@ class UserActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_notifications -> {
-                    loadFragment(SchedulingFragment())
+                    loadFragment(NotificationsFragment())
                     true
                 }
                 R.id.nav_contact -> {
-                    loadFragment(SchedulingFragment())
+                    loadFragment(ContactUserFragment())
                     true
                 }
                 else -> false
