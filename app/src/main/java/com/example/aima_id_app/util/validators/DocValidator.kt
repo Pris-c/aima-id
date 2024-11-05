@@ -1,5 +1,7 @@
 package com.example.aima_id_app.util.validators
 
+import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import java.io.File
 import java.io.FileInputStream
 import java.io.IOException
@@ -14,6 +16,9 @@ class DocValidator {
 
     private val MAX_FILE_SIZE = 5 * 1024 * 1024
 
+    private val _docValidatorErrorMessage = MutableLiveData<String>()
+    val docValidatorErrorMessage: MutableLiveData<String> = _docValidatorErrorMessage
+
     /**
      * Validates whether the provided document is a valid PDF file.
      *
@@ -25,20 +30,27 @@ class DocValidator {
      * @param document the file to validate.
      * @return a string indicating the validation result.
      */
-    fun validatePDF(document: File): String {
+    fun isValidPdf(document: File): Boolean {
         if (!document.exists() || !document.isFile) {
-            return "Document does not exist or is not a file."
+            docValidatorErrorMessage.value = "Document does not exist or is not a file."
+            Log.d("PDF_TEST", "Não existe ou não é um File")
+            return false
         }
 
-        if (!isPDF(document)) {
-            return "Document is not a PDF file."
+        if (!isValidType(document)) {
+            Log.d("PDF_TEST", "Erro de tipo")
+            docValidatorErrorMessage.value =  "Document is not a PDF file."
+            return false
         }
 
         if (!isWithinSizeLimit(document)) {
-            return "Document exceeds the maximum allowed size of 5 MB."
+            Log.d("PDF_TEST", "Erro de tamanho")
+            docValidatorErrorMessage.value =  "Document exceeds the maximum allowed size of 5 MB."
+            return false
         }
 
-        return "Document is a valid PDF."
+
+        return true
     }
 
     /**
@@ -50,7 +62,7 @@ class DocValidator {
      * @param file the file to check.
      * @return `true` if the file is a PDF, `false` otherwise.
      */
-    private fun isPDF(file: File): Boolean {
+     private fun isValidType(file: File): Boolean {
         try {
             FileInputStream(file).use { fis ->
                 val buffer = ByteArray(4)
@@ -74,7 +86,7 @@ class DocValidator {
      * @param file the file to check.
      * @return `true` if the file size is within 5 MB, `false` otherwise.
      */
-    private fun isWithinSizeLimit(file: File): Boolean {
+     private fun isWithinSizeLimit(file: File): Boolean {
         return file.length() <= MAX_FILE_SIZE
     }
 }
