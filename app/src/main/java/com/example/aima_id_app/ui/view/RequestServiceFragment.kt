@@ -39,6 +39,16 @@ class RequestServiceFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        serviceViewModel.hasAllDocumentsApproved.observe(viewLifecycleOwner) { hasAllApproved ->
+            registerServiceButton.isEnabled = hasAllApproved
+
+            if (hasAllApproved) {
+                registerServiceButton.alpha = 1.0f  // Deixa o botão visível
+            } else {
+                registerServiceButton.alpha = 0.5f  // Torna o botão visível, mas desabilitado visualmente
+            }
+        }
+
         val serviceDescriptions = mapOf(
             "Pedido de Autorização de Residencia: Trabalho" to getString(R.string.DescriptionRequestResidencyWorkService),
             "Pedido de Autorização de Residencia: Estudo" to getString(R.string.DescriptionRequestResidencyStudyService),
@@ -64,13 +74,14 @@ class RequestServiceFragment : Fragment() {
                 spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                         val selectedService = services[position]
-                        val fileInputs = selectedService.requiredDocuments
+                        val requiredDocs = selectedService.requiredDocuments
 
-                        // Aqui, acessamos o docList atual e chamamos checkDocuments
-                        val documents = serviceViewModel.docList.value ?: emptyList()
+                        // Acessa o docList atual e chama checkDocuments para verificar os documentos
                         serviceViewModel.checkDocuments(selectedService)  // Verifica se todos os documentos estão aprovados
 
-                        val docTypeList: List<DocType> = fileInputs.mapNotNull { DocType.fromType(it) }
+                        // A lista de documentos deve ser observada para atualizar a UI
+                        val documents = serviceViewModel.docList.value ?: emptyList()
+                        val docTypeList: List<DocType> = requiredDocs.mapNotNull { DocType.fromType(it) }
 
                         val adapter = FileInputAdapter(requireContext(), docTypeList, documents)
                         recyclerViewFiles.adapter = adapter

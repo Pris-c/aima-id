@@ -82,17 +82,23 @@ class ServiceViewModel (
     }
 
     fun checkDocuments(service: Service) {
-        val documents = _docList.value ?: emptyList()
+        val documents = _docList.value ?: emptyList() // Obtém os documentos do LiveData, ou uma lista vazia
 
+        // Filtra os documentos que são exigidos pelo serviço
         val filteredDocuments = documents.filter { userDocument ->
             userDocument.docType in service.requiredDocuments
         }
 
+        // Filtra os documentos aprovados
         val approvedDocs = filteredDocuments.filter { doc ->
             doc.status == DocStatus.APPROVED.status
         }
 
-        _hasAllDocumentsApproved.value = approvedDocs.size == filteredDocuments.size
+        // Verifica se o número de documentos aprovados é igual ao número de documentos necessários
+        _hasAllDocumentsApproved.value = approvedDocs.size == service.requiredDocuments.size
+
+        // Log para depuração
+        Log.d("DEBUG", "Service ${service.name}   approved: ${approvedDocs.size}   required: ${service.requiredDocuments.size}    docsOk: ${_hasAllDocumentsApproved.value}")
     }
 
     /**
