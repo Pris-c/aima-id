@@ -15,11 +15,9 @@
 
 ## About The Project
 
-This project was developed by: ✨
-
-🦆 **The DuckTeam**:
+This project was developed by **The DuckTeam** 🦆:
 [Pris-c](https://github.com/Pris-c), [Arthur](https://github.com/ArthurSSR-alt), [Thais](https://github.com/thaisfreires), e [Gabriel](https://github.com/gabrielbeli).
-
+<br>
 
 The **AIMA ID App** is designed to help users easily navigate immigration and asylum services in Portugal, managed by the new Agency for Integration, Migration, and Asylum (AIMA). Established in 2023 to replace SEF, AIMA handles a range of processes for immigrants and asylum seekers, focusing on integration, family reunification, and streamlined document management. By transferring enforcement duties to the Public Security Police (PSP) and Judiciary Police (PJ), AIMA’s services concentrate on ensuring accessible, efficient services for foreign nationals in Portugal.
 
@@ -87,5 +85,7 @@ To access AIMA’s digital services, follow these steps:
 3. Enable **Unknown Sources** in device settings.
 4. Tap the APK file to install.
 
+
+---
 
 ✨**This project was developed as a learning resource for the Software Developer Course at Cesae Digital.**
