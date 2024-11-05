@@ -3,6 +3,7 @@ package com.example.aima_id_app.ui.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.aima_id_app.data.model.db_model.AimaUnit
+import com.example.aima_id_app.data.model.db_model.Appointment
 import com.example.aima_id_app.data.repository.AimaUnitRepository
 import com.example.aima_id_app.data.repository.AppointmentRepository
 import com.example.aima_id_app.util.enums.PossibleScheduling
@@ -66,6 +67,14 @@ class SchedulingViewModel(
 
             }
             onComplete(availableTimes)
+        }
+    }
+
+    fun saveAppointment(processId: String, aimaUnitId: String, date: LocalDate, time: PossibleScheduling,
+                        onComplete: (Boolean) -> Unit){
+        val newAppointment = Appointment(processId, aimaUnitId, date.toString(), time.time)
+        appointmentRepository.createAppointment(newAppointment){ success ->
+            onComplete(success)
         }
     }
 

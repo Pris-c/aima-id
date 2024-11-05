@@ -43,7 +43,7 @@ class UploadDocsFragment : Fragment() {
 
         inputFileEditText.setOnClickListener {
             val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
-                type = "*/*" // all types files
+                type = "pdf/*" // all types files
             }
             startActivityForResult(intent, REQUEST_CODE_PICK_FILE)
         }
