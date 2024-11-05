@@ -37,8 +37,8 @@ class GeographicalLocationValidator {
      * @param longitude the longitude value to validate.
      * @return `true` if the longitude is valid, `false` otherwise.
      */
-    private fun isValidLongitude(latitude: Double) : Boolean {
-        return abs(latitude) in 0.0..180.0;
+    private fun isValidLongitude(longitude: Double) : Boolean {
+        return abs(longitude) in 0.0..180.0;
     }
 
 }
