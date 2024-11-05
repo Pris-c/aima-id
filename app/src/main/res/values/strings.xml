@@ -14,8 +14,10 @@
     <string name="RequestRenewalResidency">Renovação de Residências</string>
     <string name="RequestScheduling">Realizar Agendamento</string>
     <string name="MyDocs">Meus Documentos</string>
-    <string name="ContactMessage">Em breve voce podéra aceder ao nosso chat!</string>
-
+    <string name="ContactMessage">Em breve poderá entrar em contato conosco pelo nosso chat!</string>
+    <string name="NotificationsMessage">Em breve poderá aceder as notificações de contato aqui!</string>
+    <string name="ShedulleMessage">Em breve poderá consultar e gerenciar seus agendamentos aqui!</string>
+    <string name="DigitialIDMessage">Em breve poderá aceder a sua identificação digital AIMA ID aqui!</string>
     <!--Services Description-->
 
     <string name="DescriptionRequestResidencyWorkService">

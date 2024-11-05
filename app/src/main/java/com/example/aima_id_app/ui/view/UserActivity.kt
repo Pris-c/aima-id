@@ -2,6 +2,7 @@ package com.example.aima_id_app.ui.view
 
 import android.os.Bundle
 import android.view.View
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -10,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.example.aima_id_app.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
 
 class UserActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,6 +30,11 @@ class UserActivity : AppCompatActivity() {
         findViewById<View>(R.id.card_scheduling).setOnClickListener {
             loadFragment(SchedulingFragment())
         }
+
+        val user = FirebaseAuth.getInstance().currentUser
+        val userName = user?.displayName
+        val textViewNameUser = findViewById<TextView>(R.id.textViewNameUser)
+        textViewNameUser.text = if (userName != null) "Olá $userName" else "Olá, Bem-vindo!"
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
@@ -63,6 +70,8 @@ class UserActivity : AppCompatActivity() {
             insets
         }
     }
+
+    val auth = FirebaseAuth.getInstance().currentUser?.displayName
 
     /**
      * Loads a fragment into the fragment container with custom slide animations.
