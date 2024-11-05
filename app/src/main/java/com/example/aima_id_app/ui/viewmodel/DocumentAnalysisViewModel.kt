@@ -37,7 +37,7 @@ class DocumentAnalysisViewModel(
 
         userDocumentRepository.findById(docId) { document ->
             if (document != null) {
-                document.status = DocStatus.APPROVED.toString()
+                document.status = DocStatus.APPROVED.status
                 document.expirationDate = LocalDate.now().plusMonths(6).toString()
 
                 userDocumentRepository.update(docId, document) { updateSuccess ->
@@ -62,7 +62,7 @@ class DocumentAnalysisViewModel(
     fun rejectDoc(docId: String) {
         userDocumentRepository.findById(docId) { document ->
             if (document != null) {
-                document.status = DocStatus.REJECTED.toString()
+                document.status = DocStatus.REJECTED.status
                 document.expirationDate = LocalDate.now().plusMonths(6).toString()
 
                 userDocumentRepository.update(docId, document) { updateSuccess ->
