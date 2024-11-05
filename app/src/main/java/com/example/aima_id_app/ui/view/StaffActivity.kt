@@ -2,12 +2,14 @@ package com.example.aima_id_app.ui.view
 
 import android.os.Bundle
 import android.view.View
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import com.example.aima_id_app.R
+import com.google.firebase.auth.FirebaseAuth
 
 class StaffActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,6 +24,11 @@ class StaffActivity : AppCompatActivity() {
         findViewById<View>(R.id.cardView2).setOnClickListener {
             loadFragment(AppointmentsFragment())
         }
+
+        val user = FirebaseAuth.getInstance().currentUser
+        val userName = user?.displayName
+        val textViewNameUser = findViewById<TextView>(R.id.textViewNameStaff)
+        textViewNameUser.text = if (userName != null) "Olá $userName" else "Olá, Bem-vindo!"
 
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->

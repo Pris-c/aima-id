@@ -2,6 +2,7 @@ package com.example.aima_id_app.ui.view
 
 import android.os.Bundle
 import android.view.View
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -9,6 +10,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import com.example.aima_id_app.R
 import com.example.aima_id_app.ui.view.RegisterUnitAdminFragment
+import com.google.firebase.auth.FirebaseAuth
 
 class AdminActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,6 +26,11 @@ class AdminActivity : AppCompatActivity() {
         findViewById<View>(R.id.card_register_staff).setOnClickListener {
             loadFragment(RegisterStaffAdminFragment())
         }
+
+        val user = FirebaseAuth.getInstance().currentUser
+        val userName = user?.displayName
+        val textViewNameUser = findViewById<TextView>(R.id.textViewNameAdmin)
+        textViewNameUser.text = if (userName != null) "Olá $userName" else "Olá, Bem-vindo!"
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
