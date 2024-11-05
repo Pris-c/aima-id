@@ -86,7 +86,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/inputNameUserService"
+                android:id="@+id/inputCity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
@@ -106,7 +106,7 @@
                     app:hintEnabled="false">
 
                     <Spinner
-                        android:id="@+id/nameUserService_input"
+                        android:id="@+id/city_input"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/edit_text_background_rounded"
@@ -119,7 +119,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/inputBirthDateStaff"
+                android:id="@+id/inputFreeDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
@@ -139,7 +139,7 @@
                     app:hintEnabled="false">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/birthDateStaff_input"
+                        android:id="@+id/freeDate_input"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/edit_text_background_rounded"
@@ -151,6 +151,38 @@
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/inputCityUnit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Selecione a unidade"
+                    android:textColor="@color/aima_pink"
+                    android:textSize="20sp" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:boxBackgroundMode="none"
+                    app:hintEnabled="false">
+
+                    <Spinner
+                        android:id="@+id/cityUnit_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/edit_text_background_rounded"
+                        android:hint="Selecione o horário"
+                        android:inputType="text"
+                        android:padding="12dp"
+                        android:textColor="@color/aima_blue"
+                        android:textColorHint="@color/aima_blue" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/inputHourService"
@@ -162,7 +194,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Selecione o concelho"
+                    android:text="Selecione o horário"
                     android:textColor="@color/aima_pink"
                     android:textSize="20sp" />
 
@@ -177,7 +209,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/edit_text_background_rounded"
-                        android:hint="Selecione um concelho"
+                        android:hint="Selecione o horário"
                         android:inputType="text"
                         android:padding="12dp"
                         android:textColor="@color/aima_blue"
@@ -206,5 +238,6 @@
 
         </LinearLayout>
     </ScrollView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
