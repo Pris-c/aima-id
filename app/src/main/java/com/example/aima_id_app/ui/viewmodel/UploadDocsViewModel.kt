@@ -11,6 +11,7 @@ import com.example.aima_id_app.data.repository.UserRepository
 import com.example.aima_id_app.util.enums.DocStatus
 import com.example.aima_id_app.util.enums.DocType
 import com.example.aima_id_app.util.enums.UserRole
+import com.example.aima_id_app.util.validators.DocValidator
 import com.google.firebase.auth.FirebaseAuth
 import java.io.File
 import java.time.LocalDate
@@ -23,7 +24,8 @@ class UploadDocsViewModel(
     private val auth: FirebaseAuth = FirebaseAuth.getInstance(),
     private val userRepository: UserRepository = UserRepository(),
     private val storageRepository: DocStorageRepository = DocStorageRepository(),
-    private val userDocumentRepository: UserDocumentRepository = UserDocumentRepository()
+    private val userDocumentRepository: UserDocumentRepository = UserDocumentRepository(),
+    private val docValidator : DocValidator = DocValidator()
 ) : ViewModel() {
 
     private val _documentErrorMessage = MutableLiveData<String?>()
@@ -45,6 +47,12 @@ class UploadDocsViewModel(
 
         if (userId == null) {
             _documentErrorMessage.postValue("User is not authenticated.")
+            onComplete(false)
+            return
+        }
+
+        if (!docValidator.isValidPdf(docFile)) {
+            Log.d("SAVEDOC", "Documento invalido")
             onComplete(false)
             return
         }
