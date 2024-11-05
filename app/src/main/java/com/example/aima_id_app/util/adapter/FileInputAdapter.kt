@@ -41,7 +41,7 @@ class FileInputAdapter(
         holder.iconImageView.setImageResource(getIconForDocType(docType))
         holder.titleTextView.text = getTitleForDocType(docType)
 
-        val userDocument = userDocuments.find { DocType.fromType(it.docType) == docType }
+        val userDocument = userDocuments.find { it.docType == docType.name }
 
         holder.descriptionTextView.text = when (userDocument?.status) {
             DocStatus.SUBMITTED.status -> "Enviado"
@@ -71,7 +71,7 @@ class FileInputAdapter(
             DocType.EMPLOYMENT_CONTRACT -> R.drawable.ic_contract
             DocType.SCHOOL_REGISTRATION -> R.drawable.ic_school
             DocType.RESIDENT_PERMIT -> R.drawable.ic_cardid
-            else -> R.drawable.ic_to_do_list // default
+            else -> R.drawable.ic_to_do_list
         }
     }
 
@@ -81,15 +81,15 @@ class FileInputAdapter(
             DocType.VISA -> "Visto"
             DocType.NIF -> "NIF"
             DocType.NISS -> "NISS"
-            DocType.PROOF_INCOME -> "Prova de renda"
-            DocType.CITIZENSHIP_ID -> "Certidão nacionalidade"
-            DocType.ADDRESS_PROOF -> "Atestado de morada"
+            DocType.PROOF_INCOME -> "Comprovativo de Meios de Subsistência"
+            DocType.CITIZENSHIP_ID -> "Atestado de Nacionalidade"
+            DocType.ADDRESS_PROOF -> "Comprovativo de morada"
             DocType.HEALTH_INSURANCE -> "Seguro Saúde"
-            DocType.CRIMINAL_RECORD -> "Atestado criminalidade"
-            DocType.EMPLOYMENT_CONTRACT -> "Contrato de trabalho"
-            DocType.SCHOOL_REGISTRATION -> "Matrícula escolar"
+            DocType.CRIMINAL_RECORD -> "Registro Criminal"
+            DocType.EMPLOYMENT_CONTRACT -> "Contrato de Trabalho"
+            DocType.SCHOOL_REGISTRATION -> "Matricula Escolar"
             DocType.RESIDENT_PERMIT -> "Autorização de residência"
-            else -> "Documento" // default
+            else -> "Documento"
         }
     }
 
@@ -100,7 +100,7 @@ class FileInputAdapter(
             DocStatus.REJECTED -> "Rejeitado"
             DocStatus.EXPIRED -> "Expirado"
             null -> "Pendente"
-            else -> "Não enviado" // Default
+            else -> "Não enviado"
         }
     }
 }

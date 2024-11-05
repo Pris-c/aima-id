@@ -5,8 +5,8 @@
     <string name="StartAnalysis">Analisar Documentos</string>">
     <string name="ManagerAppoints">Gerenciar Agendamentos</string>">
     <string name="RegisterStaff">Registar Novo Funcionário</string>
-    <string name="Notification">Titulo da notificação</string>
-    <string name="NotificationName">Nome do utilizador</string>
+    <string name="Notification">Alteração no horário</string>
+    <string name="NotificationName">hoje as 14:00</string>
     <string name="RequestResidency">Iniciar Requerimentos</string>
     <string name="RequestEqualityStatus">Estatuto de Igualdade</string>
     <string name="UploadDocs">Enviar Documentos</string>

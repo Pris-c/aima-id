@@ -22,7 +22,7 @@ import java.time.LocalDate
  * @property serviceRepository Repository for services.
  */
 class ServiceViewModel (
-    private val auth: FirebaseAuth = FirebaseAuth.getInstance(),
+    val auth: FirebaseAuth = FirebaseAuth.getInstance(),
     private val userDocRepository : UserDocumentRepository = UserDocumentRepository(),
     private val serviceRepository : ServiceRepository = ServiceRepository(),
     private val aimaProcessRepository : AimaProcessRepository = AimaProcessRepository()
