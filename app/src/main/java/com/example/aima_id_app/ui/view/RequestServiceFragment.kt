@@ -39,8 +39,6 @@ class RequestServiceFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val textAreaInput = view.findViewById<TextInputEditText>(R.id.textArea_input)
-
         val serviceDescriptions = mapOf(
             "Pedido de Autorização de Residencia: Trabalho" to getString(R.string.DescriptionRequestResidencyWorkService),
             "Pedido de Autorização de Residencia: Estudo" to getString(R.string.DescriptionRequestResidencyStudyService),
@@ -48,55 +46,68 @@ class RequestServiceFragment : Fragment() {
             "Estatuto de Igualdade de Direitos e Deveres Sociais" to getString(R.string.DescriptionRequestVisaExtensionService),
             "Renovação de Autorização de Residência" to getString(R.string.DescriptionRequestRenewalResidencyService)
         )
+        val textAreaInput = view.findViewById<TextInputEditText>(R.id.textArea_input)
 
-        serviceViewModel.getAll { services ->
-            val spinnerAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, services.map { it.name })
-            spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            spinner.adapter = spinnerAdapter
 
-            spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                    val selectedService = services[position]
-                    val fileInputs = selectedService.requiredDocuments
+        // Observa o LiveData serviceList para carregar os serviços
+        serviceViewModel.serviceList.observe(viewLifecycleOwner) { services ->
 
-                    serviceViewModel.loadUserDocuments(selectedService.name)
+            // Verifica se a lista de serviços foi carregada corretamente
+            if (services.isNotEmpty()) {
 
-                    serviceViewModel.docList.observe(viewLifecycleOwner) { documents ->
+                // Preenche o Spinner com os serviços
+                val spinnerAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, services.map { it.name })
+                spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                spinner.adapter = spinnerAdapter
+
+                // Configura o listener para quando um item for selecionado
+                spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                        val selectedService = services[position]
+                        val fileInputs = selectedService.requiredDocuments
+
+                        // Aqui, acessamos o docList atual e chamamos checkDocuments
+                        val documents = serviceViewModel.docList.value ?: emptyList()
+                        serviceViewModel.checkDocuments(selectedService)  // Verifica se todos os documentos estão aprovados
+
                         val docTypeList: List<DocType> = fileInputs.mapNotNull { DocType.fromType(it) }
 
                         val adapter = FileInputAdapter(requireContext(), docTypeList, documents)
                         recyclerViewFiles.adapter = adapter
+
+                        // Atualiza a descrição do serviço no campo de texto
+                        val serviceDescription = serviceDescriptions[selectedService.name] ?: ""
+                        textAreaInput.setText(serviceDescription)
                     }
 
-                    val serviceDescription = serviceDescriptions[selectedService.name] ?: ""
-
-                    textAreaInput.setText(serviceDescription)
-                }
-
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-                    // ...
+                    override fun onNothingSelected(parent: AdapterView<*>?) {
+                        // Comportamento quando nenhum item é selecionado (pode ser vazio)
+                    }
                 }
             }
         }
+
+
+
+        serviceViewModel.loadUserDocuments()
+        serviceViewModel.loadServices()
 
         registerServiceButton = view.findViewById(R.id.registerServiceButton)
 
         registerServiceButton.setOnClickListener {
             val selectedServicePosition = spinner.selectedItemPosition
 
-            // Aqui to carregando o serviço selecionado
-            serviceViewModel.getAll { services ->
+            // Carrega os serviços
+            serviceViewModel.getAllServices { services ->
                 val selectedService = services[selectedServicePosition]
                 val selectedServiceCode = selectedService.name
 
-                // agora os documentos do usuário para o serviço selecionado
-                serviceViewModel.loadUserDocuments(selectedServiceCode)
-
-                // Observo o status de aprovação dos documentos
+                // Agora, verifica se todos os documentos foram aprovados
                 serviceViewModel.hasAllDocumentsApproved.observe(viewLifecycleOwner) { hasAllApproved ->
                     if (hasAllApproved) {
-
                         val userId = serviceViewModel.auth.currentUser?.uid.toString()
+
+                        // Inicia um novo processo com o serviço selecionado
                         serviceViewModel.newProcess(userId, selectedServiceCode) { success ->
                             if (success) {
                                 Snackbar.make(requireView(), "Serviço registrado com sucesso.", Snackbar.LENGTH_SHORT).show()
@@ -105,7 +116,6 @@ class RequestServiceFragment : Fragment() {
                             }
                         }
                     } else {
-
                         Snackbar.make(requireView(), "Por favor, aprove todos os documentos antes de prosseguir.", Snackbar.LENGTH_SHORT).show()
                     }
                 }

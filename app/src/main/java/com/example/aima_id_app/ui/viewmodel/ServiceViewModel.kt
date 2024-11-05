@@ -1,6 +1,7 @@
 package com.example.aima_id_app.ui.viewmodel
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.aima_id_app.data.model.db_model.AimaProcess
@@ -29,10 +30,13 @@ class ServiceViewModel (
 ) : ViewModel() {
 
     private val _docList = MutableLiveData<List<UserDocument>>()
-    val docList: MutableLiveData<List<UserDocument>> = _docList
+    val docList: LiveData<List<UserDocument>> = _docList
+
+    private val _serviceList = MutableLiveData<List<Service>>()
+    val serviceList: LiveData<List<Service>> = _serviceList
 
     private val _hasAllDocumentsApproved = MutableLiveData<Boolean>()
-    val hasAllDocumentsApproved: MutableLiveData<Boolean> = _hasAllDocumentsApproved
+    val hasAllDocumentsApproved: LiveData<Boolean> = _hasAllDocumentsApproved
 
 
     /**
@@ -43,60 +47,52 @@ class ServiceViewModel (
      *
      * @param code The code of the service
      */
-    fun loadUserDocuments(code: String) {
-        val userId = auth.currentUser?.uid.toString()
-        var userDocuments: MutableList<UserDocument>? = null
-        var requiredDocs: MutableList<String>? = null
+    fun loadUserDocuments() {
+        val userId = auth.currentUser?.uid ?: return
 
         userDocRepository.filterByUser(userId) { documents ->
             if (documents.isNotEmpty()) {
-                Log.d("DEBUG", "Found ${documents.size} docs")
-                userDocuments = documents
+                for (doc in documents) {
+                    if (doc.status == DocStatus.APPROVED.status){
+                        val expirationDay = LocalDate.parse(doc.expirationDate)
+                        if (expirationDay.isBefore(LocalDate.now())) {
+                            doc.status = DocStatus.EXPIRED.status
+                        }
+                    }
+                }
+                Log.d("DEBUG", "User documents found ${documents.size} docs")
+                _docList.value = documents
             } else {
                 Log.d("DEBUG", "No documents found for user")
-                userDocuments = mutableListOf()
             }
-            checkIfCompleted(userDocuments, requiredDocs)
         }
 
-        serviceRepository.findServiceById(code) { service ->
-            requiredDocs = service?.requiredDocuments ?: mutableListOf()
-            checkIfCompleted(userDocuments, requiredDocs)
+    }
+
+
+    fun loadServices() {
+        serviceRepository.getAll { services ->
+            if (services.isNotEmpty()) {
+                Log.d("DEBUG", "Services found ${services.size} docs")
+                _serviceList.value = services
+            } else {
+                Log.d("DEBUG", "No documents found for user")
+            }
         }
     }
 
-    /**
-     * Checks if all required documents are completed and updates their status.
-     *
-     * Filters the user's documents to find those that match required document types,
-     * updates the status of documents based on expiration, and checks if all documents are approved.
-     *
-     * @param userDocuments List of user documents.
-     * @param requiredDocs List of required document types.
-     */
-    private fun checkIfCompleted(
-        userDocuments: MutableList<UserDocument>?,
-        requiredDocs: MutableList<String>?,
-    ) {
-        if (userDocuments != null && requiredDocs != null) {
-            val filteredDocuments = userDocuments.filter { userDocument ->
-                userDocument.docType in requiredDocs
-            }
+    fun checkDocuments(service: Service) {
+        val documents = _docList.value ?: emptyList()
 
-            for (doc in filteredDocuments) {
-                val expirationDay = LocalDate.parse(doc.expirationDate)
-                if (expirationDay.isBefore(LocalDate.now())) {
-                    doc.status = DocStatus.EXPIRED.status
-                }
-            }
-
-            val approvedDocs = filteredDocuments.filter { doc ->
-                doc.status == DocStatus.APPROVED.status
-            }
-
-            _docList.value = filteredDocuments
-            _hasAllDocumentsApproved.value = approvedDocs.size == filteredDocuments.size
+        val filteredDocuments = documents.filter { userDocument ->
+            userDocument.docType in service.requiredDocuments
         }
+
+        val approvedDocs = filteredDocuments.filter { doc ->
+            doc.status == DocStatus.APPROVED.status
+        }
+
+        _hasAllDocumentsApproved.value = approvedDocs.size == filteredDocuments.size
     }
 
     /**
@@ -114,7 +110,7 @@ class ServiceViewModel (
         }
     }
 
-    fun getAll(callback: (List<Service>) -> Unit) {
+    fun getAllServices(callback: (List<Service>) -> Unit) {
         serviceRepository.getAll { services ->
             callback(services)
         }
