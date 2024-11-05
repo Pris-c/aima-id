@@ -150,20 +150,28 @@ class UserDocumentRepository {
 
 
     /**
-     * Retrieves all UserDocuments with a "SUBMITTED" status.
+     * Retrieves all UserDocuments with a "Submetido" status from the database.
      *
-     * @param onComplete A callback returning a list of submitted UserDocument objects, or an empty list if none are found.
+     * @param onComplete A callback function that is invoked once the query completes. The callback receives a
+     *                   `MutableMap<String, UserDocument>`, containing the documents with "SUBMITTED" status
+     *                   (or an empty map if none are found or an error occurs).
      */
-    fun filterSubmittedDocs(onComplete: (MutableList<UserDocument>) -> Unit) {
-        db.whereEqualTo("status", DocStatus.SUBMITTED).get()
+    fun filterSubmittedDocs(onComplete: (MutableMap<String, UserDocument>) -> Unit) {
+        val submittedDocs = mutableMapOf<String, UserDocument>()
+
+        db.whereEqualTo("status", DocStatus.SUBMITTED.status).get()
             .addOnSuccessListener { result ->
-                onComplete(result.mapNotNull { it.toObject<UserDocument>() }.toMutableList())
+                if (!result.isEmpty){
+                    for (doc in result){
+                        submittedDocs[doc.id] = doc.toObject<UserDocument>()
+                    }
+                }
+                onComplete(submittedDocs)
             }
             .addOnFailureListener {
-                onComplete(mutableListOf())
+                onComplete(submittedDocs)
             }
     }
-
 
     /**
      * Retrieves the file name for a given document path from the database.
