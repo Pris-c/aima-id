@@ -9,16 +9,17 @@
   <p align="center">
     A comprehensive app to navigate Portugal's immigration and asylum services, managed by AIMA.
     <br />
-    <a href="https://github.com/pris_c/aima-id-app"><strong>Explore the docs »</strong></a>
     <br />
-    <br />
-    <a href="https://github.com/pris_c/aima-id-app">View Demo</a>
-    ·
-    <a href="https://github.com/pris_c/aima-id-app/issues">Report Bug</a>
-  </p>
+    </p>
 </div>
 
 ## About The Project
+
+This project was developed by: ✨
+
+🦆 **The DuckTeam**:
+[Pris-c](https://github.com/Pris-c), [Arthur](https://github.com/ArthurSSR-alt), [Thais](https://github.com/thaisfreires), e [Gabriel](https://github.com/gabrielbeli).
+
 
 The **AIMA ID App** is designed to help users easily navigate immigration and asylum services in Portugal, managed by the new Agency for Integration, Migration, and Asylum (AIMA). Established in 2023 to replace SEF, AIMA handles a range of processes for immigrants and asylum seekers, focusing on integration, family reunification, and streamlined document management. By transferring enforcement duties to the Public Security Police (PSP) and Judiciary Police (PJ), AIMA’s services concentrate on ensuring accessible, efficient services for foreign nationals in Portugal.
 
@@ -31,10 +32,25 @@ The **AIMA ID App** is designed to help users easily navigate immigration and as
 
 ### Key Features
 
-* **Residence Permits scheduling appointments**: Issuing and renewing permits for residents, including family reunification and investment-related cases.
-* **Family Reunification**: Assists immigrants in Portugal to reunite with family members under international agreements.
-* **Digital Registration**: Users can register through AIMA's website or the SAPA portal, uploading required documents directly.
+- **Role-Based Access**:
+    - **Staff**: Manages applications, verifies documents, and assists applicants.
+    - **Admin**: Oversees staff and service users, manages permissions, and handles system settings.
+    - **Service User**: Submits applications, tracks status, uploads documents, and communicates with staff.
 
+- **Residence Permit Management**:
+    - Issue and renew residence permits for foreign nationals residing in Portugal, including family reunification and investment-related permits.
+
+- **Family Reunification**:
+    - Facilitate the reunification of immigrants with their families under international agreements.
+
+- **Digital Registration**:
+    - Allows users to register via the official AIMA website or the SAPA portal, with easy account creation and document submission.
+
+- **Document Requirements and Verification**:
+    - Provides a comprehensive list of mandatory and optional documents for different processes, streamlining document verification and reducing application delays.
+
+- **Visa Extension and Renewal**:
+    - Extend or renew visas with clear guidelines on required documents for each type.
 
 ### Built With
 * ![Android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)
@@ -71,10 +87,5 @@ To access AIMA’s digital services, follow these steps:
 3. Enable **Unknown Sources** in device settings.
 4. Tap the APK file to install.
 
-## Authors ✨
 
-🦆 **The DuckTeam**:
-[Pris-c](https://github.com/Pris-c), [Arthur](https://github.com/ArthurSSR-alt), [Thais](https://github.com/thaisfreires), e [Gabriel](https://github.com/gabrielbeli).
-
-
-
+✨**This project was developed as a learning resource for the Software Developer Course at Cesae Digital.**
