@@ -3,7 +3,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/pris_c/aima-id">
-    <img src="assets/logo.svg" alt="Logo" width="80" height="80">
+    <img src="assets/logo.svg" alt="Logo" width="100" height="100">
   </a>
 
   <p align="center">
@@ -22,11 +22,11 @@
 
 The **AIMA ID App** is designed to help users easily navigate immigration and asylum services in Portugal, managed by the new Agency for Integration, Migration, and Asylum (AIMA). Established in 2023 to replace SEF, AIMA handles a range of processes for immigrants and asylum seekers, focusing on integration, family reunification, and streamlined document management. By transferring enforcement duties to the Public Security Police (PSP) and Judiciary Police (PJ), AIMA’s services concentrate on ensuring accessible, efficient services for foreign nationals in Portugal.
 
-<div style="display: flex; justify-content: center;">
+<p align= "center">
   <img src="assets/home.svg" alt="Tela 1" width="200" style="margin-right: 10px;">
   <img src="assets/register.svg" alt="Tela 2" width="200" style="margin-right: 10px;">
   <img src="assets/splash.svg" alt="Tela 3" width="200">
-</div>
+</p>
 
 
 ### Key Features
@@ -35,15 +35,12 @@ The **AIMA ID App** is designed to help users easily navigate immigration and as
 * **Family Reunification**: Assists immigrants in Portugal to reunite with family members under international agreements.
 * **Digital Registration**: Users can register through AIMA's website or the SAPA portal, uploading required documents directly.
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Built With
-* [Android] (https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)
-* [Android Studio] (https://img.shields.io/badge/Android_Studio-3DDC84?style=for-the-badge&logo=android-studio&logoColor=white)
-* [Firebase] (https://img.shields.io/badge/firebase-ffca28?style=for-the-badge&logo=firebase&logoColor=black)
+* ![Android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)
+* ![Android Studio](https://img.shields.io/badge/Android_Studio-3DDC84?style=for-the-badge&logo=android-studio&logoColor=white)
+* ![Firebase](https://img.shields.io/badge/firebase-ffca28?style=for-the-badge&logo=firebase&logoColor=black)
 
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Getting Started
 
@@ -74,17 +71,10 @@ To access AIMA’s digital services, follow these steps:
 3. Enable **Unknown Sources** in device settings.
 4. Tap the APK file to install.
 
+## Authors ✨
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+🦆 **The DuckTeam**:
+[Pris-c](https://github.com/Pris-c), [Arthur](https://github.com/ArthurSSR-alt), [Thais](https://github.com/thaisfreires), e [Gabriel](https://github.com/gabrielbeli).
 
----
-
-
-
-## License
-
-Distributed under the MIT License. See `LICENSE.txt` for details.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
