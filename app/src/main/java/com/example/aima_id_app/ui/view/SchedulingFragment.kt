@@ -24,7 +24,7 @@ class SchedulingFragment : Fragment() {
 
     private lateinit var calendarViewModel: CalendarViewModel
     private lateinit var schedulingViewModel: SchedulingViewModel
-    private lateinit var userViewModel: UserViewModel
+    //private lateinit var userViewModel: UserViewModel
     private lateinit var nameServiceInput: Spinner
     private lateinit var cityInput: Spinner
     private lateinit var freeDateInput: EditText
@@ -40,7 +40,7 @@ class SchedulingFragment : Fragment() {
         // Inicializa os ViewModels corretamente
         calendarViewModel = ViewModelProvider(requireActivity()).get(CalendarViewModel::class.java)
         schedulingViewModel = ViewModelProvider(requireActivity()).get(SchedulingViewModel::class.java)
-        userViewModel = ViewModelProvider(requireActivity()).get(SchedulingViewModel::class.java)
+        //userViewModel = ViewModelProvider(requireActivity()).get(SchedulingViewModel::class.java)
 
         nameServiceInput = view.findViewById(R.id.nameService_input)
         cityInput = view.findViewById(R.id.city_input)
