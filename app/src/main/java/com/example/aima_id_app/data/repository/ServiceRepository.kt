@@ -4,20 +4,24 @@ import com.example.aima_id_app.data.model.db_model.Service
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.toObject
 
+/**
+ * Repository for managing service-related data operations in Firebase Firestore.
+ * This class provides methods for creating, retrieving, and fetching all services
+ * from the Firestore "services" collection.
+ */
 class ServiceRepository {
 
     private val db = FirebaseFirestore.getInstance().collection("services")
 
-
     /**
-     * Creates a new service in the database with the given ID.
+     * Creates or updates a service document in the Firestore database.
      *
-     * @param id The ID of the service to be created.
-     * @param service The service object to be stored.
-     * @param onComplete A callback function that returns true if the operation is successful,
-     * false otherwise.
+     * @param id The unique ID for the service document to be created or updated.
+     * @param service The Service object containing the data to be stored.
+     * @param onComplete Callback function that is invoked after the operation.
+     *                   It returns true if the operation succeeds, or false if it fails.
      */
-    fun createService(id: String, service: Service,  onComplete: (Boolean?) -> Unit) {
+    fun createService(id: String, service: Service, onComplete: (Boolean?) -> Unit) {
         db.document(id).set(service)
             .addOnSuccessListener {
                 onComplete(true)
@@ -27,15 +31,14 @@ class ServiceRepository {
             }
     }
 
-
     /**
-     * Finds a service by its ID in the database.
+     * Retrieves a service document by its ID from the Firestore database.
      *
-     * @param id The ID of the service.
-     * @param onComplete A callback function that returns the service if found, or null if the
-     * operation fails.
+     * @param id The unique ID of the service to retrieve.
+     * @param onComplete Callback function that receives the retrieved Service object if successful,
+     *                   or null if the document is not found or the operation fails.
      */
-    fun findServiceById(id: String,  onComplete: (Service?) -> Unit) {
+    fun findServiceById(id: String, onComplete: (Service?) -> Unit) {
         db.document(id).get()
             .addOnSuccessListener { document ->
                 onComplete(document.toObject<Service>())
@@ -46,24 +49,26 @@ class ServiceRepository {
     }
 
     /**
-     * Finds all service in the database.
+     * Retrieves all service documents from the Firestore database.
      *
-     * @param onComplete A callback function that returns a MutableList of services
+     * @param onComplete Callback function that returns a MutableList of Service objects.
+     *                   If the operation fails, the list will be empty.
      */
-    fun getAll(onComplete: (MutableList<Service>) -> Unit){
-        val services: MutableList<Service> = mutableListOf<Service>()
+    fun getAll(onComplete: (MutableList<Service>) -> Unit) {
+        val services: MutableList<Service> = mutableListOf()
 
         db.get()
             .addOnSuccessListener { list ->
-                for (document in list){
+                for (document in list) {
                     val service = document.toObject<Service>()
-                    services.add(service)
+                    if (service != null) {
+                        services.add(service)
+                    }
                 }
                 onComplete(services)
             }
-            .addOnFailureListener{
+            .addOnFailureListener {
                 onComplete(services)
             }
     }
-
 }

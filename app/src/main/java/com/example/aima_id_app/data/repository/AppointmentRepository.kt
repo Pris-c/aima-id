@@ -7,18 +7,25 @@ import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.toObject
+import com.google.firebase.firestore.toObject
+import com.google.firebase.firestore.toObjects
+import com.google.firebase.firestore.toObject
 
-class AppointmentRepository() {
+/**
+ * Repository class for managing `Appointment` data with Firebase Firestore.
+ * Provides methods for creating, reading, updating, and deleting `Appointment`
+ * records, as well as filtering and checking records based on specific criteria.
+ */
+class AppointmentRepository {
 
     private val db = FirebaseFirestore.getInstance().collection("appointments")
 
 
     /**
-     * Creates a new `Appointment` in the Firestore database.
+     * Adds a new `Appointment` record to Firestore.
      *
-     * @param appointment The `Appointment` object to be created.
-     * @param onComplete A callback function that takes a Boolean indicating
-     *                   the success of the operation.
+     * @param appointment The `Appointment` object to be added.
+     * @param onComplete Callback indicating success (`true`) or failure (`false`).
      */
     fun createAppointment(appointment: Appointment, onComplete: (Boolean) -> Unit) {
         db.add(appointment)
@@ -27,12 +34,10 @@ class AppointmentRepository() {
     }
 
     /**
-     * Finds an `Appointment` by its unique identifier (ID).
+     * Retrieves an `Appointment` by its unique ID.
      *
-     * @param id The unique ID of the `Appointment` to be retrieved.
-     * @param onComplete A callback function that takes an optional `Appointment`
-     *                   object. If the appointment is found, it returns the appointment;
-     *                   otherwise, it returns null.
+     * @param id The unique identifier of the `Appointment`.
+     * @param onComplete Callback returning the `Appointment` if found, or `null` if not.
      */
     fun findAppointmentById(id: String, onComplete: (Appointment?) -> Unit) {
         db.document(id).get()
@@ -43,11 +48,10 @@ class AppointmentRepository() {
     }
 
     /**
-     * Filter `Appointment` objects by user ID.
+     * Retrieves all `Appointment` records associated with a specific user ID.
      *
-     * @param userId The user ID to filter `Appointment` objects.
-     * @param onComplete A callback function that takes a mutable list of
-     *                   `Appointment` objects found for the specified user ID.
+     * @param userId The ID of the user whose appointments are to be retrieved.
+     * @param onComplete Callback returning a list of `Appointment` objects, empty if none found.
      */
     fun filterAppointmentsByUserId(userId: String, onComplete: (MutableList<Appointment>) -> Unit) {
         db.whereEqualTo("userId", userId).get()
@@ -62,11 +66,10 @@ class AppointmentRepository() {
     }
 
     /**
-     * Filter `Appointment` objects by aimaUnit ID.
+     * Retrieves all `Appointment` records associated with a specific aimaUnit ID.
      *
-     * @param aimaUnitId The aimaUnit ID to filter `Appointment` objects.
-     * @param onComplete A callback function that takes a mutable list of
-     *                   `Appointment` objects found for the specified aimaUnit ID.
+     * @param aimaUnitId The aimaUnit ID to filter `Appointment` objects by.
+     * @param onComplete Callback returning a list of `Appointment` objects, empty if none found.
      */
     fun filterAppointmentsByUnit(aimaUnitId: String, onComplete: (MutableList<Appointment>) -> Unit) {
         db.whereEqualTo("aimaUnitId", aimaUnitId).get()
@@ -81,11 +84,10 @@ class AppointmentRepository() {
     }
 
     /**
-     * Filter `Appointment` objects by date.
+     * Retrieves all `Appointment` records for a specified date.
      *
-     * @param date The date to filter `Appointment` objects.
-     * @param onComplete A callback function that takes a mutable list of
-     *                   `Appointment` objects found for the specified date.
+     * @param date The date to filter `Appointment` objects by.
+     * @param onComplete Callback returning a list of `Appointment` objects, empty if none found.
      */
     fun filterAppointmentsByDate(date: String, onComplete: (MutableList<Appointment>) -> Unit) {
         db.whereEqualTo("date", date).get()
@@ -100,12 +102,10 @@ class AppointmentRepository() {
     }
 
     /**
-     * Checks if any appointments exist for a given process ID.
+     * Checks if any `Appointment` exists for a given process ID.
      *
-     * @param processId The ID of the process to check for appointments.
-     * @param onComplete Callback that returns `true` if appointments exist, or `false` if not
-     * or if an error occurs.
-     *
+     * @param processId The ID of the process to check for associated appointments.
+     * @param onComplete Callback returning `true` if appointments exist, `false` otherwise.
      */
     fun checkAppointmentByProcess(processId: String, onComplete: (Boolean) -> Unit) {
         db.whereEqualTo("processId", processId).get()
@@ -116,11 +116,24 @@ class AppointmentRepository() {
     }
 
     /**
-     * Deletes an `Appointment` from the database.
+     * Retrieves an `Appointment` associated with a specific process ID.
      *
-     * @param id The unique ID of the `Appointment` to be deleted.
-     * @param onComplete A callback function that takes a Boolean indicating
-     *                   whether the deletion was successful or not.
+     * @param processId The process ID to retrieve the associated `Appointment`.
+     * @param onComplete Callback returning the `Appointment` if found, or `null` if not.
+     */
+    fun getAppointmentByProcess(processId: String, onComplete: (Appointment?) -> Unit) {
+        db.whereEqualTo("processId", processId).get()
+            .addOnSuccessListener { appointment ->
+                onComplete(appointment.documents.firstOrNull()?.toObject(Appointment::class.java))
+            }
+            .addOnFailureListener { onComplete(null) }
+    }
+
+    /**
+     * Deletes an `Appointment` from Firestore by its unique ID.
+     *
+     * @param id The ID of the `Appointment` to be deleted.
+     * @param onComplete Callback indicating success (`true`) or failure (`false`).
      */
     fun deleteAppointment(id: String, onComplete: (Boolean) -> Unit) {
         db.document(id).delete()
@@ -129,11 +142,10 @@ class AppointmentRepository() {
     }
 
     /**
-     * Deletes all `Appointment` objects that match the specified process ID.
+     * Deletes all `Appointment` records associated with a specified process ID.
      *
-     * @param processId The process ID to filter `Appointment` objects.
-     * @param onComplete A callback function that takes a Boolean indicating
-     *                   whether the deletion was successful or not.
+     * @param processId The process ID to filter `Appointment` records by for deletion.
+     * @param onComplete Callback indicating success (`true`) or failure (`false`).
      */
     fun deleteAppointmentsByProcessId(processId: String, onComplete: (Boolean) -> Unit) {
         db.whereEqualTo("processId", processId).get()
@@ -173,17 +185,14 @@ class AppointmentRepository() {
     }
 
     /**
-     * Retrieves all `Appointment` objects from Firestore.
+     * Retrieves all `Appointment` records from Firestore.
      *
-     * @param onComplete Callback receiving a mutable list of `Appointment` objects.
+     * @param onComplete Callback returning a list of all `Appointment` objects, empty if none found.
      */
     fun findAllAppointments(onComplete: (MutableList<Appointment>) -> Unit) {
         db.get()
             .addOnSuccessListener { appointmentList ->
-                val appointments = mutableListOf<Appointment>()
-                for (document in appointmentList) {
-                    appointments.add(document.toObject(Appointment::class.java))
-                }
+                val appointments = appointmentList.toObjects(Appointment::class.java).toMutableList()
                 onComplete(appointments)
             }
             .addOnFailureListener { onComplete(mutableListOf()) }

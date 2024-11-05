@@ -12,7 +12,7 @@ import java.time.LocalDate
  * @property userId The unique identifier of the user associated with this document.
  * @property status The status of the document, defined by [DocStatus].
  * @property submittedAt The date when the document was submitted.
- * @property expirationDate The expiration date of the document. Default is set to December 30, 2125.
+ * @property expirationDate The expiration date of the document.
  */
 
 data class UserDocument (
@@ -21,5 +21,5 @@ data class UserDocument (
     val userId: String = "",
     var status: String = DocStatus.SUBMITTED.toString(),
     var submittedAt: String = LocalDate.of(1,1,1).toString(),
-    var expirationDate: String = LocalDate.of(2125,12,30).toString()
+    var expirationDate: String = ""
 )
