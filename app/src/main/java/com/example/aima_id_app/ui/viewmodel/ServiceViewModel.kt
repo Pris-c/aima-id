@@ -54,7 +54,13 @@ class ServiceViewModel (
             if (documents.isNotEmpty()) {
                 for (doc in documents) {
                     if (doc.status == DocStatus.APPROVED.status){
-                        val expirationDay = LocalDate.parse(doc.expirationDate)
+                        var expirationDay = LocalDate.now().plusYears(100)
+                        try {
+                            expirationDay = LocalDate.parse(doc.expirationDate)
+                        } catch (e: Exception){
+                             expirationDay = LocalDate.now().plusYears(100)
+                        }
+
                         if (expirationDay.isBefore(LocalDate.now())) {
                             doc.status = DocStatus.EXPIRED.status
                         }

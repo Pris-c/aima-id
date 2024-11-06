@@ -117,7 +117,7 @@ class RequestServiceFragment : Fragment() {
             // Carrega os serviços
             serviceViewModel.getAllServices { services ->
                 val selectedService = services[selectedServicePosition]
-                val selectedServiceCode = selectedService.name
+                val selectedServiceCode = selectedService.code
 
                 // Agora, verifica se todos os documentos foram aprovados
                 serviceViewModel.hasAllDocumentsApproved.observe(viewLifecycleOwner) { hasAllApproved ->
@@ -138,9 +138,5 @@ class RequestServiceFragment : Fragment() {
                 }
             }
         }
-
-
-
-
     }
 }

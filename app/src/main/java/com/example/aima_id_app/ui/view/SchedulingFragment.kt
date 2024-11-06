@@ -13,12 +13,14 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.Spinner
 import android.widget.Toast
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.applandeo.materialcalendarview.CalendarDay
 import com.applandeo.materialcalendarview.CalendarView
 import com.applandeo.materialcalendarview.listeners.OnCalendarDayClickListener
 import com.example.aima_id_app.R
+import com.example.aima_id_app.data.model.db_model.AimaUnit
 import com.example.aima_id_app.ui.viewmodel.CalendarViewModel
 import com.example.aima_id_app.ui.viewmodel.SchedulingViewModel
 import com.example.aima_id_app.ui.viewmodel.StatusViewModel
@@ -85,6 +87,8 @@ class SchedulingFragment : Fragment() {
     }
 
     private fun initializeViews(view: View) {
+        Log.d("PROCESS", "initializeViews")
+
         nameServiceInput = view.findViewById(R.id.nameService_input)
         cityInput = view.findViewById(R.id.city_input)
         calendarView = view.findViewById(R.id.calendarView)
@@ -94,22 +98,81 @@ class SchedulingFragment : Fragment() {
     }
 
     private fun setupSpinners() {
-        // Observa a lista de processos/serviços
-        statusViewModel.processes.observe(viewLifecycleOwner) { processes ->
-            // Converte o mapa de processos em uma lista de nomes ou títulos
-            val services = processes.values.map { process -> process.serviceCode }
+       /* statusViewModel.process_service.observe(viewLifecycleOwner) { processServiceMap ->
+            Log.d("PROCESS", "setupSpinner: Processess $processServiceMap")
 
-            if (services.isNotEmpty()) {
+            if (processServiceMap.isNotEmpty()) {
+                val serviceNames = mutableListOf<String>()
+                val serviceIds = mutableListOf<String>()
+
+                // Itera pelo mapa usando um loop for
+                for ((serviceId, serviceName) in processServiceMap) {
+                    serviceNames.add(serviceName)
+                    serviceIds.add(serviceId)
+                }
+
                 val serviceAdapter = ArrayAdapter(
                     requireContext(),
                     android.R.layout.simple_spinner_item,
-                    services
+                    serviceNames
                 ).apply {
                     setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 }
                 nameServiceInput.adapter = serviceAdapter
+
+                // Define um listener para o Spinner
+                nameServiceInput.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                        val selectedServiceName = serviceNames[position]
+                        val selectedServiceId = serviceIds[position]
+                        // Aqui você tem o ID do serviço selecionado (selectedServiceId)
+                        // Faça o que precisar com ele, como armazená-lo em uma variável ou usá-lo em uma chamada de API
+                        Log.d("Selected Service", "ID: $selectedServiceId, Name: $selectedServiceName")
+                    }
+
+                    override fun onNothingSelected(parent: AdapterView<*>?) {
+                        // Nada a fazer aqui
+                    }
+                }
+            }
+        }*/
+
+        Log.d("PROCESS", "setupSpinners")
+
+
+        statusViewModel.getProcessesByUserId() { listaDePares ->
+
+            Log.d("PROCESS", "Lista de pares 0: ${listaDePares[0].first} / ${listaDePares[0].second}")
+
+            val valores = listaDePares.map { it.second }
+
+            Log.d("PROCESS", valores.get(0))
+
+            val adapter = ArrayAdapter(
+                this.requireContext(),
+                android.R.layout.simple_spinner_item,
+                valores
+            )
+
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            nameServiceInput.adapter = adapter
+
+            nameServiceInput.onItemSelectedListener  =   object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    val (key, value) = listaDePares[position]
+                }
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                    TODO("Not yet implemented")
+                }
             }
         }
+
+
 
 
         // Observa a lista de cidades
@@ -175,12 +238,13 @@ class SchedulingFragment : Fragment() {
         ) { availableTimeByUnit ->
             Log.d("SchedulingFragment", "Available times received for city: $selectedCity and date: $date")
 
-            val unitIds = availableTimeByUnit.keys.toList()
-            if (unitIds.isNotEmpty()) {
+            val unit = availableTimeByUnit.keys.toList()
+
+            if (unit.isNotEmpty()) {
                 val unitAdapter = ArrayAdapter(
                     requireContext(),
                     android.R.layout.simple_spinner_item,
-                    unitIds
+                    unit
                 ).apply {
                     setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 }
@@ -191,21 +255,34 @@ class SchedulingFragment : Fragment() {
         }
     }
 
-    private fun setupUnitSpinner(availableTimeByUnit: MutableMap<String, MutableList<PossibleScheduling>>) {
+    private fun setupUnitSpinner(availableTimeByUnit: MutableMap<AimaUnit, MutableList<PossibleScheduling>>) {
+        val units = availableTimeByUnit.keys.toList()
+
+        val unitNames = units.map { it.name }  // Assumindo que 'AimaUnit' tem um campo 'name' para exibir
+
+        val adapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_spinner_item,
+            unitNames
+        )
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        cityUnitInput.adapter = adapter
+
         cityUnitInput.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                parent?.getItemAtPosition(position)?.toString()?.let { selectedUnitId ->
-                    val availableTimes = availableTimeByUnit[selectedUnitId] ?: emptyList()
+                val selectedUnit = units[position]  // AimaUnit diretamente
 
-                    val hourAdapter = ArrayAdapter(
-                        requireContext(),
-                        android.R.layout.simple_spinner_item,
-                        availableTimes
-                    ).apply {
-                        setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                    }
-                    hourServiceInput.adapter = hourAdapter
+                val availableTimes = availableTimeByUnit[selectedUnit] ?: emptyList()
+                val mapTimes = availableTimes.map { it.time }
+
+                val hourAdapter = ArrayAdapter(
+                    requireContext(),
+                    android.R.layout.simple_spinner_item,
+                    mapTimes
+                ).apply {
+                    setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 }
+                hourServiceInput.adapter = hourAdapter
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -215,12 +292,21 @@ class SchedulingFragment : Fragment() {
     }
 
     private fun setupRegisterButton() {
+
+        Log.d("PROCESS", "button")
         registerSchedulingButton.setOnClickListener {
             selectedDate?.let { date ->
+
+                Log.d("PROCESS", "service name ${nameServiceInput.selectedItem}")
+                Log.d("PROCESS", " city : ${cityInput.selectedItem}")
+                Log.d("PROCESS", " unit ${cityUnitInput.selectedItem}")
+                Log.d("PROCESS", "huor ${hourServiceInput.selectedItem}")
+
+
                 val selectedServiceName = nameServiceInput.selectedItem as String
                 val selectedCity = cityInput.selectedItem as String
                 val selectedUnitId = cityUnitInput.selectedItem as String
-                val selectedHour = hourServiceInput.selectedItem as? PossibleScheduling
+                val selectedHour = PossibleScheduling.fromTime(hourServiceInput.selectedItem.toString()) as? PossibleScheduling
                     ?: run {
                         Snackbar.make(requireView(), "Selecione um horário válido.", Snackbar.LENGTH_SHORT).show()
                         return@setOnClickListener
@@ -230,8 +316,10 @@ class SchedulingFragment : Fragment() {
                     selectedServiceName,
                     selectedUnitId,
                     date,
-                    selectedHour
+                    selectedHour.time
                 ) { success ->
+                    Log.d("PROCESS", "saveAppointment $success")
+
                     if (success) {
                         Snackbar.make(requireView(), "Agendamento salvo com sucesso!", Snackbar.LENGTH_SHORT).show()
 

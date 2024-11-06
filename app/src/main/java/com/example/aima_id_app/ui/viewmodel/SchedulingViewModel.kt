@@ -19,9 +19,9 @@ class SchedulingViewModel(
     fun mapAvailableTimeByCityUnits(
         city: String,
         day: LocalDate,
-        onComplete: (MutableMap<String, MutableList<PossibleScheduling>>) -> Unit
+        onComplete: (MutableMap<AimaUnit, MutableList<PossibleScheduling>>) -> Unit
     ) {
-        val availableTimeByUnit = mutableMapOf<String, MutableList<PossibleScheduling>>()
+        val availableTimeByUnit = mutableMapOf<AimaUnit, MutableList<PossibleScheduling>>()
 
         aimaUnitRepository.getAimaUnitsByCity(city) { aimaUnits ->
             if (aimaUnits.isNotEmpty()) {
@@ -30,7 +30,7 @@ class SchedulingViewModel(
 
                 for ((id, unit) in aimaUnits) {
                     getAvailableDayTime(id, unit, day) { timesList ->
-                        availableTimeByUnit[id] = timesList
+                        availableTimeByUnit[unit] = timesList
                         Log.d("DEBUG", "Unit $id has ${timesList.size} available time")
 
                         processedUnits++
@@ -69,10 +69,18 @@ class SchedulingViewModel(
             onComplete(availableTimes)
         }
     }
-
+/*
     fun saveAppointment(processId: String, aimaUnitId: String, date: LocalDate, time: PossibleScheduling,
                         onComplete: (Boolean) -> Unit){
         val newAppointment = Appointment(processId, aimaUnitId, date.toString(), time.time)
+        appointmentRepository.createAppointment(newAppointment){ success ->
+            onComplete(success)
+        }
+    }*/
+
+    fun saveAppointment(processId: String, aimaUnitId: String, date: LocalDate, time: String,
+                        onComplete: (Boolean) -> Unit){
+        val newAppointment = Appointment(processId, aimaUnitId, date.toString(), time)
         appointmentRepository.createAppointment(newAppointment){ success ->
             onComplete(success)
         }
