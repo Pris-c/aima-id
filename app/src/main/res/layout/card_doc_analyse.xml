@@ -23,19 +23,22 @@ android:layout_width="match_parent"
 android:layout_height="wrap_content"
 android:orientation="horizontal">
 
-<FrameLayout
-    android:layout_width="65dp"
-    android:layout_height="59dp"
-    android:background="@drawable/mini_button">
+    <FrameLayout
+        android:id="@+id/downloadButton"
+        android:layout_width="65dp"
+        android:layout_height="59dp"
+        android:background="@drawable/mini_button"
+        android:clickable="true"
+        android:contextClickable="true">
 
-    <ImageView
-        android:id="@+id/iconImageView"
-        android:layout_width="48dp"
-        android:layout_height="43dp"
-        android:layout_gravity="center"
-        android:contentDescription="Ícone do documento"
-        app:srcCompat="@android:drawable/stat_sys_upload" />
-</FrameLayout>
+        <ImageView
+            android:id="@+id/iconImageView"
+            android:layout_width="48dp"
+            android:layout_height="43dp"
+            android:layout_gravity="center"
+            android:contentDescription="Ícone do documento"
+            app:srcCompat="@android:drawable/stat_sys_upload" />
+    </FrameLayout>
 
 <LinearLayout
     android:layout_width="0dp"

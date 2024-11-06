@@ -22,7 +22,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:layout_marginBottom="10dp"
         android:lineSpacingExtra="8sp"
         android:text="@string/StartAnalysis"
         android:textAlignment="center"
@@ -43,13 +42,13 @@
         android:orientation="vertical"
         android:padding="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewFiles"
             android:layout_width="match_parent"
-            android:layout_height="400dp"
-            android:layout_marginBottom="15dp" />
+            android:layout_height="430dp" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

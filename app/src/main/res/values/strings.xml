@@ -18,6 +18,7 @@
     <string name="NotificationsMessage">Em breve poderá aceder as notificações de contato aqui!</string>
     <string name="ShedulleMessage">Em breve poderá consultar e gerenciar seus agendamentos aqui!</string>
     <string name="DigitialIDMessage">Em breve poderá aceder a sua identificação digital AIMA ID aqui!</string>
+    <string name="AppointmentsMessage">Em breve poderá aceder ao gerenciamento dos agendamentos aqui!</string>
     <!--Services Description-->
 
     <string name="DescriptionRequestResidencyWorkService">

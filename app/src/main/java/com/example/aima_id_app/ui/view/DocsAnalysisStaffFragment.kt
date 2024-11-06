@@ -8,10 +8,10 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.aima_id_app.R
-import com.example.aima_id_app.data.model.db_model.UserDocument
 import com.example.aima_id_app.ui.viewmodel.DocumentAnalysisViewModel
 import com.example.aima_id_app.ui.viewmodel.SubmittedDocsListViewModel
 import com.example.aima_id_app.util.adapter.CardDocAnalyse
+
 
 class DocsAnalysisStaffFragment : Fragment() {
 
@@ -33,8 +33,12 @@ class DocsAnalysisStaffFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         submittedDocsListViewModel.getDocsToAnalyse { documents ->
-            val adapter = CardDocAnalyse(requireContext(), documents, documentAnalysisViewModel)
+            val adapter = CardDocAnalyse(requireContext(), documents,
+                this.documentAnalysisViewModel
+            )
             recyclerViewFiles.adapter = adapter
         }
     }
+
+
 }

@@ -69,7 +69,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView7"
-        app:layout_constraintVertical_bias="0.254">
+        app:layout_constraintVertical_bias="0.177">
 
         <TextView
             android:layout_width="wrap_content"
@@ -91,9 +91,9 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/edit_text_background_rounded"
                 android:hint="exemplo@email.com"
-                android:textColor="@color/aima_blue"
                 android:inputType="textEmailAddress"
                 android:padding="12dp"
+                android:textColor="@color/aima_blue"
                 android:textColorHint="#80000000" />
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
