@@ -80,10 +80,10 @@ class RequestServiceFragment : Fragment() {
                         serviceViewModel.checkDocuments(selectedService)  // Verifica se todos os documentos estão aprovados
 
                         // A lista de documentos deve ser observada para atualizar a UI
-                        val documents = serviceViewModel.docList.value ?: emptyList()
+                        val userDocuments = serviceViewModel.docList.value ?: emptyList()
                         val docTypeList: List<DocType> = requiredDocs.mapNotNull { DocType.fromType(it) }
 
-                        val adapter = FileInputAdapter(requireContext(), docTypeList, documents)
+                        val adapter = FileInputAdapter(requireContext(), docTypeList, userDocuments)
                         recyclerViewFiles.adapter = adapter
 
                         // Atualiza a descrição do serviço no campo de texto
@@ -98,6 +98,12 @@ class RequestServiceFragment : Fragment() {
             }
         }
 
+        serviceViewModel.docList.observe(viewLifecycleOwner) { documents ->
+            // Atualiza a lista de documentos do usuário no adapter
+            val adapter = recyclerViewFiles.adapter as? FileInputAdapter
+            adapter?.userDocuments = documents
+            adapter?.notifyDataSetChanged()
+        }
 
 
         serviceViewModel.loadUserDocuments()

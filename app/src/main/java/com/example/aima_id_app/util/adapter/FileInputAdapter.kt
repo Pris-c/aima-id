@@ -3,6 +3,7 @@ package com.example.aima_id_app.ui.adapter
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +18,8 @@ import com.example.aima_id_app.util.enums.DocType
 class FileInputAdapter(
     private val context: Context,
     private val fileInputs: List<DocType>,
-    private val userDocuments: List<UserDocument>
+    var userDocuments: List<UserDocument>
+
 ) : RecyclerView.Adapter<FileInputAdapter.ViewHolder>() {
 
     companion object {
@@ -38,18 +40,26 @@ class FileInputAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val docType = fileInputs[position]
+        Log.d("FileInputAdapter", "docType: $docType")
         holder.iconImageView.setImageResource(getIconForDocType(docType))
         holder.titleTextView.text = getTitleForDocType(docType)
 
-        val userDocument = userDocuments.find { it.docType == docType.name }
+        userDocuments.forEach {
+            Log.d("FileInputAdapter", "it.docType: ${it.docType}")
+        }
+
+        val userDocument = userDocuments.find { it.docType == docType.doc }
+        Log.d("FileInputAdapter", "userDocument: $userDocument")
 
         holder.descriptionTextView.text = when (userDocument?.status) {
-            DocStatus.SUBMITTED.status -> "Enviado"
+            DocStatus.SUBMITTED.status -> "Submetido"
             DocStatus.APPROVED.status -> "Aprovado"
             DocStatus.REJECTED.status -> "Rejeitado"
             DocStatus.EXPIRED.status -> "Expirado"
-            null -> "Não enviado"
-            else -> "Não enviado"
+            else -> {
+                Log.d("FileInputAdapter", "Unknown status: ${userDocument?.status}") // Log para status desconhecido
+                "Não enviado"
+            }
         }
     }
 
