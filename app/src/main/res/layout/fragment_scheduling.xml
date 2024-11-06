@@ -138,16 +138,13 @@
                     app:boxBackgroundMode="none"
                     app:hintEnabled="false">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/freeDate_input"
+                    <com.applandeo.materialcalendarview.CalendarView
+                        android:id="@+id/calendarView"
+                        android:background="@color/aima_pink"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/edit_text_background_rounded"
-                        android:focusable="false"
-                        android:hint="DD/MM/AAAA"
-                        android:inputType="none"
-                        android:padding="12dp"
-                        android:textColorHint="#80000000" />
+                        android:layout_height="300dp"
+                        app:layout_constraintTop_toBottomOf="@id/inputCity" />
+
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
@@ -219,7 +216,7 @@
 
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/registerStaffButton"
+                android:id="@+id/registerSchedulingButton"
                 android:layout_width="337dp"
                 android:layout_height="62dp"
                 android:layout_marginTop="20dp"

@@ -41,7 +41,7 @@ class StatusViewModel(
      */
     fun getProcessesByUserId() {
         val userId = auth.currentUser?.uid ?: return
-        Log.d("ARTHUR", "mensagem do arthur")
+
         aimaProcessRepository.filterProcessesByUser(userId) { aimaProcesses ->
             _processes.value = aimaProcesses
         }
