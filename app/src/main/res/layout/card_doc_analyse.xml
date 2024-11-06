@@ -12,64 +12,82 @@
     app:cardCornerRadius="20dp"
     app:cardElevation="0dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+<LinearLayout
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:orientation="vertical"
+    android:padding="24dp">
+
+<LinearLayout
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:orientation="horizontal">
+
+<FrameLayout
+    android:layout_width="65dp"
+    android:layout_height="59dp"
+    android:background="@drawable/mini_button">
+
+    <ImageView
+        android:id="@+id/iconImageView"
+        android:layout_width="48dp"
+        android:layout_height="43dp"
+        android:layout_gravity="center"
+        android:contentDescription="Ícone do documento"
+        app:srcCompat="@android:drawable/stat_sys_upload" />
+</FrameLayout>
+
+<LinearLayout
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:orientation="vertical"
+    android:layout_marginStart="16dp">
+
+    <TextView
+        android:id="@+id/titleTextView"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="30dp">
+        android:text="Título do documento"
+        android:textColor="@color/aima_pink"
+        android:textSize="20sp" />
 
-        <FrameLayout
-            android:layout_width="65dp"
-            android:layout_height="59dp"
-            android:background="@drawable/mini_button">
+    <TextView
+        android:id="@+id/userNameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nome do Usuário" />
 
-            <ImageView
-                android:id="@+id/iconImageView"
-                android:layout_width="48dp"
-                android:layout_height="43dp"
-                android:layout_gravity="center"
-                android:contentDescription="Ícone do documento"
-                app:srcCompat="@android:drawable/stat_sys_upload" />
-        </FrameLayout>
+    <TextView
+        android:id="@+id/userNifTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="NIF do Usuário" />
+</LinearLayout>
+</LinearLayout>
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:layout_marginStart="16dp"
-            android:gravity="center_vertical">
+<LinearLayout
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:orientation="horizontal"
+android:layout_marginTop="16dp">
 
-            <TextView
-                android:id="@+id/titleTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Título do documento"
-                android:textColor="@color/aima_pink"
-                android:textSize="20sp" />
+<Button
+    android:id="@+id/approveButton"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:text="Aprovar"
+    android:backgroundTint="@color/aima_blue"/>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/approveButton"
-
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Aprovar"
-                    android:backgroundTint="@color/aima_pink"/>
-
-                <Button
-                    android:id="@+id/reproveButton"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Reprovar"
-                    android:backgroundTint="@color/aima_pink"/>
-            </LinearLayout>
-        </LinearLayout>
+<Button
+    android:id="@+id/reproveButton"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:layout_marginStart="16dp"
+    android:text="Reprovar"
+    android:backgroundTint="@color/aima_pink"/>
+</LinearLayout>
     </LinearLayout>
-</androidx.cardview.widget.CardView>
+    </androidx.cardview.widget.CardView>
