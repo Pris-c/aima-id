@@ -10,8 +10,8 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.example.aima_id_app.R
+import com.example.aima_id_app.ui.viewmodel.HomeViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.firebase.auth.FirebaseAuth
 
 class UserActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,47 +31,67 @@ class UserActivity : AppCompatActivity() {
             loadFragment(SchedulingFragment())
         }
 
-        val user = FirebaseAuth.getInstance().currentUser
-        val userName = user?.displayName
-        val textViewNameUser = findViewById<TextView>(R.id.textViewNameUser)
-        textViewNameUser.text = if (userName != null) "Olá $userName" else "Olá, Bem-vindo!"
 
-        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
-        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.nav_home -> {
-                    supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-                    true
-                }
-                R.id.nav_profile -> {
-                    loadFragment(ProfileFragment())
-                    true
-                }
-                R.id.nav_calendar -> {
-                    loadFragment(SchedulingUserFragment())
-                    true
-                }
-                R.id.nav_notifications -> {
-                    loadFragment(NotificationsFragment())
-                    true
-                }
-                R.id.nav_contact -> {
-                    loadFragment(ContactUserFragment())
-                    true
-                }
-                else -> false
+        var userName = " Bem-vindo!"
+
+        HomeViewModel().getUserById() { user ->
+            if (user != null) {
+                userName = user.name.split(" ")[0]
             }
-        }
 
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+                val textViewNameUser = findViewById<TextView>(R.id.textViewNameUser)
+                textViewNameUser.text = "Olá, ${userName}"
+
+                val bottomNavigationView =
+                    findViewById<BottomNavigationView>(R.id.bottom_navigation)
+                bottomNavigationView.setOnNavigationItemSelectedListener { item ->
+                    when (item.itemId) {
+                        R.id.nav_home -> {
+                            supportFragmentManager.popBackStack(
+                                null,
+                                FragmentManager.POP_BACK_STACK_INCLUSIVE
+                            )
+                            true
+                        }
+
+                        R.id.nav_profile -> {
+                            loadFragment(ProfileFragment())
+                            true
+                        }
+
+                        R.id.nav_calendar -> {
+                            loadFragment(SchedulingUserFragment())
+                            true
+                        }
+
+                        R.id.nav_notifications -> {
+                            loadFragment(NotificationsFragment())
+                            true
+                        }
+
+                        R.id.nav_contact -> {
+                            loadFragment(ContactUserFragment())
+                            true
+                        }
+
+                        else -> false
+                    }
+                }
+
+                ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+                    val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+                    v.setPadding(
+                        systemBars.left,
+                        systemBars.top,
+                        systemBars.right,
+                        systemBars.bottom
+                    )
+                    insets
+                }
         }
     }
 
-    val auth = FirebaseAuth.getInstance().currentUser?.displayName
 
     /**
      * Loads a fragment into the fragment container with custom slide animations.
@@ -82,7 +102,7 @@ class UserActivity : AppCompatActivity() {
      *
      * @param fragment The fragment to be loaded.
      */
-     fun loadFragment(fragment: Fragment) {
+    fun loadFragment(fragment: Fragment) {
         val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
 
         if (currentFragment == null || currentFragment::class != fragment::class) {
@@ -96,7 +116,7 @@ class UserActivity : AppCompatActivity() {
                 .replace(R.id.fragment_container, fragment)
                 .addToBackStack(null)
                 .commit()
-        } else{
+        } else {
             supportFragmentManager.popBackStack()
         }
     }
