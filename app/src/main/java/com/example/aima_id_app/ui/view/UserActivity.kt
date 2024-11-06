@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentManager
 import com.example.aima_id_app.R
 import com.example.aima_id_app.ui.viewmodel.HomeViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
 
 class UserActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,8 +34,13 @@ class UserActivity : AppCompatActivity() {
 
 
         var userName = " Bem-vindo!"
+        var userId = FirebaseAuth.getInstance().currentUser?.uid
 
-        HomeViewModel().getUserById() { user ->
+        if (userId == null){
+            userId = ""
+        }
+
+        HomeViewModel().getUserById(userId) { user ->
             if (user != null) {
                 userName = user.name.split(" ")[0]
             }

@@ -2,7 +2,6 @@ package com.example.aima_id_app.util.adapter
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.aima_id_app.R
 import com.example.aima_id_app.data.model.db_model.UserDocument
 import com.example.aima_id_app.ui.viewmodel.DocumentAnalysisViewModel
+import com.example.aima_id_app.ui.viewmodel.HomeViewModel
 import com.example.aima_id_app.util.enums.DocType
 import com.google.android.material.snackbar.Snackbar
 import java.io.File
@@ -34,10 +34,12 @@ class CardDocAnalyse(
 
         val userNameTextView: TextView = itemView.findViewById(R.id.userNameTextView)
         val userNifTextView: TextView = itemView.findViewById(R.id.userNifTextView)
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.card_doc_analyse, parent, false)
+
         return ViewHolder(view)
     }
 
@@ -45,13 +47,24 @@ class CardDocAnalyse(
         val document = documents.values.toList()[position]
         val docId = documents.keys.toList()[position]
 
+        val homeViewModel = HomeViewModel()
         val docType = DocType.fromType(document.docType) ?: return
 
         holder.iconImageView.setImageResource(R.drawable.ic_download)
         holder.titleTextView.text = docType.doc
 
-        holder.userNameTextView.text = document.userId
-        holder.userNifTextView.text = document.submittedAt
+        var userName = ""
+        var nif = ""
+
+            homeViewModel.getUserById(document.userId) { user ->
+                if (user != null){
+                    userName = user.name
+                    nif = user.nif
+                }
+
+                holder.userNameTextView.text = userName
+                holder.userNifTextView.text = nif
+            }
 
         holder.approveButton.setOnClickListener {
             viewModel.approveDoc(docId)

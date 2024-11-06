@@ -10,8 +10,7 @@ class HomeViewModel: ViewModel() {
     val userRepository = UserRepository()
     val auth = FirebaseAuth.getInstance()
 
-    fun getUserById(onComplete: (User?) -> Unit){
-        val userId = auth.currentUser?.uid
+    fun getUserById(userId: String, onComplete: (User?) -> Unit){
         if (userId != null){
             userRepository.findUserById(userId){ user ->
                 if (user != null) {
@@ -22,5 +21,4 @@ class HomeViewModel: ViewModel() {
             onComplete(null)
         }
     }
-
 }
