@@ -33,7 +33,7 @@ class UserDocsAdapter(private val documents: List<UserDocument>) :
         holder.iconImageView.setImageResource(getIconForDocType(documentEnum))
         holder.titleTextView.text = getTitleForDocType(documentEnum)
         holder.descriptionTextView.text = when (document.status) {
-            DocStatus.SUBMITTED.status -> "Enviado"
+            DocStatus.SUBMITTED.status -> "Submetido"
             DocStatus.APPROVED.status -> "Aprovado"
             DocStatus.REJECTED.status -> "Rejeitado"
             DocStatus.EXPIRED.status -> "Expirado"

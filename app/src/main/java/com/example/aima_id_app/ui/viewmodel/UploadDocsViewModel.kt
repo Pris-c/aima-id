@@ -42,7 +42,7 @@ class UploadDocsViewModel(
      * @param onComplete A callback function that returns true if the operation was successful,
      *                   or false if it failed.
      */
-    fun saveOrUpdateDoc(docFile: File, docType: DocType, onComplete: (Boolean) -> Unit) {
+    fun saveOrUpdateDoc(docFile: File, docType: DocType, status : String, onComplete: (Boolean) -> Unit) {
         val userId = auth.currentUser?.uid
 
         if (userId == null) {
@@ -71,7 +71,7 @@ class UploadDocsViewModel(
                         }
 
                     } else {
-                        saveNewDocument(userId, docFile, docType) { saved ->
+                        saveNewDocument(userId, docFile, docType, status) { saved ->
                             if (saved){
                                 onComplete(true)
                             } else {
@@ -98,12 +98,13 @@ class UploadDocsViewModel(
      * @param onComplete A callback function that indicates whether the save operation was successful.
      *                   Returns true if successful, false otherwise.
      */
-    private fun saveNewDocument(userId: String, file: File, docType: DocType, onComplete: (Boolean) -> Unit) {
+    private fun saveNewDocument(userId: String, file: File, docType: DocType, status: String, onComplete: (Boolean) -> Unit) {
         Log.d("FILE", "Saving..")
         storageRepository.saveFile(file) { docPath ->
             if (docPath != null) {
                 val userDocument = UserDocument(
                     docPath = docPath,
+                    status = status,
                     docType = docType.doc,
                     userId = userId,
                     submittedAt = LocalDate.now().toString()

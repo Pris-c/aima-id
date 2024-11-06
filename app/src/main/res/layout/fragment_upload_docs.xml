@@ -162,7 +162,7 @@
 
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/registerStaffButton"
+                android:id="@+id/uploadButton"
                 android:layout_width="337dp"
                 android:layout_height="62dp"
                 android:layout_marginTop="20dp"
