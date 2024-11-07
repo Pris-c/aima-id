@@ -1,8 +1,9 @@
 package com.example.aima_id_app.ui.view
 
-import android.graphics.Color
 import java.util.Calendar
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 
 import android.view.LayoutInflater
@@ -11,14 +12,11 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.CalendarView
 import android.widget.Spinner
-import android.widget.Toast
-import androidx.core.content.ContentProviderCompat.requireContext
+
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.applandeo.materialcalendarview.CalendarDay
-import com.applandeo.materialcalendarview.CalendarView
-import com.applandeo.materialcalendarview.listeners.OnCalendarDayClickListener
 import com.example.aima_id_app.R
 import com.example.aima_id_app.data.model.db_model.AimaUnit
 import com.example.aima_id_app.ui.viewmodel.CalendarViewModel
@@ -45,8 +43,6 @@ class SchedulingFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-
-
     ): View? {
         val view = inflater.inflate(R.layout.fragment_scheduling, container, false)
 
@@ -61,30 +57,29 @@ class SchedulingFragment : Fragment() {
         setupCalendar()
         setupRegisterButton()
 
-        /*val calendarView = view.findViewById<CalendarView>(R.id.calendarView)
+        // Encontre a referência do CalendarView uma vez
+        calendarView = view.findViewById(R.id.calendarView)
 
-// Definir a cor de fundo do dia atual
-        calendarView.setTodayBackgroundColor(Color.parseColor("#FF4081"))
+        val disabledDays = mutableListOf<Calendar>()
+        val calendar = Calendar.getInstance()
+        calendar.set(2024, Calendar.JANUARY, 1)
 
-// Definir a cor do texto da data selecionada
-        calendarView.setSelectedDateTextColor(Color.WHITE)
+        val today = Calendar.getInstance().timeInMillis
+        calendarView.minDate = today
 
-// Definir a cor do texto dos dias da semana
-        calendarView.setWeekDayTextColor(Color.parseColor("#FF0000"))
-
-// Definir a cor do texto das datas
-        calendarView.setDateTextColor(Color.BLACK)
-
-// Definir a cor do texto do cabeçalho (nome do mês e ano)
-        calendarView.setHeaderTextColor(Color.parseColor("#0000FF"))
-
-// Configurações adicionais (se necessário):
-        calendarView.setSelectionColor(Color.parseColor("#00FF00")) // Cor da data selecionada
-        calendarView.setFirstDayOfWeek(Calendar.MONDAY) // Definir segunda-feira como o primeiro dia da semana*/
+        while (calendar.get(Calendar.YEAR) == 2024) {
+            val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
+            if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY) {
+                disabledDays.add(calendar.clone() as Calendar)
+            }
+            calendar.add(Calendar.DAY_OF_MONTH, 1)
+        }
 
 
         return view
     }
+
+
 
     private fun initializeViews(view: View) {
         Log.d("PROCESS", "initializeViews")
@@ -98,44 +93,6 @@ class SchedulingFragment : Fragment() {
     }
 
     private fun setupSpinners() {
-       /* statusViewModel.process_service.observe(viewLifecycleOwner) { processServiceMap ->
-            Log.d("PROCESS", "setupSpinner: Processess $processServiceMap")
-
-            if (processServiceMap.isNotEmpty()) {
-                val serviceNames = mutableListOf<String>()
-                val serviceIds = mutableListOf<String>()
-
-                // Itera pelo mapa usando um loop for
-                for ((serviceId, serviceName) in processServiceMap) {
-                    serviceNames.add(serviceName)
-                    serviceIds.add(serviceId)
-                }
-
-                val serviceAdapter = ArrayAdapter(
-                    requireContext(),
-                    android.R.layout.simple_spinner_item,
-                    serviceNames
-                ).apply {
-                    setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                }
-                nameServiceInput.adapter = serviceAdapter
-
-                // Define um listener para o Spinner
-                nameServiceInput.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                        val selectedServiceName = serviceNames[position]
-                        val selectedServiceId = serviceIds[position]
-                        // Aqui você tem o ID do serviço selecionado (selectedServiceId)
-                        // Faça o que precisar com ele, como armazená-lo em uma variável ou usá-lo em uma chamada de API
-                        Log.d("Selected Service", "ID: $selectedServiceId, Name: $selectedServiceName")
-                    }
-
-                    override fun onNothingSelected(parent: AdapterView<*>?) {
-                        // Nada a fazer aqui
-                    }
-                }
-            }
-        }*/
 
         Log.d("PROCESS", "setupSpinners")
 
@@ -171,8 +128,6 @@ class SchedulingFragment : Fragment() {
                 }
             }
         }
-
-
 
 
         // Observa a lista de cidades
@@ -213,14 +168,16 @@ class SchedulingFragment : Fragment() {
     }
 
     private fun setupCalendar() {
-        calendarView.setOnCalendarDayClickListener(object : OnCalendarDayClickListener {
-            override fun onClick(calendarDay: CalendarDay) {
-                val calendar = calendarDay.calendar
-                selectedDate = LocalDate.of(
-                    calendar.get(Calendar.YEAR),
-                    calendar.get(Calendar.MONTH) + 1,
-                    calendar.get(Calendar.DAY_OF_MONTH)
-                )
+        calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->
+            val selectedDate = LocalDate.of(year, month + 1, dayOfMonth)
+            val dayOfWeek = selectedDate.dayOfWeek.value // 1 = segunda-feira, 7 = domingo
+
+            if (dayOfWeek == 6 || dayOfWeek == 7) {
+                Snackbar.make(requireView(), "Sábado ou domingo não são permitidos.", Snackbar.LENGTH_SHORT).show()
+
+            } else {
+
+                this.selectedDate = selectedDate
 
                 Log.d("SchedulingFragment", "Selected date set to: $selectedDate")
 
@@ -228,7 +185,7 @@ class SchedulingFragment : Fragment() {
                     updateAvailableUnits(selectedCity, selectedDate!!)
                 }
             }
-        })
+        }
     }
 
     private fun updateAvailableUnits(selectedCity: String, date: LocalDate) {
@@ -258,7 +215,7 @@ class SchedulingFragment : Fragment() {
     private fun setupUnitSpinner(availableTimeByUnit: MutableMap<AimaUnit, MutableList<PossibleScheduling>>) {
         val units = availableTimeByUnit.keys.toList()
 
-        val unitNames = units.map { it.name }  // Assumindo que 'AimaUnit' tem um campo 'name' para exibir
+        val unitNames = units.map { it.name }
 
         val adapter = ArrayAdapter(
             requireContext(),
@@ -270,7 +227,7 @@ class SchedulingFragment : Fragment() {
 
         cityUnitInput.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val selectedUnit = units[position]  // AimaUnit diretamente
+                val selectedUnit = units[position]
 
                 val availableTimes = availableTimeByUnit[selectedUnit] ?: emptyList()
                 val mapTimes = availableTimes.map { it.time }
@@ -299,6 +256,7 @@ class SchedulingFragment : Fragment() {
 
                 Log.d("PROCESS", "service name ${nameServiceInput.selectedItem}")
                 Log.d("PROCESS", " city : ${cityInput.selectedItem}")
+                Log.d("PROCESS", "date ${selectedDate}")
                 Log.d("PROCESS", " unit ${cityUnitInput.selectedItem}")
                 Log.d("PROCESS", "huor ${hourServiceInput.selectedItem}")
 
@@ -322,6 +280,9 @@ class SchedulingFragment : Fragment() {
 
                     if (success) {
                         Snackbar.make(requireView(), "Agendamento salvo com sucesso!", Snackbar.LENGTH_SHORT).show()
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            requireActivity().supportFragmentManager.popBackStack()
+                        }, 1000)
 
                     } else {
                         Snackbar.make(requireView(), "Erro ao salvar o agendamento.", Snackbar.LENGTH_SHORT).show()

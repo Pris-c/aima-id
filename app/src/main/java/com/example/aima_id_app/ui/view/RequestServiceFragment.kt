@@ -1,6 +1,8 @@
 package com.example.aima_id_app.ui.view
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -77,7 +79,7 @@ class RequestServiceFragment : Fragment() {
                         val requiredDocs = selectedService.requiredDocuments
 
                         // Acessa o docList atual e chama checkDocuments para verificar os documentos
-                        serviceViewModel.checkDocuments(selectedService)  // Verifica se todos os documentos estão aprovados
+                        serviceViewModel.checkDocuments(selectedService)
 
                         // A lista de documentos deve ser observada para atualizar a UI
                         val userDocuments = serviceViewModel.docList.value ?: emptyList()
@@ -128,6 +130,9 @@ class RequestServiceFragment : Fragment() {
                         serviceViewModel.newProcess(userId, selectedServiceCode) { success ->
                             if (success) {
                                 Snackbar.make(requireView(), "Serviço registrado com sucesso.", Snackbar.LENGTH_SHORT).show()
+                                    Handler(Looper.getMainLooper()).postDelayed({
+                                        requireActivity().supportFragmentManager.popBackStack()
+                                    }, 1000) // 1 segundo de atraso
                             } else {
                                 Snackbar.make(requireView(), "Falha ao registrar o serviço.", Snackbar.LENGTH_SHORT).show()
                             }

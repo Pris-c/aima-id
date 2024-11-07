@@ -7,6 +7,7 @@ import com.example.aima_id_app.data.model.db_model.Appointment
 import com.example.aima_id_app.data.repository.AimaUnitRepository
 import com.example.aima_id_app.data.repository.AppointmentRepository
 import com.example.aima_id_app.util.enums.PossibleScheduling
+import com.google.firebase.auth.FirebaseAuth
 import java.time.LocalDate
 
 class SchedulingViewModel(
@@ -78,12 +79,25 @@ class SchedulingViewModel(
         }
     }*/
 
-    fun saveAppointment(processId: String, aimaUnitId: String, date: LocalDate, time: String,
-                        onComplete: (Boolean) -> Unit){
-        val newAppointment = Appointment(processId, aimaUnitId, date.toString(), time)
-        appointmentRepository.createAppointment(newAppointment){ success ->
+    fun saveAppointment(processId: String, aimaUnitId: String, date: LocalDate, time: String, onComplete: (Boolean) -> Unit) {
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        val userId = currentUser?.uid ?: run {
+            onComplete(false)
+            return
+        }
+
+        val newAppointment = Appointment(
+            userId = userId,
+            processId = processId,
+            aimaUnitId = aimaUnitId,
+            date = date.toString(),
+            time = time
+        )
+
+        appointmentRepository.createAppointment(newAppointment) { success ->
             onComplete(success)
         }
     }
+
 
 }
