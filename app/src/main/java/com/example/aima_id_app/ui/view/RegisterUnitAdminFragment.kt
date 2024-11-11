@@ -56,7 +56,6 @@ class RegisterUnitAdminFragment : Fragment() {
         }
 
 
-        // Observe errors
         aimaUnitRegisterViewModel.geolocationErrorMessage.observe(viewLifecycleOwner, Observer { error ->
             error?.let { showError(it) }
         })
@@ -248,7 +247,6 @@ class RegisterUnitAdminFragment : Fragment() {
         registerButton = view.findViewById(R.id.register)
 
 
-        // Focus change listeners para validação ao perder o foco
         nameUnitInput.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) validateName(
                 nameUnitInput.text.toString().trim()

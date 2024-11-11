@@ -82,6 +82,17 @@ class DocumentAnalysisViewModel(
         }
     }
 
+    /**
+     * Downloads a document from Firebase Storage.
+     *
+     * This function downloads the document specified by the `document` parameter
+     * and saves it to a temporary file. The `onComplete` callback is invoked with
+     * the absolute path of the downloaded file if the download is successful, or
+     * with `null` if the download fails.
+     *
+     * @param document The UserDocument object containing the document path.
+     * @param onComplete A callback function that is invoked when the download is complete.
+     */
     fun downloadDocument(document: UserDocument, onComplete: (String?) -> Unit) {
         val fileName = document.docPath.substringAfterLast("_")
 

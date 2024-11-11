@@ -31,6 +31,9 @@ class UploadDocsFragment : Fragment() {
     private var selectedFileUri: Uri? = null
     private lateinit var viewModel: UploadDocsViewModel
 
+    /**
+     * Inflates the layout and initializes views for UploadDocsFragment.
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -42,6 +45,13 @@ class UploadDocsFragment : Fragment() {
         return view
     }
 
+
+    /**
+     * Sets up UI interactions and handles document upload.
+     *
+     * This function initializes the document type spinner, sets up the file input field,
+     * and handles the upload button click to save the selected document.
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -112,6 +122,12 @@ class UploadDocsFragment : Fragment() {
         }
     }
 
+    /**
+     * Retrieves a user-friendly title for a given document type.
+     *
+     * @param docType The document type to get the title for.
+     * @return The user-friendly title for the document type.
+     */
     private fun getTitleForDocType(docType: DocType): String {
         return when (docType) {
             DocType.PASSPORT -> "Passaporte"
@@ -130,6 +146,12 @@ class UploadDocsFragment : Fragment() {
         }
     }
 
+    /**
+     * Handles the result of the file picker activity.
+     *
+     * If a file is selected, it updates the file input field with the file name
+     * and stores the file URI.
+     */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_CODE_PICK_FILE && resultCode == Activity.RESULT_OK) {
@@ -141,6 +163,13 @@ class UploadDocsFragment : Fragment() {
         }
     }
 
+
+    /**
+     * Extracts the file name from a given URI.
+     *
+     * @param uri The URI to extract the file name from.
+     * @return The file name extracted from the URI.
+     */
     private fun getFileNameFromUri(uri: Uri): String {
         var fileName = ""
         val cursor = requireContext().contentResolver.query(uri, null, null, null, null)

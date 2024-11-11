@@ -60,7 +60,6 @@ class RegisterStaffAdminFragment : Fragment() {
            Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT).show()
         }
 
-        // Observe errors
         staffRegisterViewModel.nameErrorMessage.observe(viewLifecycleOwner, Observer { error ->
             error?.let { showError(it) }
         })
@@ -225,12 +224,10 @@ class RegisterStaffAdminFragment : Fragment() {
         workUnitInput = view.findViewById(R.id.workUnit_input)
         registerButton = view.findViewById(R.id.registerStaffButton)
 
-        // Set click listener for the date of birth field
         birthDateStaffInput.setOnClickListener {
             showDatePicker()
         }
 
-        // Focus change listeners para validação ao perder o foco
         nameStaffInput.setOnFocusChangeListener { _, hasFocus -> if (!hasFocus) validateName(nameStaffInput.text.toString().trim()) }
         nifStaffInput.setOnFocusChangeListener { _, hasFocus -> if (!hasFocus) validateNIF(nifStaffInput.text.toString().trim()) }
         emailStaffInput.setOnFocusChangeListener { _, hasFocus -> if (!hasFocus) validateEmail(emailStaffInput.text.toString().trim()) }

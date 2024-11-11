@@ -37,7 +37,6 @@ class LoginActivity : AppCompatActivity() {
         passwordInput = findViewById(R.id.password_input)
         emailInput = findViewById(R.id.email_input)
 
-        // Watch for changes in LiveData to redirect the user to the correct Activity
         loginViewModel.navigateToActivity.observe(this) { activityClass ->
             activityClass?.let {
                 startActivity(Intent(this, it))
@@ -45,15 +44,12 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-        // Observe login failures
         loginViewModel.errorMessage.observe(this, Observer { error ->
             error?.let {
                 Snackbar.make(findViewById(android.R.id.content), it, Snackbar.LENGTH_SHORT).show()
             }
         })
 
-
-        // Configure login event
         loginButton.setOnClickListener {
             val password = passwordInput.text.toString().trim()
             val email = emailInput.text.toString().trim()
@@ -63,16 +59,14 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-        // Validate password when the input field loses focus
         passwordInput.setOnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus) { // Check if the field has lost focus
+            if (!hasFocus) {
                 validatePassword(passwordInput.text.toString().trim())
             }
         }
 
-        // Validate email when the input field loses focus
         emailInput.setOnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus) { // Check if the field has lost focus
+            if (!hasFocus) {
                 validateEmail(emailInput.text.toString().trim())
             }
         }

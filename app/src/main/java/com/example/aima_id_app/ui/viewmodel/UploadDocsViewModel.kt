@@ -52,7 +52,7 @@ class UploadDocsViewModel(
         }
 
         if (!docValidator.isValidPdf(docFile)) {
-            Log.d("SAVEDOC", "Documento invalido")
+
             onComplete(false)
             return
         }

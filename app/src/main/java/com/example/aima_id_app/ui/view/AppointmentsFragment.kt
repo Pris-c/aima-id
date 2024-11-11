@@ -9,6 +9,9 @@ import com.example.aima_id_app.R
 
 class AppointmentsFragment : Fragment() {
 
+    /**
+     * Inflates the layout for the AppointmentsFragment.
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

@@ -29,7 +29,6 @@ class StatusViewModel(
     private val appointmentRepository: AppointmentRepository = AppointmentRepository()
 ) : ViewModel() {
 
-    // LiveData to store a map of AimaProcess instances, keyed by process ID.
     private val _processes = MutableLiveData<MutableMap<String, AimaProcess>>()
     val processes: LiveData<MutableMap<String, AimaProcess>> = _processes
 
@@ -51,9 +50,8 @@ class StatusViewModel(
         val userId = auth.currentUser?.uid ?: return
 
         ServiceRepository().getAll { services ->
-            Log.d("PROCESS", "${services.size}")
+
             aimaProcessRepository.filterProcessesByUser(userId) { aimaProcesses ->
-                Log.d("PROCESS", "${aimaProcesses.size}")
 
                 _processes.value = aimaProcesses
 
@@ -88,7 +86,6 @@ class StatusViewModel(
 
         appointmentRepository.getAppointmentByProcess(id) { appointment ->
 
-            Log.d("PROCESS", "${appointment?.processId}")
             onComplete(appointment)
         }
     }

@@ -27,6 +27,9 @@ class RequestServiceFragment : Fragment() {
     private lateinit var registerServiceButton: Button
     private val serviceViewModel = ServiceViewModel()
 
+    /**
+     * Inflates the layout and initializes views for RequestServiceFragment.
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -38,6 +41,17 @@ class RequestServiceFragment : Fragment() {
         return view
     }
 
+    /**
+     * Sets up UI interactions and data observation for service registration.
+     *
+     * This function is called after the view is created and is responsible for:
+     * - Enabling/disabling the register button based on document approval status.
+     * - Setting up service descriptions.
+     * - Observing the service list and updating the UI accordingly.
+     * - Observing the document list and updating the RecyclerView adapter.
+     * - Loading user documents and services.
+     * - Setting up the register button click listener to handle service registration.
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -45,9 +59,9 @@ class RequestServiceFragment : Fragment() {
             registerServiceButton.isEnabled = hasAllApproved
 
             if (hasAllApproved) {
-                registerServiceButton.alpha = 1.0f  // Deixa o botão visível
+                registerServiceButton.alpha = 1.0f
             } else {
-                registerServiceButton.alpha = 0.5f  // Torna o botão visível, mas desabilitado visualmente
+                registerServiceButton.alpha = 0.5f
             }
         }
 
@@ -61,47 +75,40 @@ class RequestServiceFragment : Fragment() {
         val textAreaInput = view.findViewById<TextInputEditText>(R.id.textArea_input)
 
 
-        // Observa o LiveData serviceList para carregar os serviços
         serviceViewModel.serviceList.observe(viewLifecycleOwner) { services ->
 
-            // Verifica se a lista de serviços foi carregada corretamente
             if (services.isNotEmpty()) {
 
-                // Preenche o Spinner com os serviços
                 val spinnerAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, services.map { it.name })
                 spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 spinner.adapter = spinnerAdapter
 
-                // Configura o listener para quando um item for selecionado
                 spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                         val selectedService = services[position]
                         val requiredDocs = selectedService.requiredDocuments
 
-                        // Acessa o docList atual e chama checkDocuments para verificar os documentos
                         serviceViewModel.checkDocuments(selectedService)
 
-                        // A lista de documentos deve ser observada para atualizar a UI
                         val userDocuments = serviceViewModel.docList.value ?: emptyList()
                         val docTypeList: List<DocType> = requiredDocs.mapNotNull { DocType.fromType(it) }
 
                         val adapter = FileInputAdapter(requireContext(), docTypeList, userDocuments)
                         recyclerViewFiles.adapter = adapter
 
-                        // Atualiza a descrição do serviço no campo de texto
                         val serviceDescription = serviceDescriptions[selectedService.name] ?: ""
                         textAreaInput.setText(serviceDescription)
                     }
 
                     override fun onNothingSelected(parent: AdapterView<*>?) {
-                        // Comportamento quando nenhum item é selecionado (pode ser vazio)
+
                     }
                 }
             }
         }
 
         serviceViewModel.docList.observe(viewLifecycleOwner) { documents ->
-            // Atualiza a lista de documentos do usuário no adapter
+
             val adapter = recyclerViewFiles.adapter as? FileInputAdapter
             adapter?.userDocuments = documents
             adapter?.notifyDataSetChanged()
@@ -116,23 +123,21 @@ class RequestServiceFragment : Fragment() {
         registerServiceButton.setOnClickListener {
             val selectedServicePosition = spinner.selectedItemPosition
 
-            // Carrega os serviços
+
             serviceViewModel.getAllServices { services ->
                 val selectedService = services[selectedServicePosition]
                 val selectedServiceCode = selectedService.code
 
-                // Agora, verifica se todos os documentos foram aprovados
                 serviceViewModel.hasAllDocumentsApproved.observe(viewLifecycleOwner) { hasAllApproved ->
                     if (hasAllApproved) {
                         val userId = serviceViewModel.auth.currentUser?.uid.toString()
 
-                        // Inicia um novo processo com o serviço selecionado
                         serviceViewModel.newProcess(userId, selectedServiceCode) { success ->
                             if (success) {
                                 Snackbar.make(requireView(), "Serviço registrado com sucesso.", Snackbar.LENGTH_SHORT).show()
                                     Handler(Looper.getMainLooper()).postDelayed({
                                         requireActivity().supportFragmentManager.popBackStack()
-                                    }, 1000) // 1 segundo de atraso
+                                    }, 1000)
                             } else {
                                 Snackbar.make(requireView(), "Falha ao registrar o serviço.", Snackbar.LENGTH_SHORT).show()
                             }

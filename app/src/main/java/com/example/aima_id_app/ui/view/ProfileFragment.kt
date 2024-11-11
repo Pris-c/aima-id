@@ -9,6 +9,9 @@ import com.example.aima_id_app.R
 
 class ProfileFragment : Fragment() {
 
+    /**
+     * Inflates the layout for the ProfileFragment.
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -16,6 +19,9 @@ class ProfileFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_profile, container, false)
     }
 
+    /**
+     * Sets up click listeners for navigation cards.
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -32,6 +38,9 @@ class ProfileFragment : Fragment() {
         }
     }
 
+    /**
+     * Loads a fragment into the fragment container with custom animations.
+     */
     private fun loadFragment(fragment: Fragment) {
         
         parentFragmentManager.beginTransaction()

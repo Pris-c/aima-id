@@ -15,6 +15,18 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 
 class StaffActivity : AppCompatActivity() {
+
+    /**
+     * Initializes the StaffActivity, sets up UI elements, and handles navigation.
+     *
+     * This function is called when the activity is created and is responsible for:
+     * - Enabling edge-to-edge display.
+     * - Setting the content view.
+     * - Setting up click listeners for navigation cards.
+     * - Retrieving and displaying the user's name.
+     * - Setting up the bottom navigation bar.
+     * - Handling window insets for edge-to-edge display.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -27,7 +39,6 @@ class StaffActivity : AppCompatActivity() {
         findViewById<View>(R.id.cardView2).setOnClickListener {
             loadFragment(AppointmentsFragment())
         }
-
 
         var userName = " Bem-vindo!"
         var userId = FirebaseAuth.getInstance().currentUser?.uid

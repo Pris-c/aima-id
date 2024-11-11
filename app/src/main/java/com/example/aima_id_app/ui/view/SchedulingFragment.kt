@@ -40,24 +40,38 @@ class SchedulingFragment : Fragment() {
     private lateinit var registerSchedulingButton: Button
     private var selectedDate: LocalDate? = null
 
+
+    /**
+     * Initializes the SchedulingFragment view.
+     *
+     * Inflates the layout, initializes ViewModels, sets up UI components,
+     * and disables weekends in the calendar.
+     *
+     * @param inflater The LayoutInflater object that can be used to inflate
+     * any views in the fragment,
+     * @param container If non-null, this is the parent view that the fragment's
+     * UI should be attached to.  The fragment should not add the view itself,
+     * but this can be used to generate the LayoutParams of the view.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     * from a previous saved state as given here.
+     *
+     * @return Return the View for the fragment's UI, or null.
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_scheduling, container, false)
 
-        // Inicializa os ViewModels
         calendarViewModel = ViewModelProvider(requireActivity())[CalendarViewModel::class.java]
         schedulingViewModel = ViewModelProvider(requireActivity())[SchedulingViewModel::class.java]
         statusViewModel = ViewModelProvider(requireActivity())[StatusViewModel::class.java]
 
-        // Inicializa as views
         initializeViews(view)
         setupSpinners()
         setupCalendar()
         setupRegisterButton()
 
-        // Encontre a referência do CalendarView uma vez
         calendarView = view.findViewById(R.id.calendarView)
 
         val disabledDays = mutableListOf<Calendar>()
@@ -75,15 +89,17 @@ class SchedulingFragment : Fragment() {
             calendar.add(Calendar.DAY_OF_MONTH, 1)
         }
 
-
         return view
     }
 
-
-
+    /**
+     * Initializes UI views within the SchedulingFragment.
+     *
+     * Finds and assigns references to UI elements using their resource IDs.
+     *
+     * @param view The root view of the fragment.
+     */
     private fun initializeViews(view: View) {
-        Log.d("PROCESS", "initializeViews")
-
         nameServiceInput = view.findViewById(R.id.nameService_input)
         cityInput = view.findViewById(R.id.city_input)
         calendarView = view.findViewById(R.id.calendarView)
@@ -92,18 +108,17 @@ class SchedulingFragment : Fragment() {
         registerSchedulingButton = view.findViewById(R.id.registerSchedulingButton)
     }
 
+    /**
+     * Configures and populates the spinners in the SchedulingFragment.
+     *
+     * Sets up the nameServiceInput and cityInput spinners with data
+     * and listeners for item selection.
+     */
     private fun setupSpinners() {
-
-        Log.d("PROCESS", "setupSpinners")
-
 
         statusViewModel.getProcessesByUserId() { listaDePares ->
 
-            Log.d("PROCESS", "Lista de pares 0: ${listaDePares[0].first} / ${listaDePares[0].second}")
-
             val valores = listaDePares.map { it.second }
-
-            Log.d("PROCESS", valores.get(0))
 
             val adapter = ArrayAdapter(
                 this.requireContext(),
@@ -130,7 +145,6 @@ class SchedulingFragment : Fragment() {
         }
 
 
-        // Observa a lista de cidades
         calendarViewModel.cities.observe(viewLifecycleOwner) { cities ->
             if (cities != null && cities.isNotEmpty()) {
                 val cityAdapter = ArrayAdapter(
@@ -144,7 +158,6 @@ class SchedulingFragment : Fragment() {
             }
         }
 
-        // Configura o listener do Spinner de cidades
         cityInput.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
@@ -153,7 +166,6 @@ class SchedulingFragment : Fragment() {
                 id: Long
             ) {
                 parent?.getItemAtPosition(position)?.toString()?.let { selectedCity ->
-                    Log.d("SchedulingFragment", "Cidade selecionada: $selectedCity")
 
                     selectedDate?.let { date ->
                         updateAvailableUnits(selectedCity, date)
@@ -162,15 +174,21 @@ class SchedulingFragment : Fragment() {
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                Log.d("SchedulingFragment", "Nenhuma cidade selecionada")
+
             }
         }
     }
 
+    /**
+     * Configures the calendar view and handles date selection.
+     *
+     * Sets up a date change listener to detect when a date is selected
+     * and performs actions based on the selected date.
+     */
     private fun setupCalendar() {
         calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->
             val selectedDate = LocalDate.of(year, month + 1, dayOfMonth)
-            val dayOfWeek = selectedDate.dayOfWeek.value // 1 = segunda-feira, 7 = domingo
+            val dayOfWeek = selectedDate.dayOfWeek.value
 
             if (dayOfWeek == 6 || dayOfWeek == 7) {
                 Snackbar.make(requireView(), "Sábado ou domingo não são permitidos.", Snackbar.LENGTH_SHORT).show()
@@ -179,8 +197,6 @@ class SchedulingFragment : Fragment() {
 
                 this.selectedDate = selectedDate
 
-                Log.d("SchedulingFragment", "Selected date set to: $selectedDate")
-
                 cityInput.selectedItem?.toString()?.let { selectedCity ->
                     updateAvailableUnits(selectedCity, selectedDate!!)
                 }
@@ -188,12 +204,21 @@ class SchedulingFragment : Fragment() {
         }
     }
 
+
+    /**
+     * Updates the available units based on the selected city and date.
+     *
+     * Retrieves available units from the schedulingViewModel and updates
+     * the cityUnitInput spinner accordingly.
+     *
+     * @param selectedCity The selected city.
+     * @param date The selected date.
+     */
     private fun updateAvailableUnits(selectedCity: String, date: LocalDate) {
         schedulingViewModel.mapAvailableTimeByCityUnits(
             selectedCity,
             date
         ) { availableTimeByUnit ->
-            Log.d("SchedulingFragment", "Available times received for city: $selectedCity and date: $date")
 
             val unit = availableTimeByUnit.keys.toList()
 
@@ -212,6 +237,15 @@ class SchedulingFragment : Fragment() {
         }
     }
 
+    /**
+     * Configures and populates the unit spinner with available times.
+     *
+     * Sets up the cityUnitInput spinner with unit names and an item selection
+     * listener to update the hourServiceInput spinner with available times
+     * for the selected unit.
+     *
+     * @param availableTimeByUnit A map containing available times for each unit.
+     */
     private fun setupUnitSpinner(availableTimeByUnit: MutableMap<AimaUnit, MutableList<PossibleScheduling>>) {
         val units = availableTimeByUnit.keys.toList()
 
@@ -248,18 +282,17 @@ class SchedulingFragment : Fragment() {
         }
     }
 
+
+    /**
+     * Configures the register button and handles appointment saving.
+     *
+     * Sets up an onClickListener for the registerSchedulingButton to save
+     * the appointment details when clicked.
+     */
     private fun setupRegisterButton() {
 
-        Log.d("PROCESS", "button")
         registerSchedulingButton.setOnClickListener {
             selectedDate?.let { date ->
-
-                Log.d("PROCESS", "service name ${nameServiceInput.selectedItem}")
-                Log.d("PROCESS", " city : ${cityInput.selectedItem}")
-                Log.d("PROCESS", "date ${selectedDate}")
-                Log.d("PROCESS", " unit ${cityUnitInput.selectedItem}")
-                Log.d("PROCESS", "huor ${hourServiceInput.selectedItem}")
-
 
                 val selectedServiceName = nameServiceInput.selectedItem as String
                 val selectedCity = cityInput.selectedItem as String
@@ -276,7 +309,6 @@ class SchedulingFragment : Fragment() {
                     date,
                     selectedHour.time
                 ) { success ->
-                    Log.d("PROCESS", "saveAppointment $success")
 
                     if (success) {
                         Snackbar.make(requireView(), "Agendamento salvo com sucesso!", Snackbar.LENGTH_SHORT).show()

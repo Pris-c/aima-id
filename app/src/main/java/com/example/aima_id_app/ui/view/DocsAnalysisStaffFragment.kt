@@ -19,6 +19,9 @@ class DocsAnalysisStaffFragment : Fragment() {
     private val submittedDocsListViewModel = SubmittedDocsListViewModel()
     private val documentAnalysisViewModel = DocumentAnalysisViewModel()
 
+    /**
+     * Inflates the layout for the DocsAnalysisStaffFragment.
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -29,6 +32,9 @@ class DocsAnalysisStaffFragment : Fragment() {
         return view
     }
 
+    /**
+     * Sets up the RecyclerView with documents to analyze.
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

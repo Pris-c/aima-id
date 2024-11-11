@@ -19,6 +19,9 @@ class DocsUserFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
 
+    /**
+     * Inflates the layout for UserDocsFragment and initializes the RecyclerView.
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -29,6 +32,9 @@ class DocsUserFragment : Fragment() {
         return view
     }
 
+    /**
+     * Sets up the RecyclerView adapter and handles the update documents button click.
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -43,6 +49,10 @@ class DocsUserFragment : Fragment() {
 
     }
 
+
+    /**
+     * Loads a fragment into the fragment container with custom animations.
+     */
     private fun loadFragment(fragment: Fragment) {
 
         parentFragmentManager.beginTransaction()

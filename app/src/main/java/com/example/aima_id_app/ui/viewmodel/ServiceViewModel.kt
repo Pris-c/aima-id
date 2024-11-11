@@ -66,45 +66,52 @@ class ServiceViewModel (
                         }
                     }
                 }
-                Log.d("DEBUG", "User documents found ${documents.size} docs")
                 _docList.value = documents
             } else {
-                Log.d("DEBUG", "No documents found for user")
+
             }
         }
 
     }
 
-
+    /**
+     * Loads all available services from the repository.
+     *
+     * This function retrieves all services from the `serviceRepository` and updates the `_serviceList` LiveData
+     * with the retrieved services. If no services are found, it logs a debug message.
+     */
     fun loadServices() {
         serviceRepository.getAll { services ->
             if (services.isNotEmpty()) {
-                Log.d("DEBUG", "Services found ${services.size} docs")
                 _serviceList.value = services
             } else {
-                Log.d("DEBUG", "No documents found for user")
             }
         }
     }
 
-    fun checkDocuments(service: Service) {
-        val documents = _docList.value ?: emptyList() // Obtém os documentos do LiveData, ou uma lista vazia
 
-        // Filtra os documentos que são exigidos pelo serviço
+    /**
+     * Checks if the user has all the required documents approved for a specific service.
+     *
+     * This function compares the user's uploaded documents with the required documents for the given service.
+     * It updates the `_hasAllDocumentsApproved` LiveData with a boolean value indicating whether all required
+     * documents are approved.
+     *
+     * @param service The service to check the documents for.
+     */
+    fun checkDocuments(service: Service) {
+        val documents = _docList.value ?: emptyList()
+
         val filteredDocuments = documents.filter { userDocument ->
             userDocument.docType in service.requiredDocuments
         }
 
-        // Filtra os documentos aprovados
         val approvedDocs = filteredDocuments.filter { doc ->
             doc.status == DocStatus.APPROVED.status
         }
 
-        // Verifica se o número de documentos aprovados é igual ao número de documentos necessários
         _hasAllDocumentsApproved.value = approvedDocs.size == service.requiredDocuments.size
 
-        // Log para depuração
-        Log.d("DEBUG", "Service ${service.name}   approved: ${approvedDocs.size}   required: ${service.requiredDocuments.size}    docsOk: ${_hasAllDocumentsApproved.value}")
     }
 
     /**
@@ -122,6 +129,13 @@ class ServiceViewModel (
         }
     }
 
+    /**
+     * Retrieves all services from the repository.
+     *
+     * This function retrieves all services from the `serviceRepository` and passes them to the provided callback function.
+     *
+     * @param callback A callback function that is invoked with the list of retrieved services.
+     */
     fun getAllServices(callback: (List<Service>) -> Unit) {
         serviceRepository.getAll { services ->
             callback(services)
