@@ -8,6 +8,7 @@ import com.example.aima_id_app.data.model.db_model.AimaProcess
 import com.example.aima_id_app.data.model.db_model.Appointment
 import com.example.aima_id_app.data.repository.AimaProcessRepository
 import com.example.aima_id_app.data.repository.AppointmentRepository
+import com.example.aima_id_app.data.repository.ServiceRepository
 import com.example.aima_id_app.util.enums.ProcessStatus
 import com.google.firebase.auth.FirebaseAuth
 
@@ -28,9 +29,15 @@ class StatusViewModel(
     private val appointmentRepository: AppointmentRepository = AppointmentRepository()
 ) : ViewModel() {
 
-    // LiveData to store a map of AimaProcess instances, keyed by process ID.
     private val _processes = MutableLiveData<MutableMap<String, AimaProcess>>()
     val processes: LiveData<MutableMap<String, AimaProcess>> = _processes
+
+    private val _services = MutableLiveData<MutableMap<String, String>>()
+    val process_service: LiveData<MutableMap<String, String>> = _services
+
+    private val _listaDePares = MutableLiveData<List<Pair<String, String>>>()
+    val listaDePares: LiveData<List<Pair<String, String>>> = _listaDePares
+
 
     /**
      * Fetches all Aima processes associated with the currently authenticated user.
@@ -39,12 +46,30 @@ class StatusViewModel(
      * with a map of AimaProcess instances, keyed by their ID. If the user is not authenticated,
      * the function returns immediately without updating data.
      */
-    fun getProcessesByUserId() {
+    fun getProcessesByUserId(onComplete: (List<Pair<String, String>>) -> Unit) {
         val userId = auth.currentUser?.uid ?: return
-        Log.d("ARTHUR", "mensagem do arthur")
-        aimaProcessRepository.filterProcessesByUser(userId) { aimaProcesses ->
-            _processes.value = aimaProcesses
+
+        ServiceRepository().getAll { services ->
+
+            aimaProcessRepository.filterProcessesByUser(userId) { aimaProcesses ->
+
+                _processes.value = aimaProcesses
+
+                var process_service = mutableMapOf<String, String>()
+
+                for (process in aimaProcesses){
+                    val service = services.filter { it.code == process.value.serviceCode }[0]
+                    process_service[process.key] = service.name
+                }
+                onComplete(process_service.toList())
+
+
+                val pairList = process_service.toList()
+                _services.value = process_service
+            }
+
         }
+
     }
 
     /**
@@ -58,7 +83,9 @@ class StatusViewModel(
      * @param onComplete A callback function that receives the retrieved `Appointment` or null if not found.
      */
     fun getAppointmentByProcess(id: String, onComplete: (Appointment?) -> Unit) {
+
         appointmentRepository.getAppointmentByProcess(id) { appointment ->
+
             onComplete(appointment)
         }
     }

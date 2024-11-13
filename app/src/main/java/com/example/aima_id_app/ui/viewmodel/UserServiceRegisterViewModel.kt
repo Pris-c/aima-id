@@ -29,7 +29,6 @@ class UserServiceRegisterViewModel : ViewModel() {
 
     private val authRepository = AuthRepository()
 
-    //private val govApiService = GovApiService()
     private val userValidator = UserValidator()
     private val addressValidator = AddressValidator()
     private val userRepository = UserRepository()

@@ -17,7 +17,7 @@ import java.time.LocalDate
 data class AimaProcess (
     val userId: String = "",
     val serviceCode: String = "",
-    var status: ProcessStatus = ProcessStatus.IN_ANALYSIS,
+    var status: String = ProcessStatus.IN_ANALYSIS.status,
     val createdAt: String = LocalDate.now().toString(),
     var updatedAt: String = LocalDate.now().toString()
 ){

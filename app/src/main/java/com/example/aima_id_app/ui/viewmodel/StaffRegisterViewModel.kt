@@ -64,33 +64,25 @@
          */
         fun register(name: String, email: String, nif: String, birthdate: LocalDate, aimaUnitId: String) {
 
-            // Validate Input Info
             if (!validateUser(name, email, nif, birthdate)) {
                 return
             }
 
-            // TODO: Check Gov Database
-
-            // Check weather the staff is already registered
             checkDatabaseForStaff(nif){ isUnique ->
                 if (isUnique){
 
-                    // Check the aimaUnit existence
                     findAimaUnit(aimaUnitId) { response ->
                         if (response != null) {
                             val aimaUnit = response
                             val password = generateRandomPassword()
 
-                            // Register Staff Longin with FirebaseAuthentication
                             registerStaffLogin(email, password) { userID ->
                                 if (userID != null){
 
-                                    // Register staff User in Firebase Firestore
                                     val staff = StaffUser(email, nif, name, birthdate.toString(), aimaUnitId)
                                     registerStaffUser(userID, staff) { response ->
                                         if (response){
 
-                                            // Add staffId on aimaUnit staff list
                                             addStaffOnAimaUnit(userID, aimaUnitId, aimaUnit)
                                             informLoginAndPassword(email, password)
                                         }

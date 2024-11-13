@@ -7,6 +7,7 @@ import android.os.Handler
 import android.os.Looper
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -52,7 +53,6 @@ class RegisterActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_register)
 
-        // Set up views
         nameInput = findViewById(R.id.name_input)
         nifInput = findViewById(R.id.nif_input)
         emailInput = findViewById(R.id.email_input)
@@ -73,12 +73,10 @@ class RegisterActivity : AppCompatActivity() {
             insets
         }
 
-        // Set up DatePicker for birthDate input
         birthDateInput.setOnClickListener {
             showDatePicker()
         }
 
-        // Focus change listeners for validation on losing focus
         nameInput.setOnFocusChangeListener { _, hasFocus -> if (!hasFocus) validateName(nameInput.text.toString().trim()) }
         nifInput.setOnFocusChangeListener { _, hasFocus -> if (!hasFocus) validateNIF(nifInput.text.toString().trim()) }
         emailInput.setOnFocusChangeListener { _, hasFocus -> if (!hasFocus) validateEmail(emailInput.text.toString().trim()) }

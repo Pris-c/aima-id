@@ -2,6 +2,7 @@ package com.example.aima_id_app.data.repository
 
 
 import android.util.Log
+import com.example.aima_id_app.data.model.db_model.User
 import com.example.aima_id_app.util.enums.UserRole
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -47,7 +48,7 @@ class AuthRepository(
      * @param onComplete A callback that returns the user ID as a String if the login was successful,
      *                   or null if the login failed.
      */
-    fun login(email: String, password: String, onComplete: (String?, UserRole?) -> Unit){
+    fun login(email: String, password: String, onComplete: (User?) -> Unit){
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
@@ -56,14 +57,14 @@ class AuthRepository(
                         userRepository.findUserById(userId.toString()) { user ->
                             if (user != null) {
                                 val userRole = UserRole.fromRole(user.role)
-                                onComplete(userId, userRole)
+                                onComplete(user)
                             }
                         }
                     } else {
-                        onComplete(null, null)
+                        onComplete(null)
                     }
                 } else {
-                    onComplete(null, null)
+                    onComplete(null)
                 }
             }
     }

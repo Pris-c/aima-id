@@ -1,11 +1,15 @@
 package com.example.aima_id_app.ui.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.aima_id_app.data.model.db_model.UserDocument
 import com.example.aima_id_app.data.repository.UserDocumentRepository
 import com.example.aima_id_app.util.enums.DocStatus
+import com.google.firebase.Firebase
+import com.google.firebase.storage.storage
+import java.io.File
 import java.time.LocalDate
 
 /**
@@ -75,6 +79,32 @@ class DocumentAnalysisViewModel(
             } else {
                 _documentErrorMessage.postValue("ID do documento não encontrado.")
             }
+        }
+    }
+
+    /**
+     * Downloads a document from Firebase Storage.
+     *
+     * This function downloads the document specified by the `document` parameter
+     * and saves it to a temporary file. The `onComplete` callback is invoked with
+     * the absolute path of the downloaded file if the download is successful, or
+     * with `null` if the download fails.
+     *
+     * @param document The UserDocument object containing the document path.
+     * @param onComplete A callback function that is invoked when the download is complete.
+     */
+    fun downloadDocument(document: UserDocument, onComplete: (String?) -> Unit) {
+        val fileName = document.docPath.substringAfterLast("_")
+
+        val storageRef = Firebase.storage.reference.child(document.docPath)
+
+        val localFile = File.createTempFile(fileName, ".pdf")
+
+        storageRef.getFile(localFile).addOnSuccessListener {
+            onComplete(localFile.absolutePath)
+        }.addOnFailureListener { exception ->
+            onComplete(null)
+            Log.e("DocumentAnalysisViewModel", "Erro ao baixar documento: ${exception.message}")
         }
     }
 }

@@ -13,6 +13,7 @@
         android:layout_width="37dp"
         android:layout_height="34dp"
         android:adjustViewBounds="true"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.042"
@@ -22,12 +23,11 @@
         app:srcCompat="@drawable/ic_menu_hamburguer" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/textViewNameStaff"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="90dp"
         android:fontFamily="sans-serif"
-        android:text="Ola Staff"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="@color/aima_pink"
         android:textSize="24sp"
@@ -43,7 +43,7 @@
         android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView">
+        app:layout_constraintTop_toBottomOf="@+id/textViewNameStaff">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -53,6 +53,7 @@
 
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/cardView1"
                 android:layout_width="300dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="40dp"
@@ -71,7 +72,7 @@
                         android:layout_gravity="bottom|center"
                         android:layout_marginBottom="50dp"
                         android:lineSpacingExtra="8sp"
-                        android:text="@string/RegisterUnit"
+                        android:text="@string/StartAnalysis"
                         android:textAlignment="center"
                         android:textColor="@color/aima_white"
                         android:textSize="34sp"
@@ -79,79 +80,17 @@
 
                     <ImageView
                         android:id="@+id/imageView6"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="137dp"
+                        android:layout_height="135dp"
                         android:layout_gravity="center"
                         android:layout_marginBottom="50dp"
-                        app:srcCompat="@drawable/ic_home_solid" />
+                        app:srcCompat="@drawable/ic_to_do_list" />
 
                 </FrameLayout>
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:layout_width="300dp"
-                android:layout_height="match_parent"
-                android:layout_marginStart="40dp"
-                app:cardCornerRadius="30dp"
-                app:cardElevation="4dp">
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/bg_aima_id">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="Card 2"
-                        android:textColor="#FFFFFF" />
-                </FrameLayout>
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="300dp"
-                android:layout_height="match_parent"
-                android:layout_marginStart="40dp"
-                app:cardCornerRadius="30dp"
-                app:cardElevation="4dp">
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/bg_aima_id">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="Card 3"
-                        android:textColor="#FFFFFF" />
-                </FrameLayout>
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="300dp"
-                android:layout_height="match_parent"
-                android:layout_marginStart="40dp"
-                app:cardCornerRadius="30dp"
-                app:cardElevation="4dp">
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/bg_aima_id">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="Card 4"
-                        android:textColor="#FFFFFF" />
-                </FrameLayout>
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView2"
                 android:layout_width="300dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="40dp"
@@ -167,9 +106,24 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|center"
+                        android:layout_marginBottom="50dp"
+                        android:lineSpacingExtra="8sp"
+                        android:text="@string/ManagerAppoints"
+                        android:textAlignment="center"
+                        android:textColor="@color/aima_white"
+                        android:textSize="34sp"
+                        android:textStyle="bold" />
+
+
+                    <ImageView
+                        android:id="@+id/imageView7"
+                        android:layout_width="137dp"
+                        android:layout_height="135dp"
                         android:layout_gravity="center"
-                        android:text="Card 5"
-                        android:textColor="#FFFFFF" />
+                        android:layout_marginBottom="50dp"
+                        app:srcCompat="@drawable/ic_calendarhome" />
+
                 </FrameLayout>
             </androidx.cardview.widget.CardView>
 
@@ -182,7 +136,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:fontFamily="sans-serif"
-        android:text="Notificações"
+        android:text="Recentes"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="@color/aima_pink"
         android:textSize="24sp"
@@ -264,7 +218,7 @@
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="75dp"
+        android:layout_marginTop="55dp"
         android:background="@color/aima_light_bg"
         app:itemIconTint="@animator/selector_navigation_item_color"
         app:itemTextColor="@animator/selector_navigation_item_color"

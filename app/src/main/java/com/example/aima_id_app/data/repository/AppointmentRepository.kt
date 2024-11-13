@@ -198,23 +198,30 @@ class AppointmentRepository {
             .addOnFailureListener { onComplete(mutableListOf()) }
     }
 
-
+    /**
+     * Retrieves appointments for a specific unit on a given day.
+     *
+     * Queries the database for appointments matching the provided unit ID and date,
+     * and invokes the onComplete callback with the retrieved appointments.
+     *
+     * @param aimaUnitId The ID of the unit.
+     * @param day The date in string format.
+     * @param onComplete A callback function to be invoked with the retrieved appointments.
+     */
     fun findDayAppointmentOfUnit(aimaUnitId: String, day: String,
                                  onComplete: (MutableList<Appointment>) -> Unit){
         db.whereEqualTo("aimaUnitId", aimaUnitId).whereEqualTo("date", day).get()
             .addOnSuccessListener { appointments ->
 
-                Log.d("DEBUG", "Day appointments to unit $aimaUnitId:  ${appointments.size()}")
                 val appointmentList = mutableListOf<Appointment>()
                 for (appointment in appointments){
                     val ap = appointment.toObject<Appointment>()
-                    Log.d("DEBUG", "    Appointment time: ${ap.time}")
                     appointmentList.add(ap)
                 }
                 onComplete(appointmentList)
             }
             .addOnFailureListener{ exception ->
-                Log.d("DEBUG", exception.toString())
+
             }
     }
 
